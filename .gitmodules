@@ -1,0 +1,12 @@
+[submodule "mods/foundation"]
+  path = mods/foundation
+  url = https://github.com/IceDragon200/mt-foundation
+[submodule "mods/harmonia"]
+  path = mods/harmonia
+  url = https://github.com/IceDragon200/mt-harmonia
+[submodule "mods/nokore"]
+  path = mods/nokore
+  url = https://github.com/IceDragon200/mt-nokore-mods
+[submodule "mods/yatm"]
+  path = mods/yatm
+  url = https://github.com/IceDragon200/mt-yatm
