@@ -6,6 +6,7 @@
 --
 local KVStore = assert(nokore.KVStore)
 local Buffer = assert(foundation.com.BinaryBuffer or foundation.com.StringBuffer)
+local path_dirname = assert(foundation.com.path_dirname)
 local mod = hsw_campaign
 
 mod.storage = minetest.get_mod_storage()
@@ -34,7 +35,7 @@ assert(ENCODE_METHOD == 'MRSH' or ENCODE_METHOD == 'APAK')
 local Variables = foundation.com.Class:extends("hsw.Campaign.Variables")
 local ic = Variables.instance_class
 
-function ic:initialize()
+function ic:initialize(filename)
   self.m_kv_store = KVStore:new()
   local extname
   if ENCODE_METHOD == 'MRSH' then
@@ -42,8 +43,8 @@ function ic:initialize()
   else
     extname = '.apak'
   end
-  self.m_dirname = minetest.get_worldpath() .. "/hsw/campaign"
-  self.m_filename = self.m_dirname .. "/variables" .. extname
+  self.m_dirname = path_dirname(filename)
+  self.m_filename = filename  .. extname
 end
 
 -- Write the key-value storage to disk, an optional forced flag can be provided
@@ -106,4 +107,4 @@ function ic:delete(key)
   return self:save()
 end
 
-mod.variables = Variables:new()
+mod.Variables = Variables
