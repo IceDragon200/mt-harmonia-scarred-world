@@ -7,3 +7,8 @@ local milestones = assert(hsw_milestones.milestones)
 milestones:register_milestone('hsw_campaign:stranded', {
   description = "Stranded!?",
 })
+
+-- Awarded for players who make it to chapter 2
+milestones:register_milestone('hsw_campaign:the_disturbance', {
+  description = "The Disturbance",
+})

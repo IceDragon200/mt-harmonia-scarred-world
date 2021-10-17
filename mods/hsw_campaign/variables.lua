@@ -9,8 +9,6 @@ local Buffer = assert(foundation.com.BinaryBuffer or foundation.com.StringBuffer
 local path_dirname = assert(foundation.com.path_dirname)
 local mod = hsw_campaign
 
-mod.storage = minetest.get_mod_storage()
-
 local stage = mod.storage:get_int("campaign_setup_stage")
 
 -- Stage 0 - determine the preferred encode method
@@ -45,6 +43,7 @@ function ic:initialize(filename)
   end
   self.m_dirname = path_dirname(filename)
   self.m_filename = filename  .. extname
+  self:load()
 end
 
 -- Write the key-value storage to disk, an optional forced flag can be provided

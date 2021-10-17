@@ -13,7 +13,7 @@ local path_dirname = assert(foundation.com.path_dirname)
 local QuestEntry = foundation.com.Class:extends("hsw.QuestEntry")
 local ic = QuestEntry.instance_class
 
--- @spec .load_data(data: Table): QuestEntry
+-- @spec &load_data(data: Table): QuestEntry
 function QuestEntry:load_data(data)
   local entry = self:alloc()
 
@@ -89,7 +89,7 @@ function ic:dump_assigns()
   return self.m_quest.dump_assigns(self, self.m_assigns)
 end
 
-function ic:dump()
+function ic:dump_data()
   local result = {
     stage = self.m_stage,
     mailbox = self.m_mailbox,
@@ -99,6 +99,11 @@ function ic:dump()
 
   return result
 end
+
+-- @type QuestDefinition: {
+--   notes: String,
+--   bind: "world" | "player",
+-- }
 
 -- @class QuestService
 local QuestService = foundation.com.Class:extends("hsw.QuestService")
@@ -117,12 +122,6 @@ local function default_load_assigns(entry, assigns, loaded_assigns)
   return assigns
 end
 
--- @type QuestDefinition: {
---   notes: String,
---   bind: "world" | "player",
--- }
---
-
 --
 -- @spec #initialize(filename: String): void
 function ic:initialize(filename)
@@ -130,75 +129,10 @@ function ic:initialize(filename)
 
   self.m_active_quests = {}
   self.m_completed_quests = {}
-  self.m_uptime = 0
+  self.m_elapsed = 0
 
   self.m_dirname = path_dirname(filename)
   self.m_filename = filename
-end
-
--- @spec #dump_data(): Table
-function ic:dump_data()
-  local result = {
-    active_quests = {},
-    completed_quests = {},
-    uptime = self.m_uptime,
-  }
-
-  for name, entry in pairs(self.m_active_quests) do
-    result.active_quests[name] = entry:dump()
-  end
-
-  for name, _ in pairs(self.m_completed_quests) do
-    result.completed_quests[name] = true
-  end
-
-  return result
-end
-
--- @spec #load_data(data: Table): self
-function ic:load_data(data)
-  self.m_active_quests = {}
-  self.m_completed_quests = {}
-  self.m_uptime = tonumber(data.m_uptime)
-
-  if data.active_quests then
-    for name, data_entry in pairs(data.active_quests) do
-      local entry = QuestEntry:load_data(data_entry)
-      -- TODO: better loading of the quest
-      entry.m_quest = assert(self.registered_quests[name])
-      self.m_active_quests[name] = entry
-    end
-  end
-
-  if data.completed_quests then
-    for name, _ in pairs(data.completed_quests) do
-      self.m_completed_quests[name] = true
-    end
-  end
-
-  return self
-end
-
--- @spec #load(): self
-function ic:load()
-  local f = io.open(self.m_filename, 'r')
-  if f then
-    local blob = f:read()
-    f:close()
-    local state = minetest.parse_json(blob)
-    self:load_data(state)
-  end
-  return self
-end
-
--- @spec #save(): self
-function ic:save()
-  local result = self:dump_data()
-  local blob = minetest.write_json(result)
-
-  minetest.mkdir(self.m_dirname)
-  minetest.safe_file_write(self.m_filename, blob)
-  return self
 end
 
 -- @spec #terminate(): void
@@ -260,7 +194,7 @@ end
 
 -- @spec #update(dtime: Float): self
 function ic:update(dtime)
-  self.m_uptime = self.m_uptime + dtime
+  self.m_elapsed = self.m_elapsed + dtime
 
   for name, entry in pairs(self.m_active_quests) do
     entry:update(dtime)
@@ -278,6 +212,71 @@ function ic:update(dtime)
     end
 
     self.m_completed_quests = {}
+  end
+  return self
+end
+
+-- @spec #dump_data(): Table
+function ic:dump_data()
+  local result = {
+    active_quests = {},
+    completed_quests = {},
+    uptime = self.m_elapsed,
+  }
+
+  for name, entry in pairs(self.m_active_quests) do
+    result.active_quests[name] = entry:dump_data()
+  end
+
+  for name, _ in pairs(self.m_completed_quests) do
+    result.completed_quests[name] = true
+  end
+
+  return result
+end
+
+-- @spec #load_data(data: Table): self
+function ic:load_data(data)
+  self.m_active_quests = {}
+  self.m_completed_quests = {}
+  self.m_elapsed = tonumber(data.m_elapsed)
+
+  if data.active_quests then
+    for name, data_entry in pairs(data.active_quests) do
+      local entry = QuestEntry:load_data(data_entry)
+      -- TODO: better loading of the quest
+      entry.m_quest = assert(self.registered_quests[name])
+      self.m_active_quests[name] = entry
+    end
+  end
+
+  if data.completed_quests then
+    for name, _ in pairs(data.completed_quests) do
+      self.m_completed_quests[name] = true
+    end
+  end
+
+  return self
+end
+
+-- @spec #save(): self
+function ic:save()
+  local result = self:dump_data()
+  local blob = minetest.write_json(result)
+
+  minetest.mkdir(self.m_dirname)
+  minetest.safe_file_write(self.m_filename, blob)
+  return self
+end
+
+-- @spec #load(): self
+function ic:load()
+  local f = io.open(self.m_filename, 'r')
+  if f then
+    local blob = f:read()
+    f:close()
+    local state = minetest.parse_json(blob)
+    self:load_data(state)
   end
   return self
 end

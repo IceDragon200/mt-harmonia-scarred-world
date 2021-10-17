@@ -13,12 +13,10 @@ else
   error("Harmonia Scarred World Campaign cannot be played in multiplayer")
 end
 
-mod:require("storage.lua")
+mod.storage = minetest.get_mod_storage()
 
+mod:require("variables.lua")
 mod.variables = mod.Variables:new(minetest.get_worldpath() .. "/hsw/campaign/variables")
-
--- Try loading the campaign variables
-mod.variables:load()
 
 -- Prepare the quest service and registry
 mod:require("quest_service.lua")
@@ -26,6 +24,9 @@ mod.quests = mod.QuestService:new(minetest.get_worldpath() .. "/hsw/campaign/que
 
 -- Next load up the chapters data
 mod:require("chapters.lua")
+
+-- Quests had to be delayed until this point in case the chapters had to load something
+mod.quests:load()
 
 if not mod.storage:get("story_chapter") then
   mod.quests:add_active_quest("hsw:ch0")
