@@ -126,7 +126,7 @@ end
 --
 -- @spec #initialize(filename: String): void
 function ic:initialize(filename)
-  self.m_quests = {}
+  self.registered_quests = {}
 
   self.m_active_quests = {}
   self.m_completed_quests = {}
@@ -165,7 +165,7 @@ function ic:load_data(data)
     for name, data_entry in pairs(data.active_quests) do
       local entry = QuestEntry:load_data(data_entry)
       -- TODO: better loading of the quest
-      entry.m_quest = assert(self.m_quests[name])
+      entry.m_quest = assert(self.registered_quests[name])
       self.m_active_quests[name] = entry
     end
   end
@@ -231,7 +231,7 @@ function ic:register_quest(name, definition)
   assert(type(definition.on_message) == "function", "expected on_message/3 callback")
   assert(type(definition.update) == "function", "expected update/3 callback")
 
-  self.m_quests[name] = definition
+  self.registered_quests[name] = definition
 
   return definition
 end
@@ -247,7 +247,7 @@ end
 
 -- @spec #add_active_quest(name: String): QuestEntry
 function ic:add_active_quest(name)
-  local quest = self.m_quests[name]
+  local quest = self.registered_quests[name]
   if not quest then
     error("expected quest `"..name.."` to exist")
   end
