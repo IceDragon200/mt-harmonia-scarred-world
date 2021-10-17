@@ -1,1 +1,1 @@
-hsw_campaign:require("chapters/0-prologue.lua")
+hsw_campaign:require("chapters/00-prologue.lua")
