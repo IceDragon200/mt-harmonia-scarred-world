@@ -153,6 +153,19 @@ function ic:increment_counter(name)
   return false
 end
 
+function ic:dump_data()
+  return {
+    counters = self.counters,
+    completed = self.completed,
+  }
+end
+
+function ic:load_data(data)
+  self.counters = data.counters
+  self.completed = data.completed
+  return self
+end
+
 -- @class MilestonesService
 local MilestonesService = foundation.com.Class:extends("hsw.MilestonesService")
 local ic = MilestonesService.instance_class
@@ -161,7 +174,7 @@ local ic = MilestonesService.instance_class
 function ic:initialize()
   self.registered_milestones = {}
 
-  self.m_loaded_milestones = {}
+  self.m_thing_milestones = {}
 
   self.m_on_milestone_unlocked_cbs = {}
 end
@@ -195,11 +208,11 @@ function ic:trigger_on_milestone_unlocked(event)
 end
 
 function ic:unload_milestones_for(thing_id)
-  self.m_loaded_milestones[thing_id] = nil
+  self.m_thing_milestones[thing_id] = nil
 end
 
 function ic:load_milestones_for(thing_id)
-  self.m_loaded_milestones[thing_id] = {}
+  self.m_thing_milestones[thing_id] = {}
 end
 
 -- Retrieve a MilestoneInstance for the given thing, if the milestone
@@ -207,7 +220,7 @@ end
 --
 -- @spec #get_milestone_for(milestone_id, thing_id): nil | MilestoneInstance
 function ic:get_milestone_for(milestone_id, thing_id)
-  local thing_milestones = self.m_loaded_milestones[thing_id]
+  local thing_milestones = self.m_thing_milestones[thing_id]
   if thing_milestones do
     local milestone_inst = thing_milestones[milestone_id]
 
@@ -301,5 +314,33 @@ function ic:increment_milestone_counter_for(milestone_id, counter_name, value, t
   return false
 end
 
+function ic:dump_data()
+  local thing_milestones = {}
+
+  for thing_id, milestones in pairs(self.m_thing_milestones) do
+    local new_milestones = {}
+    for milestone_id, mileston_inst in pairs(milestones) do
+      new_milestones[milestone_id] = milestone_inst:dump_data()
+    end
+    thing_milestones[thing_id] = new_milestones
+  end
+
+  return {
+    thing_milestones = thing_milestones,
+  }
+end
+
+function ic:load_data(data)
+  self.m_thing_milestones = {}
+
+  for thing_id, milestones in pairs(data.m_thing_milestones) do
+    local new_milestones = {}
+    for milestone_id, entry in pairs(milestones) do
+      local milestone_inst = MilestoneInstance:load_data(entry)
+      milestone_inst.milestone = self.m
+    end
+    thing_milestones[thing_id] = new_milestones
+  end
+end
+
 mod.MilestonesService = MilestonesService
-mod.milestones = MilestonesService:new()
