@@ -221,7 +221,7 @@ function ic:dump_data()
   local result = {
     active_quests = {},
     completed_quests = {},
-    uptime = self.m_elapsed,
+    elapsed = self.m_elapsed,
   }
 
   for name, entry in pairs(self.m_active_quests) do
@@ -239,7 +239,7 @@ end
 function ic:load_data(data)
   self.m_active_quests = {}
   self.m_completed_quests = {}
-  self.m_elapsed = tonumber(data.m_elapsed)
+  self.m_elapsed = tonumber(data.elapsed or "0")
 
   if data.active_quests then
     for name, data_entry in pairs(data.active_quests) do
