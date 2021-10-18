@@ -57,7 +57,7 @@ function ic:initialize(milestone)
 end
 
 function ic:_init_counters()
-  if self.milestone.counters do
+  if self.milestone.counters then
     for key, _max in pairs(self.milestone.counters) do
       self.counters[key] = 0
     end
@@ -73,7 +73,7 @@ function ic:complete()
   if self.completed then
     return false
   end
-  if self.milestone.counters do
+  if self.milestone.counters then
     for key, max in pairs(self.milestone.counters) do
       self.counters[key] = math.max(max, self.counters[key] or 0)
     end
@@ -88,7 +88,7 @@ end
 --
 -- @spec #check_counter_completion(): Boolean
 function ic:check_counter_completion()
-  if next(self.milestone.counters) do
+  if next(self.milestone.counters) then
     -- the milestone has counters
     for key, min_needed in self.milestone.counters do
       if self.counters[key] < min_needed then
@@ -221,7 +221,7 @@ end
 -- @spec #get_milestone_for(milestone_id, thing_id): nil | MilestoneInstance
 function ic:get_milestone_for(milestone_id, thing_id)
   local thing_milestones = self.m_thing_milestones[thing_id]
-  if thing_milestones do
+  if thing_milestones then
     local milestone_inst = thing_milestones[milestone_id]
 
     if not milestone_inst then
