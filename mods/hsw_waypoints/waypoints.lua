@@ -46,6 +46,7 @@ function ic:initialize(id, pos, def)
   self.expired = false
 end
 
+-- @spec #patch_properties(def: Table): self
 function ic:patch_properties(def)
   for _, key in pairs(ALLOWED_PROPERTIES) do
     local value = def[key]
@@ -54,16 +55,20 @@ function ic:patch_properties(def)
       self[key] = value
     end
   end
+  return self
 end
 
+-- @spec #replace_properties(def: Table): self
 function ic:replace_properties(def)
   self.name = def.name
   self.distance_suffix = def.distance_suffix
   self.groups = def.groups
   self.precision = def.precision
   self.offset = def.offset
+  return self
 end
 
+-- @spec #update(delta: Float): self
 function ic:update(delta)
   if self.time > 0 then
     self.time = math.max(self.time - delta, 0)
@@ -71,8 +76,10 @@ function ic:update(delta)
       self.expired = true
     end
   end
+  return self
 end
 
+-- @spec #dump_data(): Table
 function ic:dump_data()
   local alignment = nil
   if self.alignment then
@@ -97,6 +104,7 @@ function ic:dump_data()
   return result
 end
 
+-- @spec #load_data(Table): self
 function ic:load_data(data)
   self.id = data
   self.position = Vector3.load_data(data.position)
@@ -115,6 +123,7 @@ function ic:load_data(data)
   return self
 end
 
+-- @spec &load_data(data: Table): Waypoint
 function Waypoint:load_data(data)
   local waypoint = self:alloc()
   waypoint:load_data(data)
@@ -125,6 +134,7 @@ end
 local Waypoints = foundation.com.Class:extends("Waypoints")
 local ic = Waypoints.instance_class
 
+-- @spec #initialize(Table): void
 function ic:initialize(options)
   self.m_filename = options.filename
 
@@ -152,6 +162,7 @@ function ic:terminate()
   return self
 end
 
+-- @spec #register_on_waypoint_created(name: String, Function): self
 function ic:register_on_waypoint_created(name, callback)
   if self.on_waypoint_created_cbs[name] then
     error("on_waypoint_created callback with name " .. name .. " already registered")
@@ -160,6 +171,7 @@ function ic:register_on_waypoint_created(name, callback)
   return self
 end
 
+-- @spec #register_on_waypoint_updated(name: String, Function): self
 function ic:register_on_waypoint_updated(name, callback)
   if self.on_waypoint_updated_cbs[name] then
     error("on_waypoint_updated callback with name " .. name .. " already registered")
@@ -168,6 +180,7 @@ function ic:register_on_waypoint_updated(name, callback)
   return self
 end
 
+-- @spec #register_on_waypoint_removed(name: String, Function): self
 function ic:register_on_waypoint_removed(name, callback)
   if self.on_waypoint_removed_cbs[name] then
     error("on_waypoint_removed callback with name " .. name .. " already registered")
@@ -176,6 +189,7 @@ function ic:register_on_waypoint_removed(name, callback)
   return self
 end
 
+-- @spec #register_on_waypoint_expired(name: String, Function): self
 function ic:register_on_waypoint_expired(name, callback)
   if self.on_waypoint_expired_cbs[name] then
     error("on_waypoint_expired callback with name " .. name .. " already registered")
@@ -184,6 +198,7 @@ function ic:register_on_waypoint_expired(name, callback)
   return self
 end
 
+-- @spec #trigger_on_waypoint_created(Waypoint): void
 function ic:trigger_on_waypoint_created(waypoint)
   if next(self.on_waypoint_created_cbs) then
     for _name, callback in pairs(self.on_waypoint_created_cbs) do
@@ -192,6 +207,7 @@ function ic:trigger_on_waypoint_created(waypoint)
   end
 end
 
+-- @spec #trigger_on_waypoint_updated(Waypoint): void
 function ic:trigger_on_waypoint_updated(waypoint)
   if next(self.on_waypoint_updated_cbs) then
     for _name, callback in pairs(self.on_waypoint_updated_cbs) do
@@ -200,6 +216,7 @@ function ic:trigger_on_waypoint_updated(waypoint)
   end
 end
 
+-- @spec #trigger_on_waypoint_removed(Waypoint, reason: Any): void
 function ic:trigger_on_waypoint_removed(waypoint, reason)
   if next(self.on_waypoint_removed_cbs) then
     for _name, callback in pairs(self.on_waypoint_removed_cbs) do
@@ -208,6 +225,7 @@ function ic:trigger_on_waypoint_removed(waypoint, reason)
   end
 end
 
+-- @spec #trigger_on_waypoint_expired(Waypoint): void
 function ic:trigger_on_waypoint_expired(waypoint)
   if next(self.on_waypoint_expired_cbs) then
     for _name, callback in pairs(self.on_waypoint_expired_cbs) do
@@ -241,7 +259,7 @@ function ic:replace_waypoint(id, def)
   return waypoint
 end
 
--- @spec patch_waypoint(id: String, def: WaypointDefinition): Waypoint | nil
+-- @spec #patch_waypoint(id: String, def: WaypointDefinition): Waypoint | nil
 function ic:patch_waypoint(id, def)
   local waypoint = self.waypoints[id]
 
@@ -256,7 +274,7 @@ end
 -- Removes a waypoint for some 'reason', the reason is passed along
 -- to the callbacks as well.
 --
--- @spec remove_waypoint(id: String, reason: Any): Waypoint | nil
+-- @spec #remove_waypoint(id: String, reason: Any): Waypoint | nil
 function ic:remove_waypoint(id, reason)
   local waypoint = self.waypoints[id]
   self.waypoints[id] = nil
@@ -345,6 +363,7 @@ function ic:update(delta)
   return self
 end
 
+-- @spec #dump_data(): Table
 function ic:dump_data()
   local result = {
     waypoints = {},
@@ -358,17 +377,21 @@ function ic:dump_data()
   return result
 end
 
+-- @spec #load_data(data: Table): self
 function ic:load_data(data)
   self.elapsed = data.elapsed
   self.waypoints = {}
 
-  for id, entry in pairs(data.waypoints) do
-    self.waypoints[id] = Waypoint:load_data(entry)
+  if data.waypoints then
+    for id, entry in pairs(data.waypoints) do
+      self.waypoints[id] = Waypoint:load_data(entry)
+    end
   end
 
   return self
 end
 
+-- @spec #save(): self
 function ic:save()
   if self.m_filename then
     local result = self:dump_data()
@@ -377,8 +400,11 @@ function ic:save()
     minetest.mkdir(dirname)
     minetest.safe_file_write(self.m_filename, blob)
   end
+
+  return self
 end
 
+-- @spec #load(): self
 function ic:load()
   if self.m_filename then
     local f = io.open(self.m_filename, 'r')
