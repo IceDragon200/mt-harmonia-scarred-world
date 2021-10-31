@@ -1,7 +1,7 @@
 -- @namespace hsw_milestones
 local mod = hsw_milestones
 
--- Milestones represent some goal or achievement that a something can achieve
+-- Milestones represent some goal or achievement that something can achieve
 -- and 'unlock'
 --
 -- @private.class Milestone
