@@ -54,7 +54,11 @@ function ic:save(forced)
   -- only write if something changed or if the forced flag is set
   if self.m_kv_store.dirty or forced then
     local buffer = Buffer:new('', 'w')
-    self.m_kv_store:marshall_dump(buffer)
+    if ENCODE_METHOD == 'MRSH' then
+      self.m_kv_store:marshall_dump(buffer)
+    elseif ENCODE_METHOD == 'APAK' then
+      self.m_kv_store:apack_dump(buffer)
+    end
     buffer:close()
 
     minetest.mkdir(self.m_dirname)
@@ -72,7 +76,7 @@ function ic:load()
   if f then
     if ENCODE_METHOD == 'MRSH' then
       self.m_kv_store:marshall_load(f)
-    else
+    elseif ENCODE_METHOD == 'APAK' then
       self.m_kv_store:apack_load(f)
     end
     f:close()
