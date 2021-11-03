@@ -18,6 +18,9 @@ local STATS = {
   "mana_regen",
   "mana_degen",
   "mana_max",
+  "shield_regen",
+  "shield_degen",
+  "shield_max",
 }
 
 nokore.player_data_service:register_domain(DATA_DOMAIN, {

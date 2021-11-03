@@ -109,3 +109,47 @@ nokore.player_stats:register_stat("energy_degen", {
     return self:apply_modifiers(player, meta:get_int("nanosuit_energy_degen"))
   end,
 })
+
+-- HSW
+--- Shield
+nokore.player_stats:register_stat("shield", {
+  cached = false,
+
+  calc = function (_self, player)
+    local meta = player:get_meta()
+    return meta:get_int("nanosuit_shield")
+  end,
+
+  set = function (_self, player, value)
+    local meta = player:get_meta()
+
+    meta:set_int("nanosuit_shield", value)
+  end,
+})
+
+nokore.player_stats:register_stat("shield_max", {
+  cached = true,
+
+  calc = function (self, player)
+    local meta = player:get_meta()
+    return self:apply_modifiers(player, meta:get_int("nanosuit_shield_max"))
+  end,
+})
+
+nokore.player_stats:register_stat("shield_regen", {
+  cached = true,
+
+  calc = function (self, player)
+    local meta = player:get_meta()
+    return self:apply_modifiers(player, meta:get_int("nanosuit_shield_regen"))
+  end,
+})
+
+nokore.player_stats:register_stat("shield_degen", {
+  cached = true,
+
+  calc = function (self, player)
+    local meta = player:get_meta()
+    return self:apply_modifiers(player, meta:get_int("nanosuit_shield_degen"))
+  end,
+})
