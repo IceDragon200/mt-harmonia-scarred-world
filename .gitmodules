@@ -10,3 +10,6 @@
 [submodule "mods/yatm"]
   path = mods/yatm
   url = https://github.com/IceDragon200/mt-yatm
+[submodule "mods/mobkit"]
+  path = mods/mobit
+  url = https://github.com/TheTermos/mobkit
