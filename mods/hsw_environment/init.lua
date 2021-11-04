@@ -37,6 +37,9 @@ function nokore.environment:trigger_on_player_env_change(player, changes)
 end
 
 function nokore.environment:register_on_player_env_change(name, callback)
+  assert(type(name) == "string", "expected a callback name")
+  assert(type(callback) == "function", "expected a callback function")
+
   self.m_on_player_env_change_cbs[name] = callback
 
   return self
