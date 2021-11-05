@@ -27,8 +27,6 @@ mod:require("api.lua")
 
 mod:require("nodes.lua")
 
-mod:require("recipes.lua")
-
 minetest.register_on_mods_loaded(hsw.workbench_recipes:method("index_recipes"))
 
 mod:require("tests.lua")
