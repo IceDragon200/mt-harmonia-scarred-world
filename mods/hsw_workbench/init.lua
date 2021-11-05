@@ -14,16 +14,21 @@ mod:require("item_ingredient.lua")
 mod:require("fluid_ingredient.lua") -- not used by workbench buuuuuut
 mod:require("item_output.lua")
 mod:require("item_output_random.lua")
-mod:require("workbench_recipe.lua")
 mod:require("workbench_requirement.lua")
 mod:require("tool_requirement.lua")
+-- Recipe
+mod:require("workbench_recipe.lua")
 -- Actual Registry
 mod:require("workbench_recipe_registry.lua")
 
 hsw.workbench_recipes = hsw.WorkbenchRecipeRegistry:new()
 
-minetest.register_on_mods_loaded(hsw.workbench_recipes:method("index_recipes"))
+mod:require("api.lua")
 
 mod:require("nodes.lua")
 
 mod:require("recipes.lua")
+
+minetest.register_on_mods_loaded(hsw.workbench_recipes:method("index_recipes"))
+
+mod:require("tests.lua")

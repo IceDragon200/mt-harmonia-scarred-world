@@ -8,6 +8,9 @@ local table_copy = assert(foundation.com.table_copy)
 local Directions = assert(foundation.com.Directions)
 local Vector3 = assert(foundation.com.Vector3)
 local facedir_to_local_face = assert(Directions.facedir_to_local_face)
+local workbench_recipes = assert(hsw.workbench_recipes)
+local get_item_workbench_tool_info = assert(hsw.get_item_workbench_tool_info)
+local get_node_workbench_info = assert(hsw.get_node_workbench_info)
 
 local mod = hsw_workbench
 
@@ -119,12 +122,13 @@ end
 
 local height = (4/16)
 local leg_height = (2/16)
+local back_height = height
 
 local top = {-0.5, leg_height, -0.5, 0.5, height, 0.5}
-local back1 = {(-6/16), (-8/16), (6/16), (6/16), leg_height, (8/16)}
-local back1_3 = {(-6/16), (-8/16), (6/16), (8/16), leg_height, (8/16)}
-local back2_3 = {(-8/16), (-8/16), (6/16), (8/16), leg_height, (8/16)}
-local back3_3 = {(-8/16), (-8/16), (6/16), (6/16), leg_height, (8/16)}
+local back1 = {(-6/16), (-8/16), (6/16), (6/16), back_height, (8/16)}
+local back1_3 = {(-6/16), (-8/16), (6/16), (8/16), back_height, (8/16)}
+local back2_3 = {(-8/16), (-8/16), (6/16), (8/16), back_height, (8/16)}
+local back3_3 = {(-8/16), (-8/16), (6/16), (6/16), back_height, (8/16)}
 local left_leg = {-0.5, (-8/16), -0.5, (-6/16), leg_height, 0.5}
 local right_leg = {(6/16), (-8/16), -0.5, (8/16), leg_height, 0.5}
 
@@ -273,8 +277,113 @@ local function after_place_node(pos)
   refresh_node(pos, node)
 end
 
+local function unsafe_get_workbench_item_stack_at(pos)
+  local meta = minetest.get_meta()
+  if meta then
+    local inv = meta:get_inventory()
+    return inv:get_stack("main", 1)
+  end
+  return nil
+end
+
+local function get_workbench_items(center_pos)
+  local node = minetest.get_node_or_nil(center_pos)
+
+  if node then
+    local nodedef = minetest.registered_nodes[node.name]
+
+    local east_face = facedir_to_local_face(node.param2, Directions.D_EAST)
+    local west_face = facedir_to_local_face(node.param2, Directions.D_WEST)
+
+    local east_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[east_face], pos)
+    local west_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[west_face], pos)
+
+    local east_node = minetest.get_node_or_nil(east_pos)
+    local west_node = minetest.get_node_or_nil(west_pos)
+
+    local east_node_def
+    if east_node then
+      east_node_def = minetest.registered_nodes[east_node.name]
+    end
+    local west_node_def
+    if west_node then
+      west_node_def = minetest.registered_nodes[west_node.name]
+    end
+
+    local result = {}
+    local i = 0
+    local item_stack
+
+    if west_node_def then
+      if west_node_def.basename == nodedef.basename then
+        item_stack = unsafe_get_workbench_item_stack_at(west_pos)
+
+        if item_stack and not item_stack:is_empty() then
+          i = i + 1
+          result[i] = item_stack
+        end
+      end
+    end
+
+    item_stack = unsafe_get_workbench_item_stack_at(center_pos)
+    if item_stack and not item_stack:is_empty() then
+      i = i + 1
+      result[i] = item_stack
+    end
+
+    if east_node_def then
+      if east_node_def.basename == nodedef.basename then
+        item_stack = unsafe_get_workbench_item_stack_at(east_pos)
+
+        if item_stack and not item_stack:is_empty() then
+          i = i + 1
+          result[i] = item_stack
+        end
+      end
+    end
+
+    return result
+  end
+
+  return {}
+end
+
 local function on_punch(pos, node, puncher, pointed_thing)
   -- operate bench
+  local tool = puncher:get_wielded_item()
+
+  if tool and not tool:is_empty() then
+    local workbench_info = get_node_workbench_info(node)
+    local tool_info = get_item_workbench_tool_info(tool)
+
+    if workbench_info and tool_info then
+      local items = get_workbench_items(pos)
+      local meta = minetest.get_meta(pos)
+
+      local last_recipe_id = meta:get("last_recipe_id")
+      local recipe
+
+      if last_recipe_id then
+        recipe = workbench_recipes:get_recipe(last_recipe_id)
+        if recipe then
+          if not recipe:matches_bench(workbench_info) or
+             not recipe:matches_tool(tool_info) or
+             not recipe:matches_item_stacks(items) then
+            recipe = nil
+          end
+        end
+      end
+
+      if not recipe then
+        recipe = workbench_recipes:find_recipe(workbench_info, tool_info, items)
+      end
+
+      if recipe then
+        print("Found valid recipe name=" .. recipe.name ..
+                                " description=`" .. recipe.description .. "`")
+      end
+    end
+  end
 end
 
 local function try_take_item_from_workbench(pos, _node, held_item, inv)
@@ -322,7 +431,7 @@ local function notify_workbench_neighbour_changed(pos, node, _neighbour_pos, nei
   refresh_node(pos, node)
 end
 
-local function register_workbench(basename, def)
+function hsw.register_workbench(basename, def)
   assert(type(basename) == "string", "expected a basename")
   assert(type(def) == "table", "expected a definition table")
   assert(def.workbench_info, "expected a workbench_info field")
@@ -441,7 +550,7 @@ local function register_workbench(basename, def)
   minetest.register_node(def.workbench_segments["3_3"], def3_3)
 end
 
-register_workbench(mod:make_name("workbench_wme"), {
+hsw.register_workbench(mod:make_name("workbench_wme"), {
   description = mod.S("WME Workbench"),
 
   groups = {
@@ -457,7 +566,7 @@ register_workbench(mod:make_name("workbench_wme"), {
   tile_basename = "hsw_workbench_wme",
 })
 
-register_workbench(mod:make_name("workbench_wood"), {
+hsw.register_workbench(mod:make_name("workbench_wood"), {
   description = mod.S("Wood Workbench"),
 
   groups = {
@@ -473,7 +582,7 @@ register_workbench(mod:make_name("workbench_wood"), {
   tile_basename = "hsw_workbench_wood",
 })
 
-register_workbench(mod:make_name("workbench_carbon_steel"), {
+hsw.register_workbench(mod:make_name("workbench_carbon_steel"), {
   description = mod.S("Carbon Steel Workbench"),
 
   groups = {
@@ -489,7 +598,7 @@ register_workbench(mod:make_name("workbench_carbon_steel"), {
   tile_basename = "hsw_workbench_carbon_steel",
 })
 
-register_workbench(mod:make_name("workbench_nano_element"), {
+hsw.register_workbench(mod:make_name("workbench_nano_element"), {
   description = mod.S("Nano Element Workbench"),
 
   groups = {

@@ -1,24 +1,32 @@
 -- @namespace hsw
 local list_map = assert(foundation.com.list_map)
 
-local ItemIngredient = hsw.ItemIngredient
-local ItemOutput = hsw.ItemOutput
-local ItemOutputRandom = hsw.ItemOutputRandom
-local BenchRequirement = hsw.WorkbenchRequirement
-local ToolRequirement = hsw.ToolRequirement
+local ItemIngredient = assert(hsw.ItemIngredient)
+local ItemOutput = assert(hsw.ItemOutput)
+local ItemOutputRandom = assert(hsw.ItemOutputRandom)
+local BenchRequirement = assert(hsw.WorkbenchRequirement)
+local ToolRequirement = assert(hsw.ToolRequirement)
 
 -- @class WorkbenchRecipe
 local WorkbenchRecipe = foundation.com.Class:extends("hsw.WorkbenchRecipe")
 local ic = WorkbenchRecipe.instance_class
 
--- @spec #initialize(Table): void
-function ic:initialize(def)
+-- @spec #initialize(name: String, Table): void
+function ic:initialize(name, def)
+  -- @member name: String
+  self.name = assert(name, "expected a recipe name")
+
   -- @member description: String
   self.description = def.description
 
   -- @member input_items: ItemIngredient[]
+  local ingredient
   self.input_items = list_map(assert(def.input_items, "expected input items"), function (item)
-    return ItemIngredient:new(item)
+    ingredient = ItemIngredient:new(item)
+    if ingredient.amount ~= 1 then
+      error("WorkbenchRecipes require ingredients to have an amount of exactly 1")
+    end
+    return ingredient
   end)
 
   -- @member output_items: (ItemOutput | ItemOutputRandom)[]
@@ -58,6 +66,52 @@ end
 -- @spec #matches_bench(BenchInfo): (Boolean, nil | ErrorCode)
 function ic:matches_bench(bench_info)
   return self.bench:matches(bench_info)
+end
+
+-- Attempts to match the given item stacks against the recipe.
+-- If the recipe matches the item stacks in the forward order, it will return 1.
+-- If the recipe matches in the reverse order then it will return -1.
+-- Otherwise it will return false.
+--
+-- @spec #matches_item_stacks(ItemStack[]): Integer | false
+function ic:matches_item_stacks(item_stacks)
+  local ingredient
+  local matches = true
+  local input_len = #self.input_items
+  local given_len = #item_stacks
+
+  if input_len ~= given_len then
+    return false
+  end
+
+  for index, item_stack in ipairs(item_stacks) do
+    ingredient = self.input_items[index]
+
+    if not ingredient:matches_item_stack(item_stack) then
+      matches = false
+      break
+    end
+  end
+
+  if matches then
+    return 1
+  end
+
+  matches = true
+  for index, item_stack in ipairs(item_stacks) do
+    ingredient = self.input_items[1 + input_len - index]
+
+    if not ingredient:matches_item_stack(item_stack) then
+      matches = false
+      break
+    end
+  end
+
+  if matches then
+    return -1
+  end
+
+  return false
 end
 
 hsw.WorkbenchRecipe = WorkbenchRecipe

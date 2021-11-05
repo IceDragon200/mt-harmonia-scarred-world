@@ -42,12 +42,12 @@ function ic:matches(tool_info)
   end
 
   -- if the tool has a minimum level check that
-  if tool_info.level < self.tool.min_level then
+  if tool_info.level < self.min_level then
     return false, ToolRequirement.ERR_LEVEL_LOW
   end
 
-  if self.tool.max_level then
-    if tool_info.level > self.tool.max_level then
+  if self.max_level then
+    if tool_info.level > self.max_level then
       return false, ToolRequirement.ERR_LEVEL_HIGH
     end
   end

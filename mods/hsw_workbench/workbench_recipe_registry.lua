@@ -36,10 +36,17 @@ function ic:register_recipe(name, def)
     error("recipe has already been registered name=" .. name)
   end
 
-  local recipe = WorkbenchRecipe:new(def)
+  local recipe = WorkbenchRecipe:new(name, def)
   self.registered_recipes[name] = recipe
 
   return recipe
+end
+
+-- Retrieve a recipe by its name
+--
+-- @spec #get_recipe(name: String): WorkbenchRecipe | nil
+function ic:get_recipe(name)
+  return self.registered_recipes[name]
 end
 
 -- Tries to find a recipe that matches the given workbench, tool and item
@@ -47,24 +54,28 @@ end
 -- If for some reason there are conflicting recipes, only the first one will be
 -- returned, or whichever is resolved at the time.
 --
--- @spec #match_recipe(WorkbenchInfo, ToolInfo, ItemStack[]): WorkbenchRecipe | nil
-function ic:match_recipe(workbench_info, tool_info, item_stacks)
+-- @spec #find_recipe(WorkbenchInfo, ToolInfo, ItemStack[]): WorkbenchRecipe | nil
+function ic:find_recipe(bench_info, tool_info, item_stacks)
+  assert(bench_info, "expected bench_info")
+  assert(tool_info, "expected tool_info")
+  assert(item_stacks, "expected item_stacks")
   -- first grab the recipe index by tool class
   local root_recipe_index = self.recipe_index[tool_info.tool_class]
   local recipe_index = root_recipe_index
-  local len = #items
+  local len = #item_stacks
+  local item_stack
   local i
   local item
 
   if recipe_index then
+    print("found recipe index for tool="..tool_info.tool_class)
     i = 0
     -- try looking for the items in the forward direction
-    while i <= len do
+    while i < len do
+      i = i + 1
       item_stack = item_stacks[i]
-      recipe_index = recipe_index.branches[item_stack:get_name()]
-      if recipe_index then
-        i = i + 1
-      else
+      recipe_index = recipe_index.next_items[item_stack:get_name()]
+      if not recipe_index then
         break
       end
     end
@@ -75,7 +86,7 @@ function ic:match_recipe(workbench_info, tool_info, item_stacks)
       i = len
       while i > 0 do
         item_stack = item_stacks[i]
-        recipe_index = recipe_index.branches[item_stack:get_name()]
+        recipe_index = recipe_index.next_items[item_stack:get_name()]
         if recipe_index then
           i = i - 1
         else
@@ -85,10 +96,12 @@ function ic:match_recipe(workbench_info, tool_info, item_stacks)
     end
 
     if recipe_index then
-      -- if there is a recipe index, then check the leaves for a match
-      for name, recipe in pairs(recipe_index.leaves) do
+      -- if there is a recipe index, then check the recipes for a match
+      for name, recipe in pairs(recipe_index.recipes) do
         -- check that the recipe's bench matches the current bench
-        if recipe:matches_bench(bench_info) and recipe:matches_tool(tool_info) then
+        if recipe:matches_bench(bench_info) and
+           recipe:matches_tool(tool_info) and
+           recipe:matches_item_stacks(item_stacks) then
           return recipe
         end
       end
@@ -102,7 +115,7 @@ function ic:index_recipes()
   local tool_class
   local leaf
 
-  for name, recipe in pairs(self.recipe_index) do
+  for name, recipe in pairs(self.registered_recipes) do
     -- first index the recipe by its tool class
     -- this is the largest tree that can be constructed
     tool_class = recipe.tool.tool_class

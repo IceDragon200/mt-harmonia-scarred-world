@@ -33,6 +33,8 @@ end
 
 -- @spec #matches(BenchInfo): (Boolean, nil | ErrorCode)
 function ic:matches(bench_info)
+  assert(bench_info, "expected bench_info")
+
   if self.bench_class ~= "any" then
     if bench_info.bench_class ~= self.bench_class then
       return false, WorkbenchRequirement.ERR_BENCH_CLASS_MISMATCH
