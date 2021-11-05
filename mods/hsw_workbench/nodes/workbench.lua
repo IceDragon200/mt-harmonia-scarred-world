@@ -4,6 +4,8 @@
 -- atop them, then by using any designated tool they can perform a crafting
 -- operation.
 --
+local table_copy = foundation.com.table_copy
+
 local mod = hsw_workbench
 
 -- Bench levels
@@ -17,8 +19,49 @@ local mod = hsw_workbench
 --   Nano Element - level 4
 --     Endgame bench
 
+local BENCH_1_NODEBOX = {
+  type = "fixed",
+  fixed = {
+    {},
+  }
+}
+
+local BENCH_1_3_NODEBOX = {
+  type = "fixed",
+  fixed = {
+    {},
+  }
+}
+
+local BENCH_2_3_NODEBOX = {
+  type = "fixed",
+  fixed = {
+    {},
+  }
+}
+
+local BENCH_3_3_NODEBOX = {
+  type = "fixed",
+  fixed = {
+    {},
+  }
+}
+
+local function on_punch(pos, node, puncher, pointed_thing)
+  -- operate bench
+end
+
+local function on_rightclick(pos, node, clicker, itemstack, pointed_thing)
+  -- place items on workbench or take them off
+end
+
 local function register_workbench(basename, def)
   assert(def.workbench_info, "expected a workbench_info field")
+  assert(not def.on_punch, "do not set the on_punch callback")
+  assert(not def.on_rightclick, "do not set the on_punch callback")
+
+  def.on_punch = on_punch
+  def.on_rightclick = on_rightclick
 
   -- backfill the base description with current description if possible
   def.base_description = def.base_description or def.description
@@ -33,15 +76,38 @@ local function register_workbench(basename, def)
     def.groups.workbench = 1
   end
 
-  -- single bench
-  minetest.register_node(basename .. "_1", def)
+  def.paramtype = "light"
+  def.paramtype2 = "facedir"
+
+  def.drawtype = "nodebox"
+
+  -- single bench (accessible via creative and will transform into the other benches when placed)
+  minetest.register_node(basename .. "_1", table_copy(def))
+
+  def.drop = basename .. "_1"
+
+  -- all other variants are hidden
+  local def1_3 = table_copy(def)
+  def1_3.groups = table_copy(def.groups)
+  def1_3.groups.workbench_section = 1
+  def1_3.groups.not_in_creative_inventory = 1
+
+  local def2_3 = table_copy(def)
+  def2_3.groups = table_copy(def.groups)
+  def2_3.groups.workbench_section = 2
+  def2_3.groups.not_in_creative_inventory = 1
+
+  local def3_3 = table_copy(def)
+  def3_3.groups = table_copy(def.groups)
+  def3_3.groups.workbench_section = 3
+  def3_3.groups.not_in_creative_inventory = 1
 
   -- left hand bench
-  minetest.register_node(basename .. "_1_3", def)
+  minetest.register_node(basename .. "_1_3", def1_3)
   -- center bench
-  minetest.register_node(basename .. "_2_3", def)
+  minetest.register_node(basename .. "_2_3", def2_3)
   -- right hand bench
-  minetest.register_node(basename .. "_3_3", def)
+  minetest.register_node(basename .. "_3_3", def3_3)
 end
 
 register_workbench(mod:make_name("workbench_wme"), {
