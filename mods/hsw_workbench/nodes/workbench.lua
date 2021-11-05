@@ -4,7 +4,10 @@
 -- atop them, then by using any designated tool they can perform a crafting
 -- operation.
 --
-local table_copy = foundation.com.table_copy
+local table_copy = assert(foundation.com.table_copy)
+local Directions = assert(foundation.com.Directions)
+local Vector3 = assert(foundation.com.Vector3)
+local facedir_to_local_face = assert(Directions.facedir_to_local_face)
 
 local mod = hsw_workbench
 
@@ -12,56 +15,326 @@ local mod = hsw_workbench
 --   WME - Weak Material Element - lowest tier level 1
 --     Only obtainable via Element crafting (along with other WME equipment)
 --     Can be used to craft many basic items, required to craft wooden benches
---   Wood - Wooden - common tier level 2
+--   Wood - Wooden - common tier level 3
 --     The bench most players will use commonly, has access to most recipes
---   Carbon Steel - level 3
+--   Carbon Steel - level 7
 --     Grants access to some later game recipes and more expensive recipes
---   Nano Element - level 4
+--   Nano Element - level 12
 --     Endgame bench
+
+local SCALE = 8/16
+local OFFSET = 10/16
+
+--
+-- Entity used to present the item on the workbench
+--
+minetest.register_entity("hsw_workbench:item", {
+  initial_properties = {
+    hp_max = 1,
+    visual = "wielditem",
+    visual_size = {x = SCALE, y = SCALE, z = SCALE},
+    collisionbox = {0,0,0,0,0,0},
+    use_texture_alpha = true,
+    physical = false,
+    collide_with_objects = false,
+    pointable = false,
+    static_save = false, -- delete the entity on block unload, the workbench will refresh it on load
+  },
+
+  on_step = function (self, delta)
+    --
+  end,
+
+  on_activate = function(self, static_data)
+    local data = minetest.parse_json(static_data)
+
+    self.workbench_id = data.workbench_id
+    self.item_name = data.item_name
+
+    if not self.workbench_id or not self.item_name then
+      self.object:remove()
+    else
+      self.object:set_properties({
+        visual_size = {x = SCALE, y = SCALE, z = SCALE},
+        wield_item = self.item_name,
+        itemstring = self.item_name,
+      })
+    end
+  end,
+
+  get_staticdata = function (self)
+    local data = {
+      workbench_id = self.workbench_id,
+      item_name = self.item_name,
+    }
+    return minetest.write_json(data)
+  end,
+})
+
+local function remove_stockpile_item_entity(pos)
+  local workbench_id = minetest.hash_node_position(pos)
+  for _, object in ipairs(minetest.get_objects_inside_radius(pos, 0.75)) do
+    if not object:is_player() then
+      local lua_entity = object:get_luaentity()
+      if lua_entity then
+        if lua_entity.workbench_id == workbench_id then
+          object:remove()
+        end
+      end
+    end
+  end
+end
+
+local function refresh_workbench_item(pos)
+  assert(type(pos) == "table", "expected a position")
+  remove_stockpile_item_entity(pos)
+
+  local node = minetest.get_node_or_nil(pos)
+  if node then
+    local nodedef = minetest.registered_nodes[node.name]
+
+    if nodedef then
+      if nodedef.groups and nodedef.groups.workbench then
+        local meta = minetest.get_meta(pos)
+        local inv = meta:get_inventory()
+        local stack = inv:get_stack("main", 1)
+
+        if stack and not stack:is_empty() then
+          local obj_pos = {
+            x = pos.x,
+            y = pos.y + OFFSET, -- adjust for stockpile height
+            z = pos.z,
+          }
+
+          local workbench_id = minetest.hash_node_position(pos)
+          minetest.add_entity(obj_pos, "hsw_workbench:item", minetest.write_json({
+            item_name = stack:get_name(),
+            workbench_id = workbench_id,
+          }))
+        end
+      end
+    end
+  end
+end
+
+local height = (4/16)
+local leg_height = (2/16)
+
+local top = {-0.5, leg_height, -0.5, 0.5, height, 0.5}
+local back1 = {(-6/16), (-8/16), (6/16), (6/16), leg_height, (8/16)}
+local back1_3 = {(-6/16), (-8/16), (6/16), (8/16), leg_height, (8/16)}
+local back2_3 = {(-8/16), (-8/16), (6/16), (8/16), leg_height, (8/16)}
+local back3_3 = {(-8/16), (-8/16), (6/16), (6/16), leg_height, (8/16)}
+local left_leg = {-0.5, (-8/16), -0.5, (-6/16), leg_height, 0.5}
+local right_leg = {(6/16), (-8/16), -0.5, (8/16), leg_height, 0.5}
 
 local BENCH_1_NODEBOX = {
   type = "fixed",
   fixed = {
-    {},
+    top,
+    back1,
+    left_leg,
+    right_leg,
   }
 }
 
 local BENCH_1_3_NODEBOX = {
   type = "fixed",
   fixed = {
-    {},
+    top,
+    back1_3,
+    left_leg,
   }
 }
 
 local BENCH_2_3_NODEBOX = {
   type = "fixed",
   fixed = {
-    {},
+    top,
+    back2_3,
   }
 }
 
 local BENCH_3_3_NODEBOX = {
   type = "fixed",
   fixed = {
-    {},
+    top,
+    back3_3,
+    right_leg,
   }
 }
+
+local function notify_neighbours(pos, node)
+  local registered_nodes = minetest.registered_nodes
+  local nodedef = registered_nodes[node.name]
+
+  local other_node
+  local other_nodedef
+  local other_pos = Vector3.copy(pos)
+
+  for _dir, vec3 in pairs(Directions.DIR6_TO_VEC3) do
+    other_pos = Vector3.add(other_pos, pos, vec3)
+    other_node = minetest.get_node_or_nil(other_pos)
+
+    if other_node then
+      other_nodedef = registered_nodes[other_node.name]
+      if other_nodedef then
+        if other_nodedef.notify_workbench_neighbour_changed then
+          other_nodedef.notify_workbench_neighbour_changed(other_pos, other_node, pos, node)
+        end
+      end
+    end
+  end
+end
+
+local function refresh_node(pos, node)
+  local registered_nodes = minetest.registered_nodes
+  local nodedef = registered_nodes[node.name]
+
+  local other_nodedef
+
+  local connected_to_east = false
+  local connected_to_west = false
+
+  local east = facedir_to_local_face(node.param2, Directions.D_EAST)
+  if east then
+    local east_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[east], pos)
+    local east_node = minetest.get_node_or_nil(east_pos)
+    if east_node then
+      other_nodedef = registered_nodes[east_node.name]
+      if other_nodedef then
+        if other_nodedef.basename == nodedef.basename then
+          -- retrieve the west face of the east node
+          local ee = facedir_to_local_face(east_node.param2, Directions.D_WEST)
+          if ee then
+            --
+            local ee_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[ee], east_pos)
+
+            if Vector3.equals(ee_pos, pos) then
+              connected_to_east = true
+            end
+          end
+        end
+      end
+    end
+  end
+
+  local west = facedir_to_local_face(node.param2, Directions.D_WEST)
+  if west then
+    local west_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[west], pos)
+    local west_node = minetest.get_node_or_nil(west_pos)
+    if west_node then
+      other_nodedef = registered_nodes[west_node.name]
+      if other_nodedef then
+        if other_nodedef.basename == nodedef.basename then
+          -- retrieve the east face of the west node
+          local ww = facedir_to_local_face(west_node.param2, Directions.D_EAST)
+          if ww then
+            --
+            local ww_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[ww], west_pos)
+
+            if Vector3.equals(ww_pos, pos) then
+              connected_to_west = true
+            end
+          end
+        end
+      end
+    end
+  end
+
+  local new_node = table_copy(node)
+
+  if connected_to_east and connected_to_west then
+    -- this should be a 2_3 node
+    new_node.name = assert(nodedef.workbench_segments["2_3"])
+  elseif connected_to_west then
+    new_node.name = assert(nodedef.workbench_segments["3_3"])
+  elseif connected_to_east then
+    new_node.name = assert(nodedef.workbench_segments["1_3"])
+  else
+    new_node.name = assert(nodedef.workbench_segments["1"])
+  end
+
+  if new_node.name ~= node.name then
+    minetest.swap_node(pos, new_node)
+  end
+end
+
+local function on_construct(pos)
+  local meta = minetest.get_meta(pos)
+  local inv = meta:get_inventory()
+
+  inv:set_size("main", 1)
+end
+
+local function after_place_node(pos)
+  local node = minetest.get_node(pos)
+  notify_neighbours(pos, node)
+  refresh_node(pos, node)
+end
 
 local function on_punch(pos, node, puncher, pointed_thing)
   -- operate bench
 end
 
-local function on_rightclick(pos, node, clicker, itemstack, pointed_thing)
+local function try_take_item_from_workbench(pos, _node, held_item, inv)
+  local leftover = inv:get_stack("main", 1)
+  leftover = held_item:add_item(leftover)
+  inv:set_stack("main", 1, leftover)
+  refresh_workbench_item(pos)
+end
+
+local function on_rightclick(pos, node, clicker, held_item, pointed_thing)
   -- place items on workbench or take them off
+  local meta = minetest.get_meta(pos)
+  local inv = meta:get_inventory()
+
+  if inv:get_size("main") < 1 then
+    inv:set_size("main", 1)
+  end
+
+  if held_item:is_empty() then
+    if not inv:is_empty("main") then
+      try_take_item_from_workbench(pos, node, held_item, inv)
+    end
+  else
+    if inv:is_empty("main") then
+      inv:add_item("main", held_item:take_item(1))
+      refresh_workbench_item(pos)
+    else
+      try_take_item_from_workbench(pos, node, held_item, inv)
+    end
+  end
+
+  return held_item
+end
+
+local function after_rotate_node(pos, node)
+  -- notify any neighbouring nodes that this one has changed orientation
+  notify_neighbours(pos, node)
+  -- then refresh its own node since it was rotated, it may need to connect
+  -- using a different face.
+  refresh_node(pos, node)
+end
+
+-- @spec notify_workbench_neighbour_changed(Vector3, NodeRef, Vector3, NodeRef): void
+local function notify_workbench_neighbour_changed(pos, node, _neighbour_pos, neighbour_node)
+  refresh_node(pos, node)
 end
 
 local function register_workbench(basename, def)
+  assert(type(basename) == "string", "expected a basename")
+  assert(type(def) == "table", "expected a definition table")
   assert(def.workbench_info, "expected a workbench_info field")
   assert(not def.on_punch, "do not set the on_punch callback")
   assert(not def.on_rightclick, "do not set the on_punch callback")
 
   def.on_punch = on_punch
   def.on_rightclick = on_rightclick
+  def.after_rotate_node = after_rotate_node
+  def.notify_workbench_neighbour_changed = notify_workbench_neighbour_changed
+  def.on_construct = on_construct
+  def.after_place_node = after_place_node
 
   -- backfill the base description with current description if possible
   def.base_description = def.base_description or def.description
@@ -81,33 +354,91 @@ local function register_workbench(basename, def)
 
   def.drawtype = "nodebox"
 
-  -- single bench (accessible via creative and will transform into the other benches when placed)
-  minetest.register_node(basename .. "_1", table_copy(def))
+  local tile_basename = def.tile_basename
+  def.tile_basename = nil
 
-  def.drop = basename .. "_1"
+  def.sunlight_propagates = true
+
+  def.workbench_segments = {}
+  def.workbench_segments["1"] = basename .. "_1"
+  def.workbench_segments["1_3"] = basename .. "_1_3"
+  def.workbench_segments["2_3"] = basename .. "_2_3"
+  def.workbench_segments["3_3"] = basename .. "_3_3"
+
+  local def1 = table_copy(def)
+  def1.node_box = BENCH_1_NODEBOX
+
+  if tile_basename and not def1.tiles then
+    def1.tiles = {
+      tile_basename .. "_1.top.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+    }
+  end
+
+  -- single bench (accessible via creative and will transform into the other benches when placed)
+  minetest.register_node(def.workbench_segments["1"], def1)
+
+  def.drop = def.workbench_segments["1"]
 
   -- all other variants are hidden
   local def1_3 = table_copy(def)
   def1_3.groups = table_copy(def.groups)
   def1_3.groups.workbench_section = 1
   def1_3.groups.not_in_creative_inventory = 1
+  if tile_basename and not def1_3.tiles then
+    def1_3.tiles = {
+      tile_basename .. "_1_3.top.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+    }
+  end
+  def1_3.node_box = BENCH_1_3_NODEBOX
 
   local def2_3 = table_copy(def)
   def2_3.groups = table_copy(def.groups)
   def2_3.groups.workbench_section = 2
   def2_3.groups.not_in_creative_inventory = 1
+  if tile_basename and not def2_3.tiles then
+    def2_3.tiles = {
+      tile_basename .. "_2_3.top.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+    }
+  end
+  def2_3.node_box = BENCH_2_3_NODEBOX
 
   local def3_3 = table_copy(def)
   def3_3.groups = table_copy(def.groups)
   def3_3.groups.workbench_section = 3
   def3_3.groups.not_in_creative_inventory = 1
+  if tile_basename and not def3_3.tiles then
+    def3_3.tiles = {
+      tile_basename .. "_3_3.top.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+      tile_basename .. "_side.png",
+    }
+  end
+  def3_3.node_box = BENCH_3_3_NODEBOX
 
   -- left hand bench
-  minetest.register_node(basename .. "_1_3", def1_3)
+  minetest.register_node(def.workbench_segments["1_3"], def1_3)
   -- center bench
-  minetest.register_node(basename .. "_2_3", def2_3)
+  minetest.register_node(def.workbench_segments["2_3"], def2_3)
   -- right hand bench
-  minetest.register_node(basename .. "_3_3", def3_3)
+  minetest.register_node(def.workbench_segments["3_3"], def3_3)
 end
 
 register_workbench(mod:make_name("workbench_wme"), {
@@ -115,7 +446,15 @@ register_workbench(mod:make_name("workbench_wme"), {
 
   groups = {
     material_wme = 1,
+    oddly_breakable_by_hand = 1,
   },
+
+  workbench_info = {
+    bench_class = "wme",
+    level = 1,
+  },
+
+  tile_basename = "hsw_workbench_wme",
 })
 
 register_workbench(mod:make_name("workbench_wood"), {
@@ -123,7 +462,15 @@ register_workbench(mod:make_name("workbench_wood"), {
 
   groups = {
     material_wood = 1,
+    choppy = 1,
   },
+
+  workbench_info = {
+    bench_class = "wood",
+    level = 3,
+  },
+
+  tile_basename = "hsw_workbench_wood",
 })
 
 register_workbench(mod:make_name("workbench_carbon_steel"), {
@@ -131,7 +478,15 @@ register_workbench(mod:make_name("workbench_carbon_steel"), {
 
   groups = {
     material_carbon_steel = 1,
+    cracky = 1,
   },
+
+  workbench_info = {
+    bench_class = "carbon_steel",
+    level = 7,
+  },
+
+  tile_basename = "hsw_workbench_carbon_steel",
 })
 
 register_workbench(mod:make_name("workbench_nano_element"), {
@@ -139,5 +494,27 @@ register_workbench(mod:make_name("workbench_nano_element"), {
 
   groups = {
     material_nano_element = 1,
+    cracky = 1,
   },
+
+  workbench_info = {
+    bench_class = "nano_element",
+    level = 12,
+  },
+
+  tile_basename = "hsw_workbench_nano_element",
+})
+
+minetest.register_lbm({
+  label = "Refresh Workbench Items",
+
+  nodenames = {"group:workbench"},
+
+  name = "hsw_workbench:refresh_workbench_item",
+
+  run_at_every_load = true,
+
+  action = function (pos, _node)
+    refresh_workbench_item(pos)
+  end,
 })

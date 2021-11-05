@@ -22,7 +22,7 @@ mod:require("workbench_recipe_registry.lua")
 
 hsw.workbench_recipes = hsw.WorkbenchRecipeRegistry:new()
 
-minetest.register_on_mods_loaded(hsw.workbench_recipes:index_recipes())
+minetest.register_on_mods_loaded(hsw.workbench_recipes:method("index_recipes"))
 
 mod:require("nodes.lua")
 
