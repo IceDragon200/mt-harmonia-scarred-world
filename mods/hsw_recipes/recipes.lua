@@ -1,3 +1,18 @@
 local mod = hsw_recipes
 
+mod:require("recipes/aging_recipes.lua")
+mod:require("recipes/blasting_recipes.lua")
+mod:require("recipes/brewing_recipes.lua")
+mod:require("recipes/compacting_recipes.lua")
+mod:require("recipes/condensing_recipes.lua")
+mod:require("recipes/distillation_recipes.lua")
+mod:require("recipes/freezing_recipes.lua")
+mod:require("recipes/grinding_recipes.lua")
+mod:require("recipes/kiln_recipes.lua")
+mod:require("recipes/molding_recipes.lua")
+mod:require("recipes/pressing_recipes.lua")
+mod:require("recipes/rolling_recipes.lua")
+mod:require("recipes/sawing_recipes.lua")
+mod:require("recipes/smelting_recipes.lua")
+mod:require("recipes/vapour_recipes.lua")
 mod:require("recipes/workbench_recipes.lua")
