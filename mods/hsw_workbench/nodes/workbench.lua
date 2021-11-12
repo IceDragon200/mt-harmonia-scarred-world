@@ -278,7 +278,7 @@ local function after_place_node(pos)
 end
 
 local function unsafe_get_workbench_item_stack_at(pos)
-  local meta = minetest.get_meta()
+  local meta = minetest.get_meta(pos)
   if meta then
     local inv = meta:get_inventory()
     return inv:get_stack("main", 1)
@@ -295,8 +295,8 @@ local function get_workbench_items(center_pos)
     local east_face = facedir_to_local_face(node.param2, Directions.D_EAST)
     local west_face = facedir_to_local_face(node.param2, Directions.D_WEST)
 
-    local east_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[east_face], pos)
-    local west_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[west_face], pos)
+    local east_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[east_face], center_pos)
+    local west_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[west_face], center_pos)
 
     local east_node = minetest.get_node_or_nil(east_pos)
     local west_node = minetest.get_node_or_nil(west_pos)

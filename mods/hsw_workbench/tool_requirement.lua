@@ -8,11 +8,16 @@ ToolRequirement.ERR_LEVEL_LOW = 0
 ToolRequirement.ERR_LEVEL_HIGH = 1
 -- The provided tool is different from the one needed for recipe
 ToolRequirement.ERR_TOOL_CLASS_MISMATCH = 2
+-- The provided tool is missing a required group or is not the correct value
+ToolRequirement.ERR_MISSING_GROUP = 3
 
 -- @spec #initialize(Table): void
 function ic:initialize(def)
   -- bench class denotes what 'type' or workbench is required
   self.tool_class = assert(def.tool_class, "expected a tool class")
+
+  -- optional required tool groups
+  self.groups = def.groups or {}
 
   -- recommended workbench level
   self.level = assert(def.level, "expected a level")
@@ -49,6 +54,18 @@ function ic:matches(tool_info)
   if self.max_level then
     if tool_info.level > self.max_level then
       return false, ToolRequirement.ERR_LEVEL_HIGH
+    end
+  end
+
+  if next(self.groups) then
+    if tool_info.groups then
+      for group_id, level in pairs(self.groups) do
+        if tool_info.groups[group_id] ~= level then
+          return false, ToolRequirement.ERR_MISSING_GROUP
+        end
+      end
+    else
+      return false, ToolRequirement.ERR_MISSING_GROUP
     end
   end
 
