@@ -42,7 +42,7 @@ minetest.register_on_shutdown(function (dtime)
   mod.quests:terminate()
 end)
 
-minetest.register_globalstep(function (dtime)
+nokore_proxy.register_globalstep("hsw_campaign.update/1", function (dtime)
   mod.quests:update(dtime)
 end)
 
