@@ -430,4 +430,4 @@ end
 
 player_service:register_on_player_join("hsw_stats:on_player_join", on_player_join)
 player_service:register_on_player_leave("hsw_stats:on_player_leave", on_player_leave)
-player_service:register_update("hsw_stats:players_update", update_players)
+player_service:register_update("hsw_stats:players_update/3", update_players)
