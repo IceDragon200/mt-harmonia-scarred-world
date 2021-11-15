@@ -9,5 +9,5 @@ mod.waypoints = mod.Waypoints:new({
   filename = minetest.get_worldpath() .. "/hsw/waypoints.json"
 })
 
-minetest.register_globalstep(mod.waypoints:method("update"))
+nokore_proxy.register_globalstep("hsw_waypoints.update/1", mod.waypoints:method("update"))
 minetest.register_on_shutdown(mod.waypoints:method("terminate"))
