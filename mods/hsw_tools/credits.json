@@ -1,0 +1,117 @@
+{
+  "authors": {
+    "@IceDragon200": {
+      "url": "https://github.com/IceDragon200"
+    },
+    "PixelPerfection": {
+      "url": "https://github.com/Wallbraker/PixelPerfection"
+    }
+  },
+  "files": {
+    "textures/hsw_tool_axe.bronze.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_axe.carbon_steel.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_axe.copper.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_axe.gold.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_axe.iron.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_axe.stone.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_hoe.bronze.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_hoe.carbon_steel.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_hoe.copper.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_hoe.gold.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_hoe.iron.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_hoe.stone.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_pickaxe.bronze.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_pickaxe.carbon_steel.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_pickaxe.copper.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_pickaxe.gold.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_pickaxe.iron.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_pickaxe.stone.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_spade.bronze.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_spade.carbon_steel.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_spade.copper.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_spade.gold.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_spade.iron.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_spade.stone.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_sword.bronze.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_sword.carbon_steel.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_sword.copper.png": {
+      "authors": ["PixelPerfection", "@IceDragon200"],
+      "modified_by": ["@IceDragon200"]
+    },
+    "textures/hsw_tool_sword.gold.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_sword.iron.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_sword.stone.png": {
+      "authors": ["PixelPerfection"]
+    }
+  }
+}

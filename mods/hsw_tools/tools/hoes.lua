@@ -19,7 +19,7 @@ for material_basename, material in pairs(TOOL_MATERIALS) do
       wb_tool = 1,
     },
 
-    inventory_image = "hsw_hoe." .. material_basename .. ".png",
+    inventory_image = "hsw_tool_hoe." .. material_basename .. ".png",
 
     tool_capabilities = {
       max_drop_level = 1,

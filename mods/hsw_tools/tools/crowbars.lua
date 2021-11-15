@@ -19,13 +19,13 @@ for material_basename, material in pairs(TOOL_MATERIALS) do
       wb_tool = 1,
     },
 
-    inventory_image = "hsw_crowbar." .. material_basename .. ".png",
+    inventory_image = "hsw_tool_crowbar." .. material_basename .. ".png",
 
     tool_capabilities = {
       max_drop_level = 1,
 
       groupcaps = {
-        choppy = {
+        pryable = {
           maxlevel = hsw:dig_class(material_basename),
           uses = 10,
           times = hsw:mark_tool_cap_times(tool_class, material_basename),

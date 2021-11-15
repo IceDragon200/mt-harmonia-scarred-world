@@ -27,3 +27,7 @@ HSW also has some groups of its own:
 * `hacky` - materials that can be hacked apart using a hatchet, this is used in conjunction with fleshy
 * `sawable` - materials that can be cut by a saw, some nodes may also support the choppy group and drop different materials depending on the groups
 * `pryable` - materials that can be lifted or opened up using a crowbar.
+
+## Texture Credits
+
+See the [credits.json](credits.json) for more information
