@@ -122,7 +122,7 @@ end
 
 local height = (4/16)
 local leg_height = (2/16)
-local back_height = height
+local back_height = leg_height
 
 local top = {-0.5, leg_height, -0.5, 0.5, height, 0.5}
 local back1 = {(-6/16), (-8/16), (6/16), (6/16), back_height, (8/16)}
