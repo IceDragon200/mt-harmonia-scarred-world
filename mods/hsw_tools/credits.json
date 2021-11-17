@@ -29,6 +29,9 @@
     "textures/hsw_tool_axe.stone.png": {
       "authors": ["PixelPerfection"]
     },
+    "textures/hsw_tool_axe.wood.png": {
+      "authors": ["PixelPerfection"]
+    },
     "textures/hsw_tool_hoe.bronze.png": {
       "authors": ["PixelPerfection", "@IceDragon200"],
       "modified_by": ["@IceDragon200"]
@@ -48,6 +51,9 @@
       "authors": ["PixelPerfection"]
     },
     "textures/hsw_tool_hoe.stone.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_hoe.wood.png": {
       "authors": ["PixelPerfection"]
     },
     "textures/hsw_tool_pickaxe.bronze.png": {
@@ -71,6 +77,9 @@
     "textures/hsw_tool_pickaxe.stone.png": {
       "authors": ["PixelPerfection"]
     },
+    "textures/hsw_tool_pickaxe.wood.png": {
+      "authors": ["PixelPerfection"]
+    },
     "textures/hsw_tool_spade.bronze.png": {
       "authors": ["PixelPerfection", "@IceDragon200"],
       "modified_by": ["@IceDragon200"]
@@ -87,6 +96,9 @@
       "authors": ["PixelPerfection"]
     },
     "textures/hsw_tool_spade.iron.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_spade.stone.png": {
       "authors": ["PixelPerfection"]
     },
     "textures/hsw_tool_spade.stone.png": {
@@ -111,6 +123,9 @@
       "authors": ["PixelPerfection"]
     },
     "textures/hsw_tool_sword.stone.png": {
+      "authors": ["PixelPerfection"]
+    },
+    "textures/hsw_tool_sword.wood.png": {
       "authors": ["PixelPerfection"]
     }
   }
