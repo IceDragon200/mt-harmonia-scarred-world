@@ -4,7 +4,7 @@ local mod = hsw_milestones
 -- Milestones represent some goal or achievement that something can achieve
 -- and 'unlock'
 --
--- @private.class Milestone
+-- @class Milestone
 local Milestone = foundation.com.Class:extends("hsw.Milestone")
 local ic = Milestone.instance_class
 
@@ -33,7 +33,7 @@ local ic = Milestone.instance_class
 --   },
 -- }
 
--- @spec #initialize(name: String, MilestoneDefinition)
+-- @spec #initialize(name: String, MilestoneDefinition): void
 function ic:initialize(name, def)
   self.id = name
   self.description = assert(def.description, "expected a description")
@@ -43,7 +43,7 @@ end
 -- A milestone instance keeps track of counter information for some 'thing'
 -- that needs milestones, usually players.
 --
--- @private.class MilestoneInstance
+-- @class MilestoneInstance
 local MilestoneInstance = foundation.com.Class:extends("hsw.MilestoneInstance")
 local ic = MilestoneInstance.instance_class
 

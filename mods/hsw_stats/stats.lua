@@ -220,13 +220,15 @@ player_stats:register_stat("fabrication_level", {
   end,
 })
 
+-- Options:
+--   no_regen_from_zero -
+--     prevent stats that have a zero or less amount from regenerating
+--     this is needed for stats like HP that shouldn't recover from nothing.
 -- @type Options: {
---   -- prevent stats that have a zero or less amount from regenerating
---   -- this is needed for stats like HP that shouldn't recover from nothing.
 --   no_regen_from_zero: Boolean,
 -- }
 
--- @private.spec make_gen_stat_function(String, Options)
+-- @private.spec make_gen_stat_function(String, Options): Function/3
 local function make_gen_stat_function(basename, options)
   options = options or {}
   local max_name = basename .. "_max"

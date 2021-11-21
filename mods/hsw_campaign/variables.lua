@@ -1,3 +1,5 @@
+-- @namespace hsw_campaign
+
 --
 -- Sets up the Campaign event and variable storage
 -- Note that the campaign does not use the mod storage for tracking
@@ -30,9 +32,11 @@ local ENCODE_METHOD = mod.storage:get_string("encode_method")
 
 assert(ENCODE_METHOD == 'MRSH' or ENCODE_METHOD == 'APAK')
 
+-- @class Campaign.Variables
 local Variables = foundation.com.Class:extends("hsw.Campaign.Variables")
 local ic = Variables.instance_class
 
+-- @spec #initialize(String): void
 function ic:initialize(filename)
   self.m_kv_store = KVStore:new()
   local extname

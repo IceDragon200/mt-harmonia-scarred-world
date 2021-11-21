@@ -3,6 +3,7 @@ local player_data_service = assert(nokore.player_data_service)
 
 local ic
 
+-- @class Upgrade
 local Upgrade = foundation.com.Class:extends("hsw.Nanosuit.Upgrade")
 ic = Upgrade.instance_class
 

@@ -9,7 +9,7 @@
 local string_split = assert(foundation.com.string_split)
 local path_dirname = assert(foundation.com.path_dirname)
 
--- @private_class QuestEntry
+-- @class QuestEntry
 local QuestEntry = foundation.com.Class:extends("hsw.QuestEntry")
 local ic = QuestEntry.instance_class
 
@@ -100,9 +100,11 @@ function ic:dump_data()
   return result
 end
 
+-- Bind is either "world" or "player"
+--
 -- @type QuestDefinition: {
 --   notes: String,
---   bind: "world" | "player",
+--   bind: String,
 -- }
 
 -- @class QuestService

@@ -1,6 +1,8 @@
 --
 -- Waypoints
 --
+
+-- @namespace hsw_waypoints
 local ULID = foundation.com.ULID
 local Vector2 = foundation.com.Vector2
 local Vector3 = foundation.com.Vector3
@@ -8,17 +10,26 @@ local path_dirname = assert(foundation.com.path_dirname)
 
 -- See minetest's lua_api.txt `waypoint` hud element for more information
 --
+-- Properties:
+--   `name` - same as name
+--   `distance_suffix` - is 'text' of waypoint
+--   `precision` - defaults to 10
+--   `offset` - in pixels
+--   `alignment` - ranging from -1 to 1
+--   `groups` - a table containing groups that the waypoint should belong to
+--   `lifespan` - time in seconds for how long a waypoint should last, -1 is forever
+--
 -- @type WaypointDefinition: {
---   name: String, -- same as name
---   distance_suffix: String, -- is 'text' of waypoint
---   precision: Integer, -- defaults to 10
---   offset: Integer, -- in pixels
---   alignment: Vector2, -- ranging from -1 to 1
+--   name: String,
+--   distance_suffix: String,
+--   precision: Integer,
+--   offset: Integer,
+--   alignment: Vector2,
 --   groups: { [name: String]: Integer },
---   lifespan: Float, -- time in seconds for how long a waypoint should last, -1 is forever
+--   lifespan: Float,
 -- }
 
--- @protected.class Waypoint
+-- @class Waypoint
 local Waypoint = foundation.com.Class:extends("Waypoint")
 local ic = Waypoint.instance_class
 
