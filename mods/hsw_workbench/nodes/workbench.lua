@@ -426,7 +426,7 @@ local function after_rotate_node(pos, node)
   refresh_node(pos, node)
 end
 
--- @spec notify_workbench_neighbour_changed(Vector3, NodeRef, Vector3, NodeRef): void
+-- @private.spec notify_workbench_neighbour_changed(Vector3, NodeRef, Vector3, NodeRef): void
 local function notify_workbench_neighbour_changed(pos, node, _neighbour_pos, neighbour_node)
   refresh_node(pos, node)
 end

@@ -5,6 +5,8 @@ local InventoryList = assert(foundation.com.InventoryList)
 
 local Energy = assert(yatm.energy)
 
+-- @namespace hsw_stats
+
 -- HSW uses 50 health by default, the max is 1000
 local HP_MAX_DEFAULT = 50
 local BREATH_MAX_DEFAULT = 10

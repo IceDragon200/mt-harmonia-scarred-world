@@ -1,3 +1,6 @@
+-- @namespace hsw
+
+-- @class ToolRequirement
 local ToolRequirement = foundation.com.Class:extends("hsw.ToolRequirement")
 local ic = ToolRequirement.instance_class
 

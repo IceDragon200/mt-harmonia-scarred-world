@@ -1,3 +1,6 @@
+-- @namespace hsw
+
+-- @class WorkbenchRequirement
 local WorkbenchRequirement = foundation.com.Class:extends("hsw.WorkbenchRequirement")
 local ic = WorkbenchRequirement.instance_class
 
