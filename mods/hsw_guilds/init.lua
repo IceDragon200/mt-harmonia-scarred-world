@@ -10,6 +10,18 @@
 --
 local mod = foundation.new_module("hsw_guilds", "0.0.1")
 
+-- @namespace hsw_guilds
+
+hsw = rawget(_G, "hsw") or {}
+
 mod:require("api.lua")
+
+-- @const guilds: Guilds
+mod.guilds = hsw_guilds.Guilds:new()
+
+-- @namespace hsw
+
+-- @alias guilds: hsw_guilds.Guilds
+hsw.guilds = mod.guilds
 
 mod:require("chat_commands.lua")
