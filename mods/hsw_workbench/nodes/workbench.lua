@@ -25,8 +25,10 @@ local mod = hsw_workbench
 --   Nano Element - level 12
 --     Endgame bench
 
-local SCALE = 8/16
-local OFFSET = 10/16
+local NODE_SCALE = 8/16
+local NODE_OFFSET = 10/16
+local ITEM_SCALE = 6/16
+local ITEM_OFFSET = 5/16
 
 --
 -- Entity used to present the item on the workbench
@@ -35,7 +37,7 @@ minetest.register_entity("hsw_workbench:item", {
   initial_properties = {
     hp_max = 1,
     visual = "wielditem",
-    visual_size = {x = SCALE, y = SCALE, z = SCALE},
+    visual_size = {x = NODE_SCALE, y = NODE_SCALE, z = NODE_SCALE},
     collisionbox = {0,0,0,0,0,0},
     use_texture_alpha = true,
     physical = false,
@@ -53,28 +55,73 @@ minetest.register_entity("hsw_workbench:item", {
 
     self.workbench_id = data.workbench_id
     self.item_name = data.item_name
+    self.base_pos = data.base_pos
+    self.facedir = data.facedir or 0
 
-    if not self.workbench_id or not self.item_name then
-      self.object:remove()
-    else
-      self.object:set_properties({
-        visual_size = {x = SCALE, y = SCALE, z = SCALE},
-        wield_item = self.item_name,
-        itemstring = self.item_name,
-      })
-    end
+    self:refresh()
   end,
 
   get_staticdata = function (self)
     local data = {
       workbench_id = self.workbench_id,
       item_name = self.item_name,
+      base_pos = self.base_pos,
+      facedir = self.facedir,
     }
     return minetest.write_json(data)
   end,
+
+  refresh = function (self)
+    if not self.workbench_id or not self.item_name or not self.base_pos then
+      self.object:remove()
+    else
+      local itemdef = minetest.registered_items[self.item_name]
+
+      local scale = NODE_SCALE
+      local offset = NODE_OFFSET -- adjust for stockpile height
+      print("itemdef", self.item_name, itemdef.type)
+
+      -- FIXME: item should track the rotation of the workbench as well
+
+      local _axis, rotation = Directions.facedir_to_fd_axis_and_fd_rotation(self.facedir)
+
+      local pitch = 0.0
+      -- effectively invert the rotations
+      local heading = Directions.ROT_TO_HEADING[(rotation + 2) % 4] or 0.0
+      local yaw = 0.0
+
+      if itemdef.type == "craft" or
+         itemdef.type == "tool" or
+         itemdef.drawtype == "raillike" then
+        -- items need to lay flat on the table
+        scale = ITEM_SCALE
+        offset = ITEM_OFFSET
+
+        pitch = math.pi / 2
+      end
+
+      self.object:set_rotation({
+        x = pitch,
+        y = heading,
+        z = yaw,
+      })
+
+      self.object:set_pos({
+        x = self.base_pos.x,
+        y = self.base_pos.y + offset,
+        z = self.base_pos.z,
+      })
+
+      self.object:set_properties({
+        visual_size = { x = scale, y = scale, z = scale },
+        wield_item = self.item_name,
+        itemstring = self.item_name,
+      })
+    end
+  end,
 })
 
-local function remove_stockpile_item_entity(pos)
+local function remove_workbench_item_at_pos(pos)
   local workbench_id = minetest.hash_node_position(pos)
   for _, object in ipairs(minetest.get_objects_inside_radius(pos, 0.75)) do
     if not object:is_player() then
@@ -90,7 +137,7 @@ end
 
 local function refresh_workbench_item(pos)
   assert(type(pos) == "table", "expected a position")
-  remove_stockpile_item_entity(pos)
+  remove_workbench_item_at_pos(pos)
 
   local node = minetest.get_node_or_nil(pos)
   if node then
@@ -105,14 +152,16 @@ local function refresh_workbench_item(pos)
         if stack and not stack:is_empty() then
           local obj_pos = {
             x = pos.x,
-            y = pos.y + OFFSET, -- adjust for stockpile height
+            y = pos.y,
             z = pos.z,
           }
 
           local workbench_id = minetest.hash_node_position(pos)
           minetest.add_entity(obj_pos, "hsw_workbench:item", minetest.write_json({
+            base_pos = obj_pos,
             item_name = stack:get_name(),
             workbench_id = workbench_id,
+            facedir = node.param2,
           }))
         end
       end
@@ -424,6 +473,8 @@ local function after_rotate_node(pos, node)
   -- then refresh its own node since it was rotated, it may need to connect
   -- using a different face.
   refresh_node(pos, node)
+
+  refresh_workbench_item(pos)
 end
 
 -- @private.spec notify_workbench_neighbour_changed(Vector3, NodeRef, Vector3, NodeRef): void
