@@ -28,7 +28,7 @@ minetest.register_chatcommand("guild-invite", {
 })
 
 minetest.register_chatcommand("guild-join", {
-  description = mos.S("Tries to join an existing guild, given its id, confirm will immediately join the guild without asking for confirmation."),
+  description = mod.S("Tries to join an existing guild, given its id, confirm will immediately join the guild without asking for confirmation."),
 
   params = mod.S("<guild-id> [<confirm>]"),
 
@@ -38,7 +38,7 @@ minetest.register_chatcommand("guild-join", {
 })
 
 minetest.register_chatcommand("guild-leave", {
-  description = mos.S("Leaves specified guild, or whatever primary guild is active."),
+  description = mod.S("Leaves specified guild, or whatever primary guild is active."),
 
   params = mod.S("[<guild-id>]"),
 
@@ -48,7 +48,7 @@ minetest.register_chatcommand("guild-leave", {
 })
 
 minetest.register_chatcommand("guild-list", {
-  description = mos.S("Lists all guilds."),
+  description = mod.S("Lists all guilds."),
 
   func = function (player_name, params)
     return false, "Not yet implemented"
@@ -56,7 +56,7 @@ minetest.register_chatcommand("guild-list", {
 })
 
 minetest.register_chatcommand("guild-appoint", {
-  description = mos.S("Appoints a player for a specified position in guild."),
+  description = mod.S("Appoints a player for a specified position in guild."),
 
   params = mod.S("<position> <player-name> [<guild-id>]"),
 
@@ -66,7 +66,7 @@ minetest.register_chatcommand("guild-appoint", {
 })
 
 minetest.register_chatcommand("guild-dismiss", {
-  description = mos.S("Removes a user from position in a guild."),
+  description = mod.S("Removes a user from position in a guild."),
 
   params = mod.S("<position> <player-name> [<guild-id>]"),
 
@@ -76,7 +76,7 @@ minetest.register_chatcommand("guild-dismiss", {
 })
 
 minetest.register_chatcommand("my-guilds", {
-  description = mos.S("Lists all guilds that you are apart of."),
+  description = mod.S("Lists all guilds that you are apart of."),
 
   func = function (player_name, params)
     return false, "Not yet implemented"
