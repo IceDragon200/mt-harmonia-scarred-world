@@ -249,6 +249,10 @@ local function refresh_node(pos, node)
   local connected_to_east = false
   local connected_to_west = false
 
+  -- odd rotations need an inverted table mapping
+  -- because the 'front' (south) face of the table is actually the back of the node.
+  local inverted = node.param2 % 2 == 1
+
   local east = facedir_to_local_face(node.param2, Directions.D_EAST)
   if east then
     local east_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[east], pos)
@@ -301,9 +305,17 @@ local function refresh_node(pos, node)
     -- this should be a 2_3 node
     new_node.name = assert(nodedef.workbench_segments["2_3"])
   elseif connected_to_west then
-    new_node.name = assert(nodedef.workbench_segments["3_3"])
+    if inverted then
+      new_node.name = assert(nodedef.workbench_segments["1_3"])
+    else
+      new_node.name = assert(nodedef.workbench_segments["3_3"])
+    end
   elseif connected_to_east then
-    new_node.name = assert(nodedef.workbench_segments["1_3"])
+    if inverted then
+      new_node.name = assert(nodedef.workbench_segments["3_3"])
+    else
+      new_node.name = assert(nodedef.workbench_segments["1_3"])
+    end
   else
     new_node.name = assert(nodedef.workbench_segments["1"])
   end
