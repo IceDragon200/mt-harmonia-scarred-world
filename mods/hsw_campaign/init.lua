@@ -10,7 +10,7 @@ if minetest.is_singleplayer() then
   -- nothing to do, this is single player
   minetest.log("info", "Campaign is in single player")
 else
-  error("Harmonia Scarred World Campaign cannot be played in multiplayer")
+  minetest.log("warning", "Harmonia Scarred World Campaign should not be played in multiplayer")
 end
 
 mod.storage = minetest.get_mod_storage()
