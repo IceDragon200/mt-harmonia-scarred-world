@@ -129,13 +129,13 @@ player_stats:register_stat("energy", {
 
   calc = function (_self, player)
     local meta = player:get_meta()
-    return Energy.get_energy(meta, "nanosuit")
+    return Energy.get_meta_energy(meta, "nanosuit")
   end,
 
   set = function (_self, player, value)
     local meta = player:get_meta()
 
-    Energy.set_energy(meta, "nanosuit", value)
+    Energy.set_meta_energy(meta, "nanosuit", value)
   end,
 })
 
