@@ -226,10 +226,17 @@ player_stats:register_stat("fabrication_level", {
 --   no_regen_from_zero -
 --     prevent stats that have a zero or less amount from regenerating
 --     this is needed for stats like HP that shouldn't recover from nothing.
+--   has_overflow_degen -
+--     if the 'amount' exceeds the 'max' of the stat, should it eventually
+--     degen to the 'max' value?
 -- @type Options: {
 --   no_regen_from_zero: Boolean,
+--   has_overflow_degen: Boolean,
 -- }
 
+-- (Re|De)gen factory function. This function creates an update function
+-- used to perform the regen or degen behaviour of a specified stat.
+--
 -- @private.spec make_gen_stat_function(String, Options): Function/3
 local function make_gen_stat_function(basename, options)
   options = options or {}
@@ -239,6 +246,7 @@ local function make_gen_stat_function(basename, options)
   local degen_name = basename  .. "_degen"
   local gen_time_name = basename .. "_gen_time"
   local has_overflow_degen = options.has_overflow_degen or false
+  local no_regen_from_zero = options.no_regen_from_zero or false
 
   return function (players, dt, assigns)
     local player_assigns
