@@ -25,7 +25,7 @@ local function get_formspec(pos, user)
 end
 
 mod:register_node("element_safe_box", {
-  codex_entry_id = "hsw_stats:element_safe_box",
+  codex_entry_id = mod:make_name("element_safe_box"),
 
   description = mod.S("Element Safe Box"),
 
