@@ -1,6 +1,6 @@
 --
 -- Workbenches are a kind of multiblock crafting system
--- PLayers can place up to three benches in a row and then place items
+-- Players can place up to three benches in a row and then place items
 -- atop them, then by using any designated tool they can perform a crafting
 -- operation.
 --
@@ -614,6 +614,8 @@ function hsw.register_workbench(basename, def)
 end
 
 hsw.register_workbench(mod:make_name("workbench_wme"), {
+  codex_entry_id = mod:make_name("workbench"),
+
   description = mod.S("WME Workbench"),
 
   groups = {
@@ -630,6 +632,8 @@ hsw.register_workbench(mod:make_name("workbench_wme"), {
 })
 
 hsw.register_workbench(mod:make_name("workbench_wood"), {
+  codex_entry_id = mod:make_name("workbench"),
+
   description = mod.S("Wood Workbench"),
 
   groups = {
@@ -646,6 +650,8 @@ hsw.register_workbench(mod:make_name("workbench_wood"), {
 })
 
 hsw.register_workbench(mod:make_name("workbench_carbon_steel"), {
+  codex_entry_id = mod:make_name("workbench"),
+
   description = mod.S("Carbon Steel Workbench"),
 
   groups = {
@@ -662,6 +668,8 @@ hsw.register_workbench(mod:make_name("workbench_carbon_steel"), {
 })
 
 hsw.register_workbench(mod:make_name("workbench_nano_element"), {
+  codex_entry_id = mod:make_name("workbench"),
+
   description = mod.S("Nano Element Workbench"),
 
   groups = {

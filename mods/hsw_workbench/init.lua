@@ -29,4 +29,8 @@ mod:require("nodes.lua")
 
 minetest.register_on_mods_loaded(hsw.workbench_recipes:method("index_recipes"))
 
+if minetest.global_exists("yatm_codex") then
+  mod:require("codex.lua")
+end
+
 mod:require("tests.lua")
