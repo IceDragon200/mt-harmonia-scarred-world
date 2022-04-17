@@ -84,7 +84,7 @@ function ic:update_players(players, dtime, trace)
     targets = {}
 
     for pt in raycast(pos, target_pos, true, false) do
-      if pt.type == "object" or pt.ref ~= player or pt.ref:get_attach() ~= player then
+      if pt.type == "object" and pt.ref ~= player and pt.ref:get_attach() ~= player then
         -- if we haven't already populated the object, then do so
         if not targets.object then
           -- if the first pointed thing has not been set, then set it
