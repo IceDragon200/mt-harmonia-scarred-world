@@ -47,6 +47,10 @@ mod:register_node("element_safe_box", {
     "hsw_element_safe_box.side.png",
   },
 
+  action_hints = {
+    secondary = "inventory",
+  },
+
   on_construct = function (pos)
     local meta = minetest.get_meta(pos)
     local inv = meta:get_inventory()
