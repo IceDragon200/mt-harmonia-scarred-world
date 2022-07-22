@@ -4,7 +4,7 @@ local player_stats = assert(nokore.player_stats)
 
 -- Restores basic functionality of the nano-suit, including:
 --   * element accumulation (element_regen, element_max)
---   * fabrication (frabrication_level)
+--   * fabrication (fabrication_level)
 --   * basic memory functions (affects player menu)
 nanosuit_upgrades:register_upgrade("hsw_nanosuit:re_initializer", {
   description = mod.S("Re-Initializer"),

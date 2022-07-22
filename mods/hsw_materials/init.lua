@@ -14,16 +14,17 @@ hsw.DIG_CLASS = {
   nano_element = 1,
   nano_steel = 2,
   carbon_steel = 3,
-  invar = 4,
-  iron = 5,
-  bronze = 6,
-  copper = 7,
-  gold = 7,
-  stone = 8,
-  wood = 9,
-  wme = 10,
+  abyssal_iron = 4,
+  invar = 5,
+  iron = 6,
+  bronze = 7,
+  copper = 8,
+  gold = 8,
+  stone = 9,
+  wood = 10,
+  wme = 11,
   -- or use oddly_breakable_by_hand that works too
-  hand = 11,
+  hand = 12,
 }
 
 hsw.TOOL_MATERIALS = {
@@ -60,6 +61,10 @@ hsw.TOOL_MATERIALS = {
     description = "Invar",
     level = 7,
   },
+  abyssal_iron = {
+    description = "Abyssal-Iron",
+    level = 8,
+  },
   gold = {
     description = "Gold",
     level = 4, -- not a typo, gold is intended to be the same level as copper
@@ -86,7 +91,7 @@ function hsw:make_workbench_material_tool_info(tool_class, material_class)
   }
 end
 
-function hsw:mark_tool_cap_times(_tool_class, material_name)
+function hsw:make_tool_cap_times(_tool_class, material_name)
 end
 
 function hsw:dig_class(name)

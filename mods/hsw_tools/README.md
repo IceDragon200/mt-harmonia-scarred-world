@@ -9,7 +9,7 @@ Other mods may include tools for other features such as programming or diagnosti
 HSW maintains the same digging groups as minetest's stock system, with a few changes:
 
 * There are now 11 levels instead of 4, this almost coincides with the material classes.
-* There is a helper enum provided via hsw_materials for specifying the material level needed to dig a node instead of magic numbers, this also ensures if the game needs to adjust the levels they can be accounted for as well. `hsw:dig_class(name)`
+* There is a helper enum provided via `hsw_materials` for specifying the material level needed to dig a node instead of magic numbers, this also ensures if the game needs to adjust the levels they can be accounted for as well. `hsw:dig_class(name)`
 
 ### Groups
 

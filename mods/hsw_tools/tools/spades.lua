@@ -28,7 +28,7 @@ for material_basename, material in pairs(TOOL_MATERIALS) do
         crumbly = {
           maxlevel = hsw:dig_class(material_basename),
           uses = 10,
-          times = hsw:mark_tool_cap_times(tool_class, material_basename),
+          times = hsw:make_tool_cap_times(tool_class, material_basename),
         },
       },
     },
