@@ -25,11 +25,7 @@ for material_basename, material in pairs(TOOL_MATERIALS) do
       max_drop_level = 1,
 
       groupcaps = {
-        cracky = {
-          maxlevel = hsw:dig_class(material_basename),
-          uses = 10,
-          times = hsw:make_tool_cap_times(tool_class, material_basename),
-        },
+        cracky = hsw:make_tool_capability(tool_class, material_basename),
       },
     },
 

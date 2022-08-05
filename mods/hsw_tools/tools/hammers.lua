@@ -25,11 +25,7 @@ for material_basename, material in pairs(TOOL_MATERIALS) do
       max_drop_level = 1,
 
       groupcaps = {
-        crushy = {
-          maxlevel = hsw:dig_class(material_basename),
-          uses = 10,
-          times = hsw:make_tool_cap_times(tool_class, material_basename),
-        },
+        crushy = hsw:make_tool_capability(tool_class, material_basename),
       },
     },
 

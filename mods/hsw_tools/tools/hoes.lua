@@ -27,11 +27,7 @@ for material_basename, material in pairs(TOOL_MATERIALS) do
       groupcaps = {
         -- hoes are capable of digging crumbly nodes, but they aren't
         -- the best at it, use a spade instead.
-        crumbly = {
-          maxlevel = hsw:dig_class(material_basename),
-          uses = 20,
-          times = hsw:make_tool_cap_times(tool_class, material_basename),
-        },
+        crumbly = hsw:make_tool_capability(tool_class, material_basename),
       },
     },
 
