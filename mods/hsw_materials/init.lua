@@ -10,28 +10,18 @@ hsw = rawget(_G, "hsw") or {}
 --       crumbly = hsw:dig_class("wme"), -- meaning at least a WME tool is required to dig it up
 --     }
 --   })
+local MAX_LEVEL = 12
+
 hsw.DIG_CLASS = {
-  nano_element = 1,
-  nano_steel = 2,
-  carbon_steel = 3,
-  abyssal_iron = 4,
-  invar = 5,
-  iron = 6,
-  bronze = 7,
-  copper = 8,
-  gold = 8,
-  stone = 9,
-  wood = 10,
-  wme = 11,
   -- or use oddly_breakable_by_hand that works too
-  hand = 12,
+  hand = 1,
 }
 
 hsw.TOOL_MATERIALS = {
-  -- material_name = level
+  -- material_class = level
   wme = {
     description = "WME",
-    level = 1,
+    level = 2,
 
     tool_times = {
 
@@ -39,49 +29,53 @@ hsw.TOOL_MATERIALS = {
   },
   wood = {
     description = "Wood",
-    level = 2,
+    level = 3,
   },
   stone = {
     description = "Stone",
-    level = 3,
+    level = 4,
   },
   copper = {
     description = "Copper",
-    level = 4,
-  },
-  bronze = {
-    description = "Bronze",
     level = 5,
-  },
-  iron = {
-    description = "Iron",
-    level = 6,
-  },
-  invar = {
-    description = "Invar",
-    level = 7,
-  },
-  abyssal_iron = {
-    description = "Abyssal-Iron",
-    level = 8,
   },
   gold = {
     description = "Gold",
-    level = 4, -- not a typo, gold is intended to be the same level as copper
+    level = 5, -- not a typo, gold is intended to be the same level as copper
+  },
+  bronze = {
+    description = "Bronze",
+    level = 6,
+  },
+  iron = {
+    description = "Iron",
+    level = 7,
+  },
+  invar = {
+    description = "Invar",
+    level = 8,
+  },
+  abyssal_iron = {
+    description = "Abyssal-Iron",
+    level = 9,
   },
   carbon_steel = {
     description = "Carbon-Steel",
-    level = 9, -- carbon steel claims 8 and 9 for itself
+    level = 10,
   },
   nano_steel = {
     description = "Nano-Steel",
-    level = 11, -- nano steel claims 10 and 11 for itself
+    level = 11,
   },
   nano_element = {
     description = "Nano-Element",
     level = 12,
   },
 }
+
+for material_class, def in pairs(hsw.TOOL_MATERIALS) do
+  hsw.DIG_CLASS[material_class] = def.level
+end
 
 function hsw:make_workbench_material_tool_info(tool_class, material_class)
   return {
@@ -91,7 +85,39 @@ function hsw:make_workbench_material_tool_info(tool_class, material_class)
   }
 end
 
-function hsw:make_tool_cap_times(_tool_class, material_name)
+function hsw:make_tool_cap_times(_tool_class, material_class)
+  local material = self.TOOL_MATERIALS[material_class]
+  local result = {}
+
+  -- So... how do cap times actually work?
+  -- A material class of the same level will take `base_time` to dig a node
+  -- of that very same level, a node higher than the level will be undiggable
+  -- a node with a level less than the tool's level will be mined in half the time
+  local base_time = 2.0
+  local time = base_time
+
+  for i = 1,material.level-1 do
+    local level = material.level - i
+
+    time = time / 2
+    result[level] = time
+  end
+
+  time = base_time
+  for level = material.level,MAX_LEVEL do
+    time = time * 2
+    result[level] = time
+  end
+
+  return result
+end
+
+function hsw:make_tool_capability(tool_class, material_class)
+  return {
+    maxlevel = hsw:dig_class(material_class),
+    uses = 10,
+    times = hsw:make_tool_cap_times(tool_class, material_class)
+  }
 end
 
 function hsw:dig_class(name)
