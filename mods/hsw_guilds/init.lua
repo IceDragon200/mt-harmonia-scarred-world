@@ -4,7 +4,7 @@
 -- * Every player is allowed to create their own guild, however a player cannot
 --   create more than 1 guild, they may hand over control of their guild to a
 --   player who does not have already have a guild.
--- * They cannot delete their guild if there are any other member except
+-- * They cannot delete their guild if there are any other members except
 --   themselves present in it.
 -- * Guilds can affect security features that use the guild_identification feature
 --

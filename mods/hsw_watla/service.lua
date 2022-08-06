@@ -1,6 +1,6 @@
 -- @namespace hsw_watla
-local Vector3 = assert(foundation.com.Vector3)
-local raycast = assert(minetest.raycast)
+local Vector3 = assert(foundation.com.Vector3, "expected vector3 module")
+local raycast = assert(minetest.raycast, "expected raycast function")
 
 -- @class Service
 local Service = foundation.com.Class:extends("hsw_watla.Service")
@@ -20,6 +20,11 @@ local ic = Service.instance_class
 function ic:initialize()
   self.default_look_range = 4
 
+  -- update every 200ms, fast enough to not bother users
+  -- slow enough to not overwhelm the poor server
+  self.m_update_interval = 0.200
+  self.m_elapsed = 0
+  self.m_elapsed_since_update = 0
   -- Callback whenever the player's focus changes to a different node
   -- It is up to the callback to handle any timing changes
   -- @member m_registered_looking_at_cbs: { [String]: LookingAtCallback }
@@ -51,8 +56,19 @@ end
 
 -- Batch processes the players and handles all the looking_at callbacks
 --
--- @spec #update_players(players: { [player_name: String]: PlayerRef }, dtime: Float, trace: Trace): void
-function ic:update_players(players, dtime, trace)
+-- @spec #update_players(
+--   players: { [player_name: String]: PlayerRef },
+--   dtime: Float,
+--   player_assigns: Table,
+--   trace: Trace
+-- ): void
+function ic:update_players(players, dtime, _player_assigns, trace)
+  self.m_elapsed = self.m_elapsed + dtime
+  self.m_elapsed_since_update = self.m_elapsed_since_update + dtime
+  if self.m_elapsed_since_update < self.m_update_interval then
+    return
+  end
+
   local player_properties
   local pos
   local look_dir
@@ -64,18 +80,24 @@ function ic:update_players(players, dtime, trace)
   local wielded_item
   local targets
   local context
+  local span
+  local cb_span
 
   for player_name, player in pairs(players) do
+    if trace then
+      span = trace:span_start(player_name)
+    end
     player_properties = player:get_properties()
-    eye_height = player_properties.eye_height
+    eye_height = assert(player_properties.eye_height, "expected eye height")
     pos = player:get_pos()
     pos.y = pos.y + eye_height
     look_dir = player:get_look_dir()
     look_range = self.default_look_range
 
-    wielded_item_name = player:get_wielded_item():get_name()
-    wielded_item = minetest.registered_items[wielded_item_name]
+    wielded_item = player:get_wielded_item():get_definition()
+    wielded_item_name = nil
     if wielded_item and wielded_item.range then
+      wielded_item_name = wielded_item.name
       look_range = wielded_item.range
     end
 
@@ -119,14 +141,35 @@ function ic:update_players(players, dtime, trace)
       targets = targets,
     }
 
-    for _callback_name, callback in pairs(self.m_registered_context_mod_cbs) do
-      context = callback(context, dtime)
+    for callback_name, callback in pairs(self.m_registered_context_mod_cbs) do
+      if span then
+        cb_span = span:span_start(callback_name)
+      end
+      context = callback(context, self.m_elapsed_since_update, cb_span)
+      if cb_span then
+        cb_span:span_end()
+      end
     end
+    cb_span = nil
 
-    for _callback_name, callback in pairs(self.m_registered_looking_at_cbs) do
-      callback(context, dtime)
+    for callback_name, callback in pairs(self.m_registered_looking_at_cbs) do
+      if span then
+        cb_span = span:span_start(callback_name)
+      end
+      callback(context, self.m_elapsed_since_update, cb_span)
+      if cb_span then
+        cb_span:span_end()
+      end
+    end
+    cb_span = nil
+
+    if span then
+      span:span_end()
+      span = nil
     end
   end
+
+  self.m_elapsed_since_update = 0
 end
 
 hsw_watla.Service = Service

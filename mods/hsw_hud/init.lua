@@ -118,7 +118,7 @@ hsw.watla:register_looking_at("hsw_hud:looking_at/2", function (context, dtime)
     local primary_action_icon = ""
     local secondary_action_icon = ""
 
-    print(dump(context.wielded_item))
+    -- print(dump(context.wielded_item))
 
     if Groups.has_group(context.wielded_item, "data_programmer") then
       print("Has programmer in hand")

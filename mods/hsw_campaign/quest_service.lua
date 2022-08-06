@@ -14,11 +14,11 @@ local QuestEntry = foundation.com.Class:extends("hsw.QuestEntry")
 local ic = QuestEntry.instance_class
 
 -- @spec &load_data(data: Table): QuestEntry
-function QuestEntry:load_data(data)
+function QuestEntry:load_data(quest, data)
   local entry = self:alloc()
 
   entry.m_stage = data.stage
-  entry.m_quest = nil -- needs to be loaded by the quest service
+  entry.m_quest = quest
   entry.m_mailbox = data.mailbox or {}
   entry.m_assigns = {}
   entry:load_assigns(data.assigns)
@@ -245,9 +245,9 @@ function ic:load_data(data)
 
   if data.active_quests then
     for name, data_entry in pairs(data.active_quests) do
-      local entry = QuestEntry:load_data(data_entry)
+      local quest = assert(self.registered_quests[name])
+      local entry = QuestEntry:load_data(quest, data_entry)
       -- TODO: better loading of the quest
-      entry.m_quest = assert(self.registered_quests[name])
       self.m_active_quests[name] = entry
     end
   end
@@ -266,8 +266,15 @@ function ic:save()
   local result = self:dump_data()
   local blob = minetest.write_json(result)
 
-  minetest.mkdir(self.m_dirname)
-  minetest.safe_file_write(self.m_filename, blob)
+  if minetest.mkdir(self.m_dirname) then
+    if minetest.safe_file_write(self.m_filename, blob) then
+      --
+    else
+      minetest.log("error", "could not save file")
+    end
+  else
+    minetest.log("error", "could not create directory, quests not persisted")
+  end
   return self
 end
 

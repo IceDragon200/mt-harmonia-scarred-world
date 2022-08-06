@@ -1,6 +1,6 @@
 --
 -- Block Anchors force certain blocks in the world to remain loaded even
--- if no longers are nearby or in the block.
+-- if no players are nearby or in the block.
 --
 local mod = foundation.new_module("hsw_block_anchor", "0.0.0")
 

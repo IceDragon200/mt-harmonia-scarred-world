@@ -154,7 +154,7 @@ end
 function ic:update_players(players, dt, assigns)
   local upgrades
   local upgrade
-
+  local update
   for player_name, player in pairs(players) do
     upgrades = self:get_player_upgrades(player_name)
 
@@ -162,8 +162,9 @@ function ic:update_players(players, dt, assigns)
       upgrade = self.registered_upgrades[upgrade_name]
 
       if upgrade then
-        if upgrade.update then
-          upgrade:update(player, dt, assigns)
+        update = upgrade.update
+        if update then
+          update(upgrade, player, dt, assigns)
         end
       end
     end

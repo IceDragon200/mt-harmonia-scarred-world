@@ -222,6 +222,9 @@ player_stats:register_stat("fabrication_level", {
   end,
 })
 
+local get_player_stat = player_stats.get_player_stat
+local set_player_stat = player_stats.set_player_stat
+
 -- Options:
 --   no_regen_from_zero -
 --     prevent stats that have a zero or less amount from regenerating
@@ -260,10 +263,10 @@ local function make_gen_stat_function(basename, options)
     for player_name, player in pairs(players) do
       player_assigns = assigns[player_name]
 
-      max = player_stats:get_player_stat(player, max_name)
-      amount = player_stats:get_player_stat(player, amount_name)
-      regen = player_stats:get_player_stat(player, regen_name)
-      degen = player_stats:get_player_stat(player, degen_name)
+      max = get_player_stat(player_stats, player, max_name)
+      amount = get_player_stat(player_stats, player, amount_name)
+      regen = get_player_stat(player_stats, player, regen_name)
+      degen = get_player_stat(player_stats, player, degen_name)
 
       -- *gen
       gen_time = player_assigns[gen_time_name] or 0
@@ -304,7 +307,7 @@ local function make_gen_stat_function(basename, options)
           end
         end
 
-        player_stats:set_player_stat(player, amount_name, amount)
+        set_player_stat(player_stats, player, amount_name, amount)
       end
 
       player_assigns[gen_time_name] = gen_time
@@ -322,7 +325,7 @@ local update_players_hp_gen = make_gen_stat_function("hp", { no_regen_from_zero 
 local update_players_shield_gen = make_gen_stat_function("shield")
 
 -- @private.spec synchronize_base_stats({ [player_name: String]: Player }, dt: Float, Table): void
-local function synchronize_base_stats(players, dt, assigns)
+local function synchronize_base_stats(players, dt, assigns, trace)
   local hp_max
   local breath_max
   local cur_hp_max
@@ -331,8 +334,8 @@ local function synchronize_base_stats(players, dt, assigns)
 
   for _player_name, player in pairs(players) do
     -- synchronize hp_max and breath_max
-    hp_max = player_stats:get_player_stat(player, "hp_max")
-    breath_max = player_stats:get_player_stat(player, "breath_max")
+    hp_max = get_player_stat(player_stats, player, "hp_max")
+    breath_max = get_player_stat(player_stats, player, "breath_max")
     props = player:get_properties()
     cur_hp_max = props.hp_max
     cur_breath_max = props.breath_max
@@ -346,7 +349,7 @@ local function synchronize_base_stats(players, dt, assigns)
   end
 end
 
-local function synchronize_inventory_size(players, dt, assigns)
+local function synchronize_inventory_size(players, dt, assigns, trace)
   local player_assigns
   local new_size
   local inv
@@ -358,7 +361,7 @@ local function synchronize_inventory_size(players, dt, assigns)
   for player_name, player in pairs(players) do
     player_assigns = assigns[player_name]
 
-    new_size = player_stats:get_player_stat(player, "inventory_size")
+    new_size = get_player_stat(player_stats, player, "inventory_size")
 
     inv = player:get_inventory()
 
@@ -383,7 +386,7 @@ local function synchronize_inventory_size(players, dt, assigns)
   end
 end
 
-local function synchronize_physics(players, dt, assigns)
+local function synchronize_physics(players, dt, assigns, trace)
   local changed
   local overrides
   local speed
@@ -398,9 +401,9 @@ local function synchronize_physics(players, dt, assigns)
     end
     overrides = player_physics_cache[player_name]
 
-    speed = player_stats:get_player_stat(player, "speed")
-    jump = player_stats:get_player_stat(player, "jump")
-    gravity = player_stats:get_player_stat(player, "gravity")
+    speed = get_player_stat(player_stats, player, "speed")
+    jump = get_player_stat(player_stats, player, "jump")
+    gravity = get_player_stat(player_stats, player, "gravity")
 
     if speed ~= overrides.speed then
       overrides.speed = speed
@@ -423,13 +426,27 @@ local function synchronize_physics(players, dt, assigns)
   end
 end
 
--- @private.spec update_players({ [player_name: String]: Player }, dt: Float, Table): void
-local function update_players(players, dt, assigns)
-  synchronize_base_stats(players, dt, assigns)
-  synchronize_inventory_size(players, dt, assigns)
-  synchronize_physics(players, dt, assigns)
-  update_players_hp_gen(players, dt, assigns)
-  update_players_shield_gen(players, dt, assigns)
+local stats_elapsed = 0
+local stats_elapsed_since_update = 0
+
+-- @private.spec update_players(
+--   { [player_name: String]: Player },
+--   dtime: Float,
+--   player_assigns: Table,
+--   trace: Trace
+-- ): void
+local function update_players(players, dtime, assigns, trace)
+  stats_elapsed = stats_elapsed + dtime
+  stats_elapsed_since_update = stats_elapsed_since_update + dtime
+  if stats_elapsed_since_update < 0.200 then
+    return
+  end
+  synchronize_base_stats(players, stats_elapsed_since_update, assigns, trace)
+  synchronize_inventory_size(players, stats_elapsed_since_update, assigns, trace)
+  synchronize_physics(players, stats_elapsed_since_update, assigns, trace)
+  update_players_hp_gen(players, stats_elapsed_since_update, assigns, trace)
+  update_players_shield_gen(players, stats_elapsed_since_update, assigns, trace)
+  stats_elapsed_since_update = 0
 end
 
 local function on_player_join(player)

@@ -2,6 +2,9 @@ local mod = hsw_nanosuit
 local nanosuit_upgrades = assert(hsw.nanosuit_upgrades)
 local player_stats = assert(nokore.player_stats)
 
+local get_player_stat = player_stats.get_player_stat
+local set_player_stat = player_stats.set_player_stat
+
 -- Restores basic functionality of the nano-suit, including:
 --   * element accumulation (element_regen, element_max)
 --   * fabrication (fabrication_level)
@@ -170,13 +173,13 @@ nanosuit_upgrades:register_upgrade("hsw_nanosuit:self_repairing_suit", {
 
   update = function (_self, player, dt, assigns)
     local self_repair_timer = (assigns["self_repair_timer"] or 0) + dt
-    local self_repair_rate = player_stats:get_player_stat(player, "self_repair_rate")
-    local self_repair_max_rate = player_stats:get_player_stat(player, "self_repair_max_rate")
+    local self_repair_rate = get_player_stat(player_stats, player, "self_repair_rate")
+    local self_repair_max_rate = get_player_stat(player_stats, player, "self_repair_max_rate")
 
     if self_repair_timer > 0 then
       self_repair_timer = self_repair_timer - 1
-      local hp = player_stats:get_player_stat(player, "hp")
-      local hp_max = player_stats:get_player_stat(player, "hp_max")
+      local hp = get_player_stat(player_stats, player, "hp")
+      local hp_max = get_player_stat(player_stats, player, "hp_max")
       local half_hp = math.floor(hp_max * self_repair_max_rate)
 
       if hp < half_hp then
@@ -186,7 +189,7 @@ nanosuit_upgrades:register_upgrade("hsw_nanosuit:self_repairing_suit", {
         if assigns["self_repair_hp"] > 0 then
           local amount = math.floor(assigns["self_repair_hp"])
           assigns["self_repair_hp"] = assigns["self_repair_hp"] - amount
-          player_stats:set_player_stat(player, "hp", math.min(hp + amount, hp_max))
+          set_player_stat(player_stats, player, "hp", math.min(hp + amount, hp_max))
         end
       end
     end

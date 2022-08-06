@@ -15,6 +15,9 @@ nokore.player_data_service:register_domain(DATA_DOMAIN, {
   save_method = "marshall"
 })
 
+local player_stats = assert(nokore.player_stats)
+local get_player_stat = player_stats.get_player_stat
+
 -- though suit upgrades have a 'stat' field, it's not a first-class feature
 -- the below callback force refreshes any stats that the suit affects when applied
 hsw.nanosuit_upgrades:register_on_upgrade_unlocked(
@@ -23,7 +26,7 @@ hsw.nanosuit_upgrades:register_on_upgrade_unlocked(
     if upgrade.stats then
       for name, _ in pairs(upgrade.stats) do
         -- force the stat to refresh
-        nokore.player_stats:get_player_stat(player, name, true)
+        get_player_stat(player_stats, player, name, true)
       end
     end
   end
