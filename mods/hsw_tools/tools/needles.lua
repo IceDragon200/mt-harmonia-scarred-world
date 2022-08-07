@@ -19,7 +19,7 @@ for material_basename, material in pairs(TOOL_MATERIALS) do
       wb_tool = 1,
     },
 
-    inventory_image = "hsw_tool_needle." .. material_basename .. ".png",
+    inventory_image = "hsw_tools_needle." .. material_basename .. ".png",
 
     workbench_tool = hsw:make_workbench_material_tool_info(tool_class, material_basename),
   })

@@ -21,7 +21,7 @@ for material_basename, material in pairs(TOOL_MATERIALS) do
       ["mat_"..material_basename] = 1,
     },
 
-    inventory_image = "hsw_tool_gun." .. material_basename .. ".png",
+    inventory_image = "hsw_tools_gun." .. material_basename .. ".png",
 
     -- tool_capabilities = {
     --   max_drop_level = 1,
