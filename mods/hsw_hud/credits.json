@@ -1,0 +1,17 @@
+{
+  "authors": {
+    "GameIconsNet": {
+      "url": "https://game-icons.net"
+    }
+  },
+  "files": {
+    "textures/punch-blast.png": {
+      "authors": ["GameIconsNet"],
+      "references": [
+        {
+          "url": "https://game-icons.net/1x1/lorc/punch-blast.html"
+        }
+      ]
+    }
+  }
+}
