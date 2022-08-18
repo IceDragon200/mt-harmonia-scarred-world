@@ -378,9 +378,9 @@ local function synchronize_inventory_size(players, dt, assigns, trace)
       if next(remlist) and not InventoryList.is_empty(remlist) then
         hsw.spawn_element_safe_box_nearby(player, remlist)
       end
-      print("hsw_stats", "synchronize_inventory_size", player_name, "decreased size", new_size)
+      -- print("hsw_stats", "synchronize_inventory_size", player_name, "decreased size", new_size)
     elseif size < new_size then
-      print("hsw_stats", "synchronize_inventory_size", player_name, "increased size", new_size)
+      -- print("hsw_stats", "synchronize_inventory_size", player_name, "increased size", new_size)
       inv:set_size("main", new_size)
     end
   end
