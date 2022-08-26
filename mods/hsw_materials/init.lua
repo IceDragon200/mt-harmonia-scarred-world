@@ -89,7 +89,15 @@ end
 -- @spec &make_tool_cap_times(tool_class: String, material_class: String, options: Table): Table
 function hsw:make_tool_cap_times(_tool_class, material_class, options)
   options = options or {}
-  local material = assert(self.TOOL_MATERIALS[material_class], "expected material class")
+  local material = self.TOOL_MATERIALS[material_class]
+  if material_class == "hand" then
+    material = {
+      level = 1,
+    }
+  end
+  if not material then
+    error("expected material class to exist material_class=" .. material_class)
+  end
   local result = {}
 
   -- So... how do cap times actually work?
