@@ -26,3 +26,15 @@ end
 nokore.node_sounds:register_new("default", {})
 
 nokore.node_sounds:register_new("metal", {})
+
+function nokore.make_tool_cap_times(tool_class, material_class, options)
+  return hsw:make_tool_cap_times(tool_class, material_class, options)
+end
+
+function nokore.make_tool_capability(tool_class, material_class, options)
+  return hsw:make_tool_capability(tool_class, material_class, options)
+end
+
+function nokore.dig_class(material_class)
+  return hsw:dig_class(material_class)
+end
