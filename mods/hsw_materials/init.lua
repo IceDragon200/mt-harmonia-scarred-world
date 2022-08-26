@@ -1,4 +1,5 @@
 local mod = foundation.new_module("hsw_materials", "0.1.0")
+local Easers = assert(foundation.com.Easers)
 
 hsw = rawget(_G, "hsw") or {}
 
@@ -14,7 +15,7 @@ local MAX_LEVEL = 12
 
 hsw.DIG_CLASS = {
   -- or use oddly_breakable_by_hand that works too
-  hand = 1,
+  hand = 12,
 }
 
 hsw.TOOL_MATERIALS = {
@@ -74,7 +75,7 @@ hsw.TOOL_MATERIALS = {
 }
 
 for material_class, def in pairs(hsw.TOOL_MATERIALS) do
-  hsw.DIG_CLASS[material_class] = def.level
+  hsw.DIG_CLASS[material_class] = 1 + MAX_LEVEL - def.level
 end
 
 function hsw:make_workbench_material_tool_info(tool_class, material_class)
@@ -85,38 +86,42 @@ function hsw:make_workbench_material_tool_info(tool_class, material_class)
   }
 end
 
-function hsw:make_tool_cap_times(_tool_class, material_class)
-  local material = self.TOOL_MATERIALS[material_class]
+-- @spec &make_tool_cap_times(tool_class: String, material_class: String, options: Table): Table
+function hsw:make_tool_cap_times(_tool_class, material_class, options)
+  options = options or {}
+  local material = assert(self.TOOL_MATERIALS[material_class], "expected material class")
   local result = {}
 
   -- So... how do cap times actually work?
   -- A material class of the same level will take `base_time` to dig a node
   -- of that very same level, a node higher than the level will be undiggable
-  -- a node with a level less than the tool's level will be mined in half the time
-  local base_time = 2.0
-  local time = base_time
+  -- a node with a level less than the tool's level will be mined in less time
+  local base_time = options.base_time or 1.2
+  local min_time = options.min_time or 0.6
+  local diff_time = base_time - min_time
 
-  for i = 1,material.level-1 do
-    local level = material.level - i
+  local dig_level = 1 + MAX_LEVEL - material.level
+  local max_diff = MAX_LEVEL - dig_level
 
-    time = time / 2
-    result[level] = time
-  end
-
-  time = base_time
-  for level = material.level,MAX_LEVEL do
-    time = time * 2
-    result[level] = time
+  for i = dig_level,MAX_LEVEL do
+    local diff = i - dig_level
+    local time = base_time
+    if max_diff > 0 then
+      time = time - diff_time * Easers.quad_out(diff / max_diff)
+    end
+    result[i] = time
   end
 
   return result
 end
 
-function hsw:make_tool_capability(tool_class, material_class)
+function hsw:make_tool_capability(tool_class, material_class, options)
+  options = options or {}
+
   return {
-    maxlevel = hsw:dig_class(material_class),
-    uses = 10,
-    times = hsw:make_tool_cap_times(tool_class, material_class)
+    -- maxlevel = hsw:dig_class(material_class),
+    uses = options.uses or 0,
+    times = hsw:make_tool_cap_times(tool_class, material_class, options)
   }
 end
 
