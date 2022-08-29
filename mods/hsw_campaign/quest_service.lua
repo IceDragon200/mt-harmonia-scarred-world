@@ -2,7 +2,8 @@
 --
 -- Quest registry and execution service
 --
--- Quests world running items that can change over time, multiple quests can be active at a time.
+-- Quests are world running items that can change over time, multiple quests can be active at a
+-- time.
 -- Other components can notify a quest by pushing messages to that quest.
 -- They will be processed on the quest's next step
 --
@@ -269,6 +270,7 @@ function ic:save()
   if minetest.mkdir(self.m_dirname) then
     if minetest.safe_file_write(self.m_filename, blob) then
       --
+      minetest.log("info", "saved quests")
     else
       minetest.log("error", "could not save file")
     end
