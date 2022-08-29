@@ -8,8 +8,8 @@ local mod = hsw_milestones
 local Milestone = foundation.com.Class:extends("hsw.Milestone")
 local ic = Milestone.instance_class
 
--- Event sent to on_milestone_unlocked callbacks when a milestone is unlocked for some 'thing'
--- The thing_id is whatever it was unlocked for, milestone_id is the milestone that was unlocked
+-- Events sent to on_milestone_unlocked callbacks when a milestone is unlocked for some 'thing'
+-- The thing_id is whatever it was unlocked for, milestone_id is the milestone that was unlocked.
 -- milestone contains the Milestone object, while milestone_inst contains the MilestoneInstance
 -- associated with the 'thing'.
 --
