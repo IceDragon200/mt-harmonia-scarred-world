@@ -85,7 +85,7 @@ nokore_player_inv.update_player_inventory_tab("default", {
     local inv_name = hsw_equipment.INVENTORY_NAME
 
     -- since yatm_core is available we can just setup a split panel here
-    return yatm.formspec_render_split_inv_panel(player, 10, 4, { bg = "default", formspec_version = false }, function (loc, rect)
+    return yatm.formspec_render_split_inv_panel(player, nil, 4, { bg = "default", formspec_version = false }, function (loc, rect)
       if loc == "main_body" then
         local formspec = ""
         local x
@@ -131,7 +131,7 @@ nokore_player_inv.register_player_inventory_tab("element_craft", {
     local cio = fspec.calc_inventory_offset
 
     -- since yatm_core is available we can just setup a split panel here
-    return yatm.formspec_render_split_inv_panel(player, 8, 4, { bg = "default", formspec_version = false }, function (loc, rect)
+    return yatm.formspec_render_split_inv_panel(player, nil, 4, { bg = "default", formspec_version = false }, function (loc, rect)
       if loc == "main_body" then
         return ""
       elseif loc == "footer" then
@@ -162,7 +162,7 @@ nokore_player_inv.register_player_inventory_tab("nanosuit", {
     local cio = fspec.calc_inventory_offset
 
     -- since yatm_core is available we can just setup a split panel here
-    return yatm.formspec_render_split_inv_panel(player, 8, 4, { bg = "default", formspec_version = false }, function (loc, rect)
+    return yatm.formspec_render_split_inv_panel(player, nil, 4, { bg = "default", formspec_version = false }, function (loc, rect)
       if loc == "main_body" then
         return ""
       elseif loc == "footer" then
