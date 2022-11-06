@@ -29,6 +29,26 @@ HSW also has some groups of its own:
 * `sawable` - materials that can be cut by a saw, some nodes may also support the choppy group and drop different materials depending on the groups
 * `pryable` - materials that can be lifted or opened up using a crowbar.
 
+## Special Callbacks
+
+Some tools have secondary actions and may invoke callbacks on target nodes:
+
+### Crowbars
+
+Crowbars will call the on_pry/4 callback on the target node.
+
+There is no "default" behaviour for on_pry, it's up to the target node to act on it:
+
+```lua
+minetest.register_node("my_mod:my_node", {
+  ...
+
+  on_pry = function (pos, node, user, pointed_thing)
+    ...
+  end,
+})
+```
+
 ## Texture Credits
 
 See the [credits.json](credits.json) for more information
