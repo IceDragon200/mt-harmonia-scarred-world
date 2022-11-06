@@ -655,8 +655,9 @@ hsw.register_workbench(mod:make_name("workbench_carbon_steel"), {
   description = mod.S("Carbon Steel Workbench"),
 
   groups = {
+    cracky = nokore.dig_class("iron"),
+    --
     material_carbon_steel = 1,
-    cracky = 1,
   },
 
   workbench_info = {
@@ -673,8 +674,8 @@ hsw.register_workbench(mod:make_name("workbench_nano_element"), {
   description = mod.S("Nano Element Workbench"),
 
   groups = {
+    cracky = nokore.dig_class("carbon_steel"),
     material_nano_element = 1,
-    cracky = 1,
   },
 
   workbench_info = {

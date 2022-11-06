@@ -8,7 +8,8 @@ mod:register_node("farmland_dry", {
   description = "Farmland [Dry]",
 
   groups = {
-    crumbly = 1,
+    crumbly = nokore.dig_class("wme"),
+    --
     farmland = 1,
     dry = 1,
   },
@@ -24,7 +25,8 @@ mod:register_node("farmland_moist", {
   drops = mod:make_name("farmland_dry"),
 
   groups = {
-    crumbly = 1,
+    crumbly = nokore.dig_class("wme"),
+    --
     farmland = 1,
     wet = 1,
   },
