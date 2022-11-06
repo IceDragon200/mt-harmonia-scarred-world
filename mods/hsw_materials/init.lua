@@ -1,4 +1,5 @@
 local mod = foundation.new_module("hsw_materials", "0.1.0")
+
 local Easers = assert(foundation.com.Easers)
 
 hsw = rawget(_G, "hsw") or {}
@@ -136,3 +137,5 @@ end
 function hsw:dig_class(name)
   return assert(self.DIG_CLASS[name])
 end
+
+mod:require("items.lua")
