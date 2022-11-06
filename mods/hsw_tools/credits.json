@@ -1,10 +1,15 @@
 {
   "authors": {
     "@IceDragon200": {
-      "url": "https://github.com/IceDragon200"
+      "urls": [
+        "https://github.com/IceDragon200"
+      ]
     },
     "PixelPerfection": {
-      "url": "https://github.com/Wallbraker/PixelPerfection"
+      "urls": [
+        "https://github.com/Wallbraker/PixelPerfection",
+        "https://www.curseforge.com/minecraft/texture-packs/pixel-perfection-legacy"
+      ]
     }
   },
   "files": {
