@@ -32,9 +32,63 @@ local ENCODE_METHOD = mod.storage:get_string("encode_method")
 
 assert(ENCODE_METHOD == 'MRSH' or ENCODE_METHOD == 'APAK')
 
+--
+-- A transaction represents a set of actions that must be written to the variables
+-- all at once before saving.
+--
+-- @class Campaign.Variables.Transaction
+local Transaction = foundation.com.Class:extends("hsw.Campaign.Variables.Transaction")
+local ic = Transaction.instance_class
+
+-- @spec #initialize(Variables): void
+function ic:initialize(variables)
+  -- The instance of the Variables class that the transactions is being executed against
+  -- @member m_variables: Variables
+  self.m_variables = variables
+
+  self.m_actions = {}
+  self.m_changes = {}
+end
+
+-- @spec #get(key: String): Any
+function ic:get(key)
+  local action = self.m_actions[key]
+
+  if action == "put" then
+    return self.m_changes[key]
+  elseif action == "delete" then
+    return nil
+  end
+
+  return self.variables:get(key)
+end
+
+-- @spec #put(key: String, value: Any): self
+function ic:put(key, value)
+  self.m_actions[key] = "put"
+  self.m_changes[key] = value
+  return self
+end
+
+-- @spec #delete(key: String): self
+function ic:delete(key)
+  self.m_actions[key] = "delete"
+  self.m_changes[key] = nil
+  return self
+end
+
+--
+-- Apply a transaction to the underlying variables storage
+--
+-- @spec #commit(): void
+function ic:commit()
+  return self.variables:commit_transaction(self)
+end
+
 -- @class Campaign.Variables
 local Variables = foundation.com.Class:extends("hsw.Campaign.Variables")
 local ic = Variables.instance_class
+Variables.Transaction = Transaction
 
 -- @spec #initialize(String): void
 function ic:initialize(filename)
@@ -111,6 +165,39 @@ end
 -- @spec #delete(key: String): (self, saved?: Boolean)
 function ic:delete(key)
   self.m_kv_store:delete(key)
+  return self:save()
+end
+
+-- Prepares a transaction on the variables store, if no callback is provided
+-- the Transaction object is returned instead.
+-- If the callback is provided the transaction will be passed as the first argument
+-- of the call and will immediately be committed upon return.
+--
+-- @spec transaction(): Transaction
+-- @spec transaction(callback: Function/1): (self, saved?: Boolean)
+function ic:transaction(callback)
+  local transaction = Transaction:new(self)
+  if callback then
+    callback(transaction)
+    return self:commit_transaction(transaction)
+  else
+    return transaction
+  end
+end
+
+-- Commit a given transaction to the variables store
+--
+-- @spec #commit_transaction(Transaction): (self, saved?: Boolean)
+function ic:commit_transaction(transaction) do
+  local value
+  for key, action in pairs(transaction.m_actions) do
+    if action == "put" then
+      value = transaction.m_changes[key]
+      self.m_kv_store:put(key, value)
+    elseif action == "delete" then
+      self.m_kv_store:delete(key)
+    end
+  end
   return self:save()
 end
 

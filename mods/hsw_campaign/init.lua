@@ -1,7 +1,7 @@
 --
 -- HSW Campaign
 --
-local mod = foundation.new_module("hsw_campaign", "0.0.1")
+local mod = foundation.new_module("hsw_campaign", "0.0.2")
 
 -- Perform sanity tests before continuing
 -- First of all determine if the player is playing in single player or multiplayer
