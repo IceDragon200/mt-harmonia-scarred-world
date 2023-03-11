@@ -188,7 +188,7 @@ end
 -- Commit a given transaction to the variables store
 --
 -- @spec #commit_transaction(Transaction): (self, saved?: Boolean)
-function ic:commit_transaction(transaction) do
+function ic:commit_transaction(transaction)
   local value
   for key, action in pairs(transaction.m_actions) do
     if action == "put" then
