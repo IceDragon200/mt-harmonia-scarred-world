@@ -1,0 +1,79 @@
+name: Release
+on:
+  push:
+    tags:
+    - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  build-game-and-modpacks:
+    name: Build Game
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # This is a straight forward pipeline, if anything fails, the whole thing should.
+      fail-fast: true
+      # For now we'll only build for linux
+      # since the binaries are not being built at the moment
+      matrix:
+        build: ["any"]
+        include:
+        - build: any
+          os: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        submodules: true
+
+    - name: Prepare Modpack Releases
+      run: |-
+        make release.modpacks
+
+    - name: Prepare Game Release
+      run: |-
+        make release.game
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: dist-${{ matrix.build }}
+        path: _build
+
+  release:
+    name: Release Game
+
+    needs: ["build-game-and-modpacks"]
+    runs-on: ubuntu-latest
+
+    steps:
+      # We don't really need the sources for the next step, we already have
+      # everything we need from the artifact
+      # - name: Checkout sources
+      #   uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+
+      - name: Arrange archives
+        run: |-
+          source=$(pwd)
+          mkdir -p "${source}/dist"
+          for dir in dist-* ; do
+            platform=${dir#"dist-"}
+            pkg_basename="hsw-${platform}-${GITHUB_REF_NAME}"
+
+            for f in ${dir}/* ; do
+              pkgname="${pkg_basename}-$(basename \"$f\")"
+
+              mv -v "${f}" "${source}/dist/${pkgname}"
+            done
+          done
+
+      - name: Upload archives to release
+        uses: svenstaro/upload-release-action@v2
+        # if: env.preview == 'false'
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/*
+          file_glob: true
+          tag: ${{ github.ref_name }}
+          overwrite: true

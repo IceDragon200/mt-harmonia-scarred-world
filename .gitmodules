@@ -11,5 +11,5 @@
   path = mods/yatm
   url = https://github.com/IceDragon200/mt-yatm
 [submodule "mods/mobkit"]
-  path = mods/mobit
+  path = mods/mobkit
   url = https://github.com/TheTermos/mobkit
