@@ -117,16 +117,16 @@ function ic:has_counters()
   return next(self.counters) ~= nil
 end
 
--- Determines if a milestone has specific counter
+-- Determines if a milestone has a specific counter
 --
 -- @spec #has_counter(name: String): Boolean
 function ic:has_counter(name)
   return self.counters[name] ~= nil
 end
 
--- Attempts to change the value of a counter, if milestone has no counters or
+-- Attempts to change the value of a counter, if the milestone has no counters or
 -- does not have the counter specified it will return false.
--- Otherwise it will change the value.
+-- Otherwise it will change the value and return true.
 --
 -- @spec #change_counter(name: String, value: Number): Boolean
 function ic:change_counter(name, value)
