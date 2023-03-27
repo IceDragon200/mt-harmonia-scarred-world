@@ -12,10 +12,24 @@ local table_freeze = assert(foundation.com.table_freeze)
 
 local EMPTY_TABLE = table_freeze({})
 
+-- @class Message
+local Message = foundation.com.Class:extends("hsw.Conversation.Message")
+do
+  local ic = Message.instance_class
+
+  -- @spec #initialize(Table): void
+  function ic:initialize(options)
+    assert(type(options) == "table", "expected a table with message data")
+
+    self.body = assert(options.body)
+  end
+end
+
 --
 --
 -- @class Conversation
 local Conversation = foundation.com.Class:extends("hsw.Conversation")
+Conversation.Message = Message
 do
   local ic = Conversation.instance_class
 
@@ -24,8 +38,18 @@ do
     assert(type(name) == "string", "expected a name for the conversation")
     assert(type(options) == "table", "expected a table with conversation data")
 
+    -- Effectively the ID of the conversation, not to be confused with its
+    -- subject.
     -- @member name: String
     self.name = name
+
+    -- @member from: String
+    self.from = assert(options.from, "expected conversation to have a sender name")
+
+    -- What is this conversation about or it's display name?
+    --
+    -- @member subject: String
+    self.subject = assert(options.subject, "expected conversation to have a subject")
 
     -- @member messages: Message[]
     self.messages = {}
@@ -52,8 +76,10 @@ do
     self.registered_conversations = {}
   end
 
-  -- @spec #register_conversation(name: String, conversation: Table): Conversation
+  -- @spec #register_conversation(name: String, def: Table): Conversation
   function ic:register_conversation(name, def)
+    assert(type(name) == "string", "expected a name for conversation")
+
     if self.registered_conversations[name] then
       error("Conversation already registered name=" .. name)
     end
@@ -70,6 +96,16 @@ do
     self.registered_conversations[name] = nil
   end
 
+  -- Retrieve a Conversation by its registered name (i.e. it's id effectively)
+  --
+  -- @spec #get_conversation(name: String): Conversation
+  function ic:get_conversation(name)
+    return self.registered_conversations[name]
+  end
+
+  -- Unlocks a specific conversation for a player.
+  -- If the conversation is already unlocked the ids will simply be refreshed.
+  --
   -- @spec #unlock_conversation_for(name: String, player: PlayerRef): Boolean
   function ic:unlock_conversation_for(name, player)
     local conversation = self.registered_conversations[name]
@@ -98,6 +134,9 @@ do
     return false
   end
 
+  -- Remove a conversation from the list, note that adding the conversation again later
+  -- will place at the end of the id list
+  --
   -- @spec #remove_conversation_for(name: String, player: PlayerRef): Boolean
   function ic:remove_conversation_for(name, player)
     local conversation = self.registered_conversations[name]
@@ -128,8 +167,10 @@ do
     return false
   end
 
-  -- @spec #conversation_ids_for(player: PlayerRef): String[]
-  function ic:conversation_ids_for(player)
+  -- Retrieve the unlocked conversation ids for a specified player (if they exist).
+  --
+  -- @spec #get_conversation_ids_for(player: PlayerRef): String[]
+  function ic:get_conversation_ids_for(player)
     local player_name = player:get_player_name()
 
     local kv = player_data_service:get_player_domain_kv(player_name, self.m_data_domain)

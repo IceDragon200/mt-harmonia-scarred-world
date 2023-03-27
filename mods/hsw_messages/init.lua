@@ -16,3 +16,5 @@ mod.messages = mod.MessagesService:new(DATA_DOMAIN)
 hsw = rawget(_G, "hsw") or {}
 
 hsw.messages = mod.messages
+
+mod:require("test_conversations.lua")
