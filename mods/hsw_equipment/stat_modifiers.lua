@@ -42,16 +42,18 @@ for _, stat_name in ipairs(STATS) do
       local def
       local stat
 
-      for _,item_stack in pairs(list) do
-        def = item_stack:get_definition()
+      if list then
+        for _,item_stack in pairs(list) do
+          def = item_stack:get_definition()
 
-        if def and def.equipment then
-          equipment = def.equipment
-          if equipment.stats then
-            stat = equipment.stats[stat_name]
-            if stat then
-              if stat[modname] then
-                value = stat[modname](equipment, player, value)
+          if def and def.equipment then
+            equipment = def.equipment
+            if equipment.stats then
+              stat = equipment.stats[stat_name]
+              if stat then
+                if stat[modname] then
+                  value = stat[modname](equipment, player, value)
+                end
               end
             end
           end

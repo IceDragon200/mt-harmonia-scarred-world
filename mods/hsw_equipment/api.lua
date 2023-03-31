@@ -73,7 +73,7 @@ mod.EQUIPMENT_SLOT_TO_TYPE = table_freeze({
 nokore.player_service:register_on_player_join("hsw_equipment:on_player_join", function (player)
   local inv = player:get_inventory()
 
-  inv:set_size(INVENTORY_NAME, mod.INVENTORY_SIZE)
+  inv:set_size(mod.INVENTORY_NAME, mod.INVENTORY_SIZE)
 end)
 
 --
@@ -115,7 +115,7 @@ function mod.can_player_equip_in_slot(player, slot_id, item_stack)
 
   local slot_name = mod.EQUIPMENT_SLOT_ID_TO_NAME[slot_id]
   if slot_name then
-    local equipped = inv:get_stack(INVENTORY_NAME, slot_id)
+    local equipped = inv:get_stack(mod.INVENTORY_NAME, slot_id)
 
     if is_item_stack_cursed(equipped) then
       return false, "current equipment is cursed"
@@ -135,7 +135,7 @@ function mod.can_player_unequip_in_slot(player, slot_id)
 
   local slot_name = mod.EQUIPMENT_SLOT_ID_TO_NAME[slot_id]
   if slot_name then
-    local equipped = inv:get_stack(INVENTORY_NAME, slot_id)
+    local equipped = inv:get_stack(mod.INVENTORY_NAME, slot_id)
 
     if is_item_stack_cursed(equipped) then
       return false, "current equipment is cursed"
@@ -173,9 +173,9 @@ function mod.player_equip_item(player, slot_id, item_stack)
 
   local inv = player:get_inventory()
 
-  local old_stack = inv:get_stack(INVENTORY_NAME, slot_id)
+  local old_stack = inv:get_stack(mod.INVENTORY_NAME, slot_id)
   local equip = item_stack:take_item(1)
-  inv:set_stack(INVENTORY_NAME, slot_id, equip)
+  inv:set_stack(mod.INVENTORY_NAME, slot_id, equip)
 
   return true, {
     old_item_stack = old_stack,
@@ -183,17 +183,17 @@ function mod.player_equip_item(player, slot_id, item_stack)
   }
 end
 
--- @spec player_equip_item(PlayerRef, slot_id: Integer): (Boolean, Table)
+-- @spec player_unequip_item(PlayerRef, slot_id: Integer): (Boolean, Table)
 function mod.player_unequip_item(player, slot_id)
-  if not mod.can_player_equip_in_slot(player, slot_id) then
+  if not mod.can_player_unequip_in_slot(player, slot_id) then
     return false, {
       error = "cannot unequip",
     }
   end
 
   local inv = player:get_inventory()
-  local old_stack = inv:get_stack(INVENTORY_NAME, slot_id)
-  inv:set_stack(INVENTORY_NAME, slot_id, ItemStack())
+  local old_stack = inv:get_stack(mod.INVENTORY_NAME, slot_id)
+  inv:set_stack(mod.INVENTORY_NAME, slot_id, ItemStack())
 
   return true, {
     old_item_stack = old_stack,
