@@ -125,8 +125,15 @@ end)
 -- Nanosuit Hooks
 --
 hsw.nanosuit_upgrades:register_on_upgrade_unlocked(
-  "hsw_hud:refresh_hud",
+  "hsw_hud:refresh_hud_on_unlocked",
   function (player, upgrade)
-    nokore_player_inv:refresh_player_inventory_formspec(player)
+    nokore_player_inv.refresh_player_inventory_formspec(player)
+  end
+)
+
+hsw.nanosuit_upgrades:register_on_upgrade_locked(
+  "hsw_hud:refresh_hud_on_locked",
+  function (player, upgrade)
+    nokore_player_inv.refresh_player_inventory_formspec(player)
   end
 )
