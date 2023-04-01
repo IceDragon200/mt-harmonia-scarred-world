@@ -10,7 +10,7 @@ WorkbenchRequirement.ERR_BENCH_CLASS_MISMATCH = 2
 
 -- @spec #initialize(Table): void
 function ic:initialize(def)
-  -- bench class denotes what 'type' or workbench is required
+  -- bench class denotes what 'type' of workbench is required
   self.bench_class = def.bench_class or 'any'
 
   -- recommended workbench level

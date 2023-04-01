@@ -13,8 +13,7 @@ register_tool("tool_name", {
 })
 ```
 
-This lets workbenches know which tool is being used and which recipe list to
-look in for the result.
+This lets workbenches know which tool is being used and which recipe list to look in for the result.
 
 __Note__ tool classes need not be registered with any registry, so adding new classes is a viable option for developers.
 

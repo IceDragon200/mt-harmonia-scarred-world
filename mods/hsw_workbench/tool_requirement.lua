@@ -16,7 +16,7 @@ ToolRequirement.ERR_MISSING_GROUP = 3
 
 -- @spec #initialize(Table): void
 function ic:initialize(def)
-  -- bench class denotes what 'type' or workbench is required
+  -- bench class denotes what 'type' of workbench is required
   self.tool_class = assert(def.tool_class, "expected a tool class")
 
   -- optional required tool groups
