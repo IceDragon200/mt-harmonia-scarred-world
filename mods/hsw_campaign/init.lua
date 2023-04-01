@@ -1,7 +1,7 @@
 --
 -- HSW Campaign
 --
-local mod = foundation.new_module("hsw_campaign", "0.0.2")
+local mod = foundation.new_module("hsw_campaign", "0.1.0")
 
 -- Perform sanity tests before continuing
 -- First of all determine if the player is playing in single player or multiplayer
@@ -10,7 +10,7 @@ if minetest.is_singleplayer() then
   -- nothing to do, this is single player
   minetest.log("info", "Campaign is in single player")
 else
-  minetest.log("warning", "Harmonia Scarred World Campaign should not be played in multiplayer")
+  minetest.log("warning", "Harmonia Scarred World Campaign may not work correctly in multiplayer")
 end
 
 mod.storage = minetest.get_mod_storage()
@@ -28,9 +28,17 @@ mod:require("chapters.lua")
 -- Quests had to be delayed until this point in case the chapters had to load something
 mod.quests:load()
 
-if not mod.storage:get("story_chapter") then
-  mod.quests:add_active_quest("hsw:ch0")
-  mod.storage:set_string("story_chapter", "hsw:ch0")
+do
+  local old_story_chapter = mod.storage:get("story_chapter")
+  if old_story_chapter == "hsw:ch0" then
+    mod.quests:remove_active_quest(old_story_chapter)
+    old_story_chapter = nil
+  end
+
+  if not old_story_chapter then
+    mod.quests:add_active_quest("hsw:ch000_initialize")
+    mod.storage:set_string("story_chapter", "hsw:ch000_initialize")
+  end
 end
 
 -- Finally upsert the campaign version

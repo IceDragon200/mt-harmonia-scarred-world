@@ -19,7 +19,7 @@ function QuestEntry:load_data(quest, data)
   local entry = self:alloc()
 
   entry.m_stage = data.stage
-  entry.m_quest = quest
+  entry.quest = quest
   entry.m_mailbox = data.mailbox or {}
   entry.m_assigns = {}
   entry:load_assigns(data.assigns)
@@ -29,11 +29,29 @@ end
 
 -- @spec #initialize(Quest): void
 function ic:initialize(quest)
+  -- @member quest: Quest
+  self.quest = quest
+  -- @protected.member m_stage: String
   self.m_stage = "start"
-  self.m_quest = quest
+  -- @protected.member m_mailbox: Any[]
   self.m_mailbox = {}
+  -- @protected.member m_assigns: Table
   self.m_assigns = {}
+  -- @member is_completed: Boolean
   self.is_completed = false
+end
+
+-- Effectively the destructor, called:
+--   * After a quest is completed
+--   * Before the quest is removed due to completion
+--
+-- @spec #teardown(reason: String): self
+function ic:teardown(reason)
+  self.m_stage = "teardown"
+  if self.quest.on_teardown then
+    self.quest.on_teardown(self, self.m_assigns, reason)
+  end
+  return self
 end
 
 -- @spec #update(dtime: Float): self
@@ -43,7 +61,7 @@ function ic:update(dtime)
     -- set the stage to main
     self.m_stage = "main"
     -- call the on_start callback with the assigns officially starting off the quest
-    self.m_quest.on_start(self, self.m_assigns)
+    self.quest.on_start(self, self.m_assigns)
   end
 
   -- check if the quest's mailbox has any messages
@@ -56,18 +74,18 @@ function ic:update(dtime)
 
     -- process each message by the quest
     for _, message in ipairs(mailbox) do
-      self.m_quest.on_message(self, self.m_assigns, message)
+      self.quest.on_message(self, self.m_assigns, message)
     end
   end
 
-  self.m_quest.update(self, self.m_assigns, dtime)
+  self.quest.update(self, self.m_assigns, dtime)
 
   return self
 end
 
 -- Triggers the quest's on_completed handler
 function ic:trigger_on_completed()
-  self.m_quest.on_completed(self, self.m_assigns)
+  self.quest.on_completed(self, self.m_assigns)
 end
 
 -- Marks the quest as completed, its completion handlers will be executed
@@ -81,13 +99,13 @@ end
 
 -- @spec #load_assigns(assigns: Table | nil): self
 function ic:load_assigns(assigns)
-  self.m_quest.load_assigns(self, self.m_assigns, assigns)
+  self.quest.load_assigns(self, self.m_assigns, assigns)
   return self
 end
 
 -- @spec #dump_assigns(): Table
 function ic:dump_assigns()
-  return self.m_quest.dump_assigns(self, self.m_assigns)
+  return self.quest.dump_assigns(self, self.m_assigns)
 end
 
 function ic:dump_data()
@@ -175,24 +193,46 @@ end
 
 -- @spec #push_quest_message(quest_name: String, message: Any): Boolean
 function ic:push_quest_message(quest_name, message)
-  if self.m_active_quests[name] then
-    table.insert(self.m_active_quests[name].mailbox, message)
+  local entry = self.m_active_quests[quest_name]
+  if entry then
+    table.insert(entry.mailbox, message)
     return true
   end
   return false
 end
 
--- @spec #add_active_quest(name: String): QuestEntry
-function ic:add_active_quest(name)
-  local quest = self.registered_quests[name]
-  if not quest then
-    error("expected quest `"..name.."` to exist")
+-- @spec #add_active_quest(quest_name: String): QuestEntry
+function ic:add_active_quest(quest_name)
+  local entry = self.m_active_quests[quest_name]
+
+  if entry then
+    return entry
   end
 
-  local entry = QuestEntry:new(quest)
-  self.m_active_quests[name] = entry
+  local quest = self.registered_quests[quest_name]
+  if not quest then
+    error("expected quest to exist name=" .. quest_name)
+  end
+
+  entry = QuestEntry:new(quest)
+  self.m_active_quests[quest_name] = entry
 
   return entry
+end
+
+-- Remove the active quest without alerting it about its removal, this should not be used normally.
+--
+-- @spec #remove_active_quest(quest_name: String): QuestEntry
+function ic:remove_active_quest(quest_name)
+  local entry = self.m_active_quests[quest_name]
+
+  if entry then
+    self.m_active_quests[quest_name] = nil
+    entry:teardown("removed")
+    return entry
+  end
+
+  return nil
 end
 
 -- @spec #update(dtime: Float): self
@@ -212,6 +252,8 @@ function ic:update(dtime)
       local entry = self.m_active_quests[name]
       self.m_active_quests[name] = nil
       entry:trigger_on_completed()
+
+      entry:teardown("completed")
     end
 
     self.m_completed_quests = {}
@@ -246,10 +288,14 @@ function ic:load_data(data)
 
   if data.active_quests then
     for name, data_entry in pairs(data.active_quests) do
-      local quest = assert(self.registered_quests[name])
-      local entry = QuestEntry:load_data(quest, data_entry)
-      -- TODO: better loading of the quest
-      self.m_active_quests[name] = entry
+      local quest = self.registered_quests[name]
+      if quest then
+        -- TODO: better loading of the quest
+        local entry = QuestEntry:load_data(quest, data_entry)
+        self.m_active_quests[name] = entry
+      else
+        minetest.log("warning", "missing quest for name=" .. name)
+      end
     end
   end
 
