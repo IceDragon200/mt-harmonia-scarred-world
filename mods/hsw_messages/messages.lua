@@ -53,6 +53,12 @@ do
 
     -- @member messages: Message[]
     self.messages = {}
+
+    assert(type(options.messages) == "table", "expected to have messages")
+
+    for index, message in ipairs(options.messages) do
+      self.messages[index] = Message:new(message)
+    end
   end
 end
 
