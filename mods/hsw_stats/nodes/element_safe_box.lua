@@ -1,8 +1,8 @@
-local mod = hsw_stats
+local mod = assert(hsw_stats)
 local vector3 = foundation.com.Vector3
 local fspec = assert(foundation.com.formspec.api)
 
-local function get_formspec(pos, user)
+local function render_formspec(pos, player)
   local spos = pos.x .. "," .. pos.y .. "," .. pos.z
   local node_inv_name = "nodemeta:" .. spos
 
@@ -12,7 +12,7 @@ local function get_formspec(pos, user)
   local invsize = inv:get_size("main")
   local rows = math.ceil(invsize / cols)
 
-  return yatm.formspec_render_split_inv_panel(user, cols, rows, { bg = "default" }, function (slot, rect)
+  return yatm.formspec_render_split_inv_panel(player, cols, rows, { bg = "default" }, function (slot, rect)
     if slot == "main_body" then
       return fspec.list(node_inv_name, "main", rect.x, rect.y, cols, rows)
     elseif slot == "footer" then
@@ -30,7 +30,8 @@ mod:register_node("element_safe_box", {
   description = mod.S("Element Safe Box"),
 
   groups = {
-    oddly_breakable_by_hand = 1,
+    oddly_breakable_by_hand = nokore.dig_class("hand"),
+    cracky = nokore.dig_class("wme"),
     safe_box = 1,
   },
 
@@ -58,11 +59,11 @@ mod:register_node("element_safe_box", {
     inv:set_size("main", 40)
   end,
 
-  on_rightclick = function (pos, node, user, itemstack, pointed_thing)
+  on_rightclick = function (pos, node, player, itemstack, pointed_thing)
     minetest.show_formspec(
-      user:get_player_name(),
+      player:get_player_name(),
       "hsw_stats:element_safe_box:" .. vector3.to_string(pos),
-      get_formspec(pos, user)
+      render_formspec(pos, player)
     )
   end,
 
