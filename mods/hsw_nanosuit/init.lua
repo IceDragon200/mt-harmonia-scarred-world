@@ -21,7 +21,19 @@ local get_player_stat = player_stats.get_player_stat
 -- though suit upgrades have a 'stat' field, it's not a first-class feature
 -- the below callback force refreshes any stats that the suit affects when applied
 hsw.nanosuit_upgrades:register_on_upgrade_unlocked(
-  "hsw_nanosuit:stat_invalidation",
+  "hsw_nanosuit:stat_invalidation_on_unlocked",
+  function (player, upgrade)
+    if upgrade.stats then
+      for name, _ in pairs(upgrade.stats) do
+        -- force the stat to refresh
+        get_player_stat(player_stats, player, name, true)
+      end
+    end
+  end
+)
+
+hsw.nanosuit_upgrades:register_on_upgrade_locked(
+  "hsw_nanosuit:stat_invalidation_on_locked",
   function (player, upgrade)
     if upgrade.stats then
       for name, _ in pairs(upgrade.stats) do

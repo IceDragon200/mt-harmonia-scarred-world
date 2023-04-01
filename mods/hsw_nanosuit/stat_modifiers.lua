@@ -55,7 +55,7 @@ for _, stat_name in ipairs(STATS) do
 
     nokore.player_stats:register_stat_modifier(stat_name, cbname, modname, function (player, value)
       local player_name = player:get_player_name()
-      local upgrades = hsw.nanosuit_upgrades:get_player_upgrades(player_name)
+      local upgrades = hsw.nanosuit_upgrades:get_player_upgrade_states(player_name)
 
       if upgrades then
         local upgrade

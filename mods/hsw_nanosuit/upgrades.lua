@@ -134,7 +134,7 @@ nanosuit_upgrades:register_upgrade("hsw_nanosuit:energized_suit", {
 -- Increases nano suit natural defence.
 --   Sets minumum defence to 20 points
 nanosuit_upgrades:register_upgrade("hsw_nanosuit:dense_storage_units", {
-  description = mod.S("Energized Suit"),
+  description = mod.S("Dense Storage Units"),
 
   stats = {
     element_max = {

@@ -9,7 +9,10 @@ do
   -- @spec #initialize(name: String, def: Table): void
   function ic:initialize(name, def)
     -- @member name: String
-    self.name = name
+    self.name = assert(name, "expected a name")
+
+    -- @member groups: Table
+    self.groups = def.groups or {}
 
     -- @member description?: String
     self.description = def.description
@@ -84,12 +87,14 @@ do
   end
 
   function ic:trigger_on_upgrade_unlocked(player, upgrade)
+    assert(player, "expected a player")
     for _callback_name, callback in pairs(self.m_on_upgrade_unlocked_cbs) do
       callback(player, upgrade)
     end
   end
 
   function ic:trigger_on_upgrade_locked(player, upgrade)
+    assert(player, "expected a player")
     for _callback_name, callback in pairs(self.m_on_upgrade_locked_cbs) do
       callback(player, upgrade)
     end
@@ -99,6 +104,8 @@ do
   --
   -- @spec #unlock_upgrade(Player, upgrade_name: String): Boolean
   function ic:unlock_upgrade(player, upgrade_name)
+    assert(player, "expected a player")
+
     local upgrade = self.registered_upgrades[upgrade_name]
 
     if upgrade then
@@ -106,6 +113,7 @@ do
       local kv = player_data_service:get_player_domain_kv(player_name, self.m_data_domain)
 
       if not kv:get(upgrade_name) then
+        minetest.log("info", "unlocking upgrade for player upgrade=" .. upgrade_name .. " player_name=" .. player_name)
         kv:put(upgrade_name, { unlocked = true })
         self:trigger_on_upgrade_unlocked(player, upgrade)
         player_data_service:persist_player_domains(player_name)
@@ -120,6 +128,8 @@ do
   --
   -- @spec #lock_upgrade(Player, upgrade_name: String): Boolean
   function ic:lock_upgrade(player, upgrade_name)
+    assert(player, "expected a player")
+
     local upgrade = self.registered_upgrades[upgrade_name]
 
     if upgrade then
@@ -127,6 +137,8 @@ do
       local kv = player_data_service:get_player_domain_kv(player_name, self.m_data_domain)
 
       if kv:get(upgrade_name) then
+        minetest.log("info", "locking upgrade for player upgrade=" .. upgrade_name .. " player_name=" .. player_name)
+
         kv:delete(upgrade_name)
         self:trigger_on_upgrade_locked(player, upgrade)
         player_data_service:persist_player_domains(player_name)
@@ -137,13 +149,15 @@ do
     return false
   end
 
-  -- @spec #get_upgrade(name): Upgrade | nil
+  -- @spec #get_upgrade(name: String): Upgrade | nil
   function ic:get_upgrade(name)
     return self.registered_upgrades[name]
   end
 
-  -- @spec #get_player_upgrades(player_name: String): Table
-  function ic:get_player_upgrades(player_name)
+  -- @spec #get_player_upgrade_states(player_name: String): { [upgrade_name: String]: Table }
+  function ic:get_player_upgrade_states(player_name)
+    assert(type(player_name) == "string", "expected a player name")
+
     local kv = player_data_service:get_player_domain_kv(player_name, self.m_data_domain)
     if kv then
       return kv.data
@@ -157,7 +171,7 @@ do
     local upgrade
     local update
     for player_name, player in pairs(players) do
-      upgrades = self:get_player_upgrades(player_name)
+      upgrades = self:get_player_upgrade_states(player_name)
 
       for upgrade_name, _upgrade_data in pairs(upgrades) do
         upgrade = self.registered_upgrades[upgrade_name]

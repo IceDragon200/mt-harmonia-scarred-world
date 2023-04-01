@@ -18,10 +18,10 @@ minetest.register_chatcommand("list_my_nanosuit_upgrades", {
   description = mod.S("Lists all unlocked nanosuit upgrades for current player"),
 
   func = function (caller_name)
-    local upgrades = hsw.nanosuit_upgrades:get_player_upgrades(caller_name)
+    local upgrades = hsw.nanosuit_upgrades:get_player_upgrade_states(caller_name)
     local result = ""
 
-    for upgrade_name, _upgrade in pairs(upgrades) do
+    for upgrade_name, _upgrade_state in pairs(upgrades) do
       result = result .. upgrade_name .. "\n"
     end
 
