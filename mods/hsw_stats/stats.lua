@@ -33,8 +33,8 @@ player_stats:register_stat("hp", {
 player_stats:register_stat("hp_max", {
   cached = true,
 
-  calc = function (_self, player)
-    return HP_MAX_DEFAULT
+  calc = function (self, player)
+    return self:apply_modifiers(player, HP_MAX_DEFAULT)
   end,
 })
 
@@ -72,8 +72,8 @@ player_stats:register_stat("breath", {
 player_stats:register_stat("breath_max", {
   cached = true,
 
-  calc = function (_self, player)
-    return BREATH_MAX_DEFAULT
+  calc = function (self, player)
+    return self:apply_modifiers(player, BREATH_MAX_DEFAULT)
   end,
 })
 
