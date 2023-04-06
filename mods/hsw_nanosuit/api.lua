@@ -1,34 +1,34 @@
--- @namespace hsw_nanosuit
+--- @namespace hsw_nanosuit
 local player_data_service = assert(nokore.player_data_service)
 
--- @class Upgrade
+--- @class Upgrade
 local Upgrade = foundation.com.Class:extends("hsw.Nanosuit.Upgrade")
 do
   local ic = Upgrade.instance_class
 
-  -- @spec #initialize(name: String, def: Table): void
+  --- @spec #initialize(name: String, def: Table): void
   function ic:initialize(name, def)
-    -- @member name: String
+    --- @member name: String
     self.name = assert(name, "expected a name")
 
-    -- @member groups: Table
+    --- @member groups: Table
     self.groups = def.groups or {}
 
-    -- @member description?: String
+    --- @member description?: String
     self.description = def.description
 
-    -- @member update?: Function
+    --- @member update?: Function
     self.update = def.update
 
-    -- @type ModifierFunction: function (upgrade: Upgrade, player: Player, value: T) => T
+    --- @type ModifierFunction: function (upgrade: Upgrade, player: Player, value: T) => T
 
-    -- @member stats: {
-    --   [stat_name: String]: {
-    --     base?: ModifierFunction,
-    --     add?: ModifierFunction,
-    --     mul?: ModifierFunction,
-    --   }
-    -- }
+    --- @member stats: {
+    ---   [stat_name: String]: {
+    ---     base?: ModifierFunction,
+    ---     add?: ModifierFunction,
+    ---     mul?: ModifierFunction,
+    ---   }
+    --- }
     self.stats = def.stats or {}
 
     assert(type(self.stats) == "table", "expected stats to be table")
@@ -45,12 +45,12 @@ do
   end
 end
 
--- @class NanosuitUpgradesRegistry
+--- @class NanosuitUpgradesRegistry
 local NanosuitUpgradesRegistry = foundation.com.Class:extends("hsw.Nanosuit.UpgradesRegistry")
 do
   local ic = NanosuitUpgradesRegistry.instance_class
 
-  -- @spec #initialize(data_domain: String): void
+  --- @spec #initialize(data_domain: String): void
   function ic:initialize(data_domain)
     self.registered_upgrades = {}
 
@@ -60,7 +60,7 @@ do
     self.m_on_upgrade_locked_cbs = {}
   end
 
-  -- @spec #register_upgrade(name: String, def: Table): Upgrade
+  --- @spec #register_upgrade(name: String, def: Table): Upgrade
   function ic:register_upgrade(name, def)
     assert(type(name) == "string", "expecetd a name")
     assert(type(def) == "table", "expecetd a definition table")
@@ -100,9 +100,9 @@ do
     end
   end
 
-  -- Enables an upgrade for a player.
-  --
-  -- @spec #unlock_upgrade(Player, upgrade_name: String): Boolean
+  --- Enables an upgrade for a player.
+  ---
+  --- @spec #unlock_upgrade(Player, upgrade_name: String): Boolean
   function ic:unlock_upgrade(player, upgrade_name)
     assert(player, "expected a player")
 
@@ -124,9 +124,9 @@ do
     return false
   end
 
-  -- Disables an upgrade for a player and removes it.
-  --
-  -- @spec #lock_upgrade(Player, upgrade_name: String): Boolean
+  --- Disables an upgrade for a player and removes it.
+  ---
+  --- @spec #lock_upgrade(Player, upgrade_name: String): Boolean
   function ic:lock_upgrade(player, upgrade_name)
     assert(player, "expected a player")
 
@@ -149,12 +149,12 @@ do
     return false
   end
 
-  -- @spec #get_upgrade(name: String): Upgrade | nil
+  --- @spec #get_upgrade(name: String): Upgrade | nil
   function ic:get_upgrade(name)
     return self.registered_upgrades[name]
   end
 
-  -- @spec #get_player_upgrade_states(player_name: String): { [upgrade_name: String]: Table }
+  --- @spec #get_player_upgrade_states(player_name: String): { [upgrade_name: String]: Table }
   function ic:get_player_upgrade_states(player_name)
     assert(type(player_name) == "string", "expected a player name")
 
@@ -165,7 +165,7 @@ do
     return {}
   end
 
-  -- @spec #update_players(Table, dt: Float, Table): void
+  --- @spec #update_players(Table, dt: Float, Table): void
   function ic:update_players(players, dt, assigns)
     local upgrades
     local upgrade

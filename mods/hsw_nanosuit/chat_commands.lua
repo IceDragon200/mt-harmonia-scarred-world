@@ -1,4 +1,4 @@
-local mod = hsw_nanosuit
+local mod = assert(hsw_nanosuit)
 local string_split = assert(foundation.com.string_split)
 local player_service = assert(nokore.player_service)
 

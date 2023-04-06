@@ -30,6 +30,7 @@ local STATS = {
   "hp_regen",
   "hp_degen",
   "hp_max",
+  "breath_max",
   "mana_regen",
   "mana_degen",
   "mana_max",
@@ -40,6 +41,7 @@ local STATS = {
   "speed",
   "jump",
   "gravity",
+  "defence",
   --
   "inventory_size",
   --
