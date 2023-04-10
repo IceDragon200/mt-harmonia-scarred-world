@@ -82,10 +82,10 @@ ${BUILD_DIR}:
 	mkdir -p ${BUILD_DIR}
 
 %.tar.gz: ${BUILD_DIR} prepare.release
-	tar -czf "${BUILD_DIR}/$@" --directory "${TMP_DIR}/hsw/mods" $(@:.tar.gz=)
+	tar -czf "${BUILD_DIR}/$@" --directory "${TMP_DIR}/hsw/mods" "$(@:.tar.gz=)"
 
 %.zip: prepare.release
-	zip -r "${BUILD_DIR}/$@" "${TMP_DIR}/hsw/mods/$(@:.zip=)"
+	cd "${TMP_DIR}/hsw/mods" && zip -r "${BUILD_DIR}/$@" "$(@:.zip=)"
 
 .PHONY: release.modpacks.tar.gz
 release.modpacks.tar.gz: foundation.tar.gz harmonia.tar.gz nokore.tar.gz yatm.tar.gz
@@ -99,4 +99,4 @@ release.modpacks: release.modpacks.tar.gz release.modpacks.zip
 .PHONY: release.game
 release.game: ${BUILD_DIR} prepare.release
 	tar -czf "${BUILD_DIR}/hsw.tar.gz" --directory "${TMP_DIR}" "hsw"
-	zip -r "${BUILD_DIR}/hsw.zip" "${TMP_DIR}/hsw"
+	cd "${TMP_DIR}" && zip -r "${BUILD_DIR}/hsw.zip" "hsw"
