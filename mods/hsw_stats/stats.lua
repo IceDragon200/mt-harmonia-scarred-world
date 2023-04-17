@@ -26,6 +26,7 @@ player_stats:register_stat("hp", {
 
   set = function (_self, player, value)
     player:set_hp(value)
+    return true
   end,
 })
 
@@ -66,6 +67,7 @@ player_stats:register_stat("breath", {
 
   set = function (_self, player, value)
     player:set_breath(value)
+    return true
   end,
 })
 
@@ -136,6 +138,7 @@ player_stats:register_stat("energy", {
     local meta = player:get_meta()
 
     Energy.set_meta_energy(meta, "nanosuit", value)
+    return true
   end,
 })
 
@@ -180,6 +183,7 @@ player_stats:register_stat("shield", {
     local meta = player:get_meta()
 
     meta:set_int("nanosuit_shield", value)
+    return true
   end,
 })
 
