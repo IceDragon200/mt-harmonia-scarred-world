@@ -10,6 +10,9 @@
 [submodule "mods/yatm"]
   path = mods/yatm
   url = https://github.com/IceDragon200/mt-yatm
+[submodule "mods/hsw_maidroid"]
+  path = mods/hsw_maidroid
+  url = https://github.com/IceDragon200/hsw_maidroid
 [submodule "mods/mobkit"]
   path = mods/mobkit
   url = https://github.com/TheTermos/mobkit

@@ -39,6 +39,7 @@ prepare.release:
 	make -C mods/nokore prepare.release TMP_DIR="${TMP_DIR}/hsw/mods"
 	make -C mods/harmonia prepare.release TMP_DIR="${TMP_DIR}/hsw/mods"
 	make -C mods/yatm prepare.release TMP_DIR="${TMP_DIR}/hsw/mods"
+	make -C mods/hsw_maidroid prepare.release TMP_DIR="${TMP_DIR}/hsw/mods"
 
 	cp -r --parents mods/harmonia_prelude "${TMP_DIR}/hsw"
 	cp -r --parents mods/hsw_prelude "${TMP_DIR}/hsw"
