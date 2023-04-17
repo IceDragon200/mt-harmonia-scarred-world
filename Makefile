@@ -63,6 +63,7 @@ prepare.release:
 	cp -r --parents mods/hsw_watla "${TMP_DIR}/hsw"
 	cp -r --parents mods/hsw_waypoints "${TMP_DIR}/hsw"
 	cp -r --parents mods/hsw_workbench "${TMP_DIR}/hsw"
+	cp -r --parents mods/hsw_worldgen "${TMP_DIR}/hsw"
 
 	mkdir -p "${TMP_DIR}/mobkit"
 
