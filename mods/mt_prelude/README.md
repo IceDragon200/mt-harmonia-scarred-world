@@ -6,7 +6,7 @@ Prelude mod for minetest, all of the other prelude mods should depend on this on
 
 ```lua
 --
--- Nodes now support a new callback during
+-- Nodes now support a new callback during item_place_node
 --
 function before_replace_node(pos, old_node, new_node, placer, itemstack, pointed_thing)
   -- whether or not to actually replace the node with the new one
