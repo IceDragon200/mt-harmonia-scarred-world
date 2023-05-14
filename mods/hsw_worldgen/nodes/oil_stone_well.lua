@@ -31,6 +31,7 @@ mod:register_node("oil_stone_well", {
     cracky = nokore.dig_class("nano_element"),
     oil_stone = 1,
     fluid_well = 1,
+    fluid_interface_out = 1,
   },
 
   fluid_well = {
