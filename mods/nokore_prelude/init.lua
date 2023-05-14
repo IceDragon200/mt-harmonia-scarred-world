@@ -1,7 +1,7 @@
 -- First initialize the prelude module itself
 local mod = foundation.new_module("nokore_prelude", "0.0.0")
 
--- @namespace nokore
+--- @namespace nokore
 
 -- Then determine if the 'nokore' module is present
 local nokore = rawget(_G, "nokore")
@@ -13,6 +13,10 @@ end
 -- mark the module as being a prelude version
 nokore.is_prelude = true
 
+-- disable built-in tools, you should set this flag in your own game if you intend to
+-- override the tools or define your own
+nokore.disable_tools = true
+
 -- determine if the node sounds registry was created
 if not nokore.node_sounds then
   -- if not, create it
@@ -20,7 +24,7 @@ if not nokore.node_sounds then
   nokore.node_sounds = assert(foundation.com.node_sounds)
 end
 
--- @const node_sounds: foundation.com.NodeSoundsRegistry
+--- @const node_sounds: foundation.com.NodeSoundsRegistry
 
 -- register the "default" node sound set, usually just empty
 nokore.node_sounds:register_new("default", {})
