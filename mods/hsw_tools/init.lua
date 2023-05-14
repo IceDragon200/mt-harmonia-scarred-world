@@ -4,7 +4,9 @@
 local mod = foundation.new_module("hsw_tools", "0.1.0")
 
 -- Hand
-minetest.override_item("", {
+minetest.register_item(":", {
+  type = "none",
+  wield_image = "wieldhand.png",
   wield_scale = {
     x = 1,
     y = 1,
