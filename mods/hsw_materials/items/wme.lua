@@ -8,4 +8,10 @@ mod:register_craftitem("wme", {
   },
 
   inventory_image = "hsw_wme_material.png",
+
+  element_blueprint = {
+    id = mod:make_name("wme"),
+    cost = 5,
+    duration = 3,
+  }
 })
