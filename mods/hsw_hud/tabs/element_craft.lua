@@ -1,11 +1,48 @@
 local mod = assert(hsw_hud)
 
+local ElementSystem = assert(harmonia_element.ElementSystem)
 local fspec = assert(foundation.com.formspec.api)
 local string_starts_with = assert(foundation.com.string_starts_with)
 local string_trim_leading = assert(foundation.com.string_trim_leading)
 
 local player_stats = assert(nokore.player_stats)
 local get_player_stat = player_stats:method("get_player_stat")
+
+--
+-- Register event callbacks for crafting system.
+--
+local function on_craft_started(event)
+  nokore_player_inv.send_tab_event(event.player, "element_craft", {
+    type = "craft_event",
+    data = event,
+  })
+end
+
+local function on_craft_crafting(event)
+  nokore_player_inv.send_tab_event(event.player, "element_craft", {
+    type = "craft_event",
+    data = event,
+  })
+end
+
+local function on_craft_error(event)
+  nokore_player_inv.send_tab_event(event.player, "element_craft", {
+    type = "craft_event",
+    data = event,
+  })
+end
+
+local function on_craft_completed(event)
+  nokore_player_inv.send_tab_event(event.player, "element_craft", {
+    type = "craft_event",
+    data = event,
+  })
+end
+
+harmonia.element:register_on_craft_started("hsw_hud:on_craft_started", on_craft_started)
+harmonia.element:register_on_craft_crafting("hsw_hud:on_craft_crafting", on_craft_crafting)
+harmonia.element:register_on_craft_error("hsw_hud:on_craft_error", on_craft_error)
+harmonia.element:register_on_craft_completed("hsw_hud:on_craft_completed", on_craft_completed)
 
 --
 -- Register the element crafting tab
@@ -25,6 +62,7 @@ nokore_player_inv.register_player_inventory_tab("element_craft", {
   render_formspec = function (player, assigns, tab_state)
     --local dims = nokore_player_inv.player_inventory_size2(player)
     local cio = fspec.calc_inventory_offset
+    local cis = fspec.calc_inventory_size
 
     -- since yatm_core is available we can just setup a split panel here
     return yatm.formspec_render_split_inv_panel(player, nil, 6, { bg = "default", formspec_version = false }, function (loc, rect)
@@ -42,14 +80,51 @@ nokore_player_inv.register_player_inventory_tab("element_craft", {
         local idx = 0
         local cols = 3
         for element_blueprint_id, _ in pairs(element_blueprints) do
-          local item_name = harmonia.element.registered_element_blueprints[element_blueprint_id]
+          local blueprint = harmonia.element.registered_element_blueprints[element_blueprint_id]
           local x = rect.x + cio(idx % cols)
           local y = rect.y + cio(2 + math.floor(idx / cols))
+
           items =
-            fspec.item_image(x, y, 1, 1, item_name)
-            .. fspec.button(x + 1, y, 1, 1, "craft_" .. element_blueprint_id)
+            items
+            .. fspec.button(x, y, cis(1), cis(1), "craft_" .. element_blueprint_id)
+            .. fspec.item_image(x, y, 1, 1, blueprint.name)
+            .. fspec.tooltip_element("craft_" .. element_blueprint_id, blueprint.name)
 
           idx = idx + 1
+        end
+
+        local queue = harmonia.element:all_blueprint_crafting_queue(player_name)
+        local overview = harmonia.element:get_blueprint_crafting_queue_overview(player_name)
+        local queued_items = ""
+
+        if queue then
+          for idx1, item_name in ipairs(queue) do
+            idx = idx1 - 1
+            local x = rect.x + cio(idx % 4)
+            local y = rect.y + cio(4 + math.floor(idx / 4))
+
+            queued_items =
+              queued_items
+              .. fspec.item_image(x, y, 1, 1, item_name)
+          end
+
+          if overview.time_max > 0 then
+            queued_items =
+              queued_items
+              .. yatm.formspec.render_gauge{
+                x = rect.x,
+                y = rect.y + cio(5),
+                w = rect.w,
+                h = 1,
+                gauge_color = color,
+                border_name = "yatm_item_border_progress.png",
+                -- cap amount to avoid overflowing the gauge
+                amount = math.max(overview.time, 0),
+                max = overview.time_max,
+                is_horz = true,
+                tooltip = "Time " .. overview.time .. " / " .. overview.time_max,
+              }
+          end
         end
 
         local formspec =
@@ -69,12 +144,14 @@ nokore_player_inv.register_player_inventory_tab("element_craft", {
             h = 1,
             gauge_color = color,
             border_name = "yatm_item_border_default.png",
-            amount = element,
+            -- cap amount to avoid overflowing the gauge
+            amount = math.min(element, element_max),
             max = element_max,
             is_horz = true,
             tooltip = "Element " .. element .. " / " .. element_max,
           }
           .. items
+          .. queued_items
 
         return formspec
       elseif loc == "footer" then
@@ -95,10 +172,28 @@ nokore_player_inv.register_player_inventory_tab("element_craft", {
 
         -- element_blueprint_id
 
+        local okay, err = harmonia.element:add_blueprint_to_crafting_queue(player_name, element_blueprint_id)
+
+        if not okay then
+          if err == ElementSystem.CraftingErrors.BLUEPRINT_NOT_FOUND then
+            -- do something
+          end
+        end
         should_refresh = true
       end
     end
 
     return false, should_refresh
+  end,
+
+  on_event = function (player, assigns, event, tab_state)
+    if event.type == "craft_event" then
+      local craft_event = event.data
+
+      if craft_event then
+        return true
+      end
+    end
+    return false
   end,
 })
