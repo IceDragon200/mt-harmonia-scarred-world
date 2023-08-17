@@ -10,11 +10,13 @@ if not nokore then
   nokore = foundation.new_module("nokore", "0.0.0")
 end
 
--- mark the module as being a prelude version
+--- mark the module as being a prelude version
+--- @const is_prelude: Boolean = true
 nokore.is_prelude = true
 
--- disable built-in tools, you should set this flag in your own game if you intend to
--- override the tools or define your own
+--- disable built-in tools, you should set this flag in your own game if you intend to
+--- override the tools or define your own
+--- @const disable_tools: Boolean = true
 nokore.disable_tools = true
 
 -- determine if the node sounds registry was created
