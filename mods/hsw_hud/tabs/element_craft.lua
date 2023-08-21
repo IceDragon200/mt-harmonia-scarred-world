@@ -108,7 +108,7 @@ nokore_player_inv.register_player_inventory_tab("element_craft", {
               .. fspec.item_image(x, y, 1, 1, item_name)
           end
 
-          if overview.time_max > 0 then
+          if overview.time_max and overview.time_max > 0 then
             queued_items =
               queued_items
               .. yatm.formspec.render_gauge{
