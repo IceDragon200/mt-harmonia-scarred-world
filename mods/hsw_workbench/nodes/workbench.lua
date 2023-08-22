@@ -427,7 +427,7 @@ local function on_punch(pos, node, puncher, pointed_thing)
       if last_recipe_id then
         recipe = workbench_recipes:get_recipe(last_recipe_id)
         if recipe then
-          if not recipe:matches_bench(workbench_info) or
+          if not recipe:matches_workbench(workbench_info) or
              not recipe:matches_tool(tool_info) or
              not recipe:matches_item_stacks(items) then
             recipe = nil

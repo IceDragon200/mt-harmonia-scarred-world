@@ -6,9 +6,9 @@ local tool_class = "crowbar"
 local basename = mod:make_name("crowbar")
 local base_description = mod.S("Crowbar")
 
--- i.e. on_place for crowbars
---
--- @spec pry_node(ItemStack, user: PlayerRef, pointed_thing: PointedThing): void
+--- i.e. on_place for crowbars
+---
+--- @spec pry_node(ItemStack, user: PlayerRef, pointed_thing: PointedThing): void
 function hsw_tools.pry_node(item_stack, user, pointed_thing)
   local above_pos = pointed_thing.above
   local under_pos = pointed_thing.under

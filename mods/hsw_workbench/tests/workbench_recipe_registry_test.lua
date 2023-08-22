@@ -63,13 +63,13 @@ case:describe("#register_recipe/2", function (t2)
       level = 2,
     }), "expected incorrect tool_class to not work")
 
-    t3:assert(recipe:matches_bench({
-      bench_class = "wood",
+    t3:assert(recipe:matches_workbench({
+      workbench_class = "wood",
       level = 1,
     }), "expected same level bench to work")
 
-    t3:assert(recipe:matches_bench({
-      bench_class = "wood",
+    t3:assert(recipe:matches_workbench({
+      workbench_class = "wood",
       level = 2,
     }), "expected higher level bench to work")
 

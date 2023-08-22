@@ -7,6 +7,7 @@
 --
 local mod = foundation.new_module("hsw_workbench", "0.1.0")
 
+--- @namespace hsw
 hsw = rawget(_G, "hsw") or {}
 
 -- Structures
@@ -21,6 +22,7 @@ mod:require("workbench_recipe.lua")
 -- Actual Registry
 mod:require("workbench_recipe_registry.lua")
 
+--- @const workbench_recipes: WorkbenchRecipeRegistry
 hsw.workbench_recipes = hsw.WorkbenchRecipeRegistry:new()
 
 mod:require("api.lua")

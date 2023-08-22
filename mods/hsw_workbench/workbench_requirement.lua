@@ -1,6 +1,6 @@
--- @namespace hsw
+--- @namespace hsw
 
--- @class WorkbenchRequirement
+--- @class WorkbenchRequirement
 local WorkbenchRequirement = foundation.com.Class:extends("hsw.WorkbenchRequirement")
 local ic = WorkbenchRequirement.instance_class
 
@@ -8,33 +8,33 @@ WorkbenchRequirement.ERR_LEVEL_LOW = 0
 WorkbenchRequirement.ERR_LEVEL_HIGH = 1
 WorkbenchRequirement.ERR_BENCH_CLASS_MISMATCH = 2
 
--- @spec #initialize(Table): void
+--- @spec #initialize(Table): void
 function ic:initialize(def)
-  -- bench class denotes what 'type' of workbench is required
+  --- bench class denotes what 'type' of workbench is required
   self.bench_class = def.bench_class or 'any'
 
-  -- recommended workbench level
+  --- recommended workbench level
   self.level = assert(def.level, "expected a level")
 
-  -- the minimum allowed workbench level
-  -- using a lower levelled workbench may have a tool durability penalty
+  --- the minimum allowed workbench level
+  --- using a lower levelled workbench may have a tool durability penalty
   self.min_level = def.min_level or self.level
 
-  -- the maximum allowed workbench level
-  -- recipes may change if the workbench level is too high or too low
+  --- the maximum allowed workbench level
+  --- recipes may change if the workbench level is too high or too low
   self.max_level = def.max_level
 
-  -- if the workbench is below the recommended level, this multiplier
-  -- is applied to the progress, normally this will be less than 1 to hamper
-  -- progress
+  --- if the workbench is below the recommended level, this multiplier
+  --- is applied to the progress, normally this will be less than 1 to hamper
+  --- progress
   self.low_level_multiplier = def.low_level_multiplier or 1.0
 
-  -- if the workbench level is higher than the recommended, this multiplier
-  -- will be applied to the progress, usually greater than 1
+  --- if the workbench level is higher than the recommended, this multiplier
+  --- will be applied to the progress, usually greater than 1
   self.high_level_multiplier = def.high_level_multiplier or 1.0
 end
 
--- @spec #matches(BenchInfo): (Boolean, nil | ErrorCode)
+--- @spec #matches(BenchInfo): (Boolean, nil | ErrorCode)
 function ic:matches(bench_info)
   assert(bench_info, "expected bench_info")
 
