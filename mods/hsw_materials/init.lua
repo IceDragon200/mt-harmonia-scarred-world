@@ -87,7 +87,7 @@ function hsw:make_workbench_material_tool_info(tool_class, material_class)
   }
 end
 
--- @spec &make_tool_cap_times(tool_class: String, material_class: String, options: Table): Table
+--- @spec &make_tool_cap_times(tool_class: String, material_class: String, options: Table): Table
 function hsw:make_tool_cap_times(_tool_class, material_class, options)
   options = options or {}
   local material = self.TOOL_MATERIALS[material_class]
@@ -124,6 +124,7 @@ function hsw:make_tool_cap_times(_tool_class, material_class, options)
   return result
 end
 
+--- @spec &make_tool_capability(tool_class: String, material_class: String, options: Table): Integer | null
 function hsw:make_tool_capability(tool_class, material_class, options)
   options = options or {}
 
@@ -134,6 +135,16 @@ function hsw:make_tool_capability(tool_class, material_class, options)
   }
 end
 
+--- @spec &tool_level(name: String): Integer | null
+function hsw:tool_level(name)
+  local mat = assert(hsw.TOOL_MATERIALS[name])
+  if mat then
+    return mat.level
+  end
+  return nil
+end
+
+--- @spec &dig_class(name: String): Integer
 function hsw:dig_class(name)
   return assert(self.DIG_CLASS[name])
 end
