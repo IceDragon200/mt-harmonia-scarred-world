@@ -7,4 +7,6 @@ mod:register_craftitem("linen_cloth", {
   description = mod.S("Linen Cloth"),
 
   codex_entry_id = mod:make_name("linen_cloth"),
+
+  inventory_image = "hsw_linen_cloth.png",
 })
