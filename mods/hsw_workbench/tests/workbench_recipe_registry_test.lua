@@ -27,7 +27,7 @@ case:describe("#register_recipe/2", function (t2)
         }
       },
 
-      bench = {
+      workbench = {
         bench_class = "any",
         level = 1,
       },
@@ -86,7 +86,7 @@ case:describe("#register_recipe/2", function (t2)
     local mrecipe =
       reg:find_recipe(
         {
-          bench_class = "wood",
+          workbench_class = "wood",
           level = 1,
         },
         {
@@ -104,7 +104,7 @@ case:describe("#register_recipe/2", function (t2)
     mrecipe =
       reg:find_recipe(
         {
-          bench_class = "wood",
+          workbench_class = "wood",
           level = 1,
         },
         {
@@ -122,7 +122,7 @@ case:describe("#register_recipe/2", function (t2)
     mrecipe =
       reg:find_recipe(
         {
-          bench_class = "wood",
+          workbench_class = "wood",
           level = 1,
         },
         {

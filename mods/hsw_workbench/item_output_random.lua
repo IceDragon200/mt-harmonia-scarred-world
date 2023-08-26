@@ -1,18 +1,16 @@
--- @namespace hsw
+--- @namespace hsw
 local WeightedList = assert(foundation.com.WeightedList)
 local ItemOutput = assert(hsw.ItemOutput)
 
--- @class ItemOutputRandom
+--- @class ItemOutputRandom
 local ItemOutputRandom = foundation.com.Class:extends("hsw.ItemOutputRandom")
 local ic = ItemOutputRandom.instance_class
 
--- @spec #initialize(Table): void
+--- @spec #initialize(Table): void
 function ic:initialize(def)
   local items = assert(def.items, "expected a list of items")
 
   self.items = WeightedList:new()
-  self.min_amount = def.min_amount or 1
-  self.max_amount = def.max_amount or def.min_amount or 1
   self.chance = def.chance or 1.0
 
   local item_output
@@ -24,9 +22,29 @@ function ic:initialize(def)
     self.items:push(ItemOutput:new(item), weight)
   end
 
-  assert(type(self.min_amount) == "number", "expected min_amount to be an integer")
-  assert(type(self.max_amount) == "number", "expected max_amount to be an integer")
-  assert(type(self.chance) == "number", "expected max_amount to be a number")
+  assert(type(self.chance) == "number", "expected chance to be a number")
+end
+
+--- Generates a new ItemStack based on the value (ignoring the chance factor)
+---
+--- @spec #make_item_stack_without_chance(): ItemStack
+function ic:make_item_stack_without_chance()
+  local base = self.items:random()
+
+  local item_stack = base:make_item_stack()
+
+  return item_stack
+end
+
+--- Attempts to make the item stack based on the config, but may also return nil based on the
+--- chance.
+---
+--- @spec #make_item_stack(): ItemStack | nil
+function ic:make_item_stack()
+  if math.random() <= self.chance then
+    return self:make_item_stack_without_chance()
+  end
+  return nil
 end
 
 hsw.ItemOutputRandom = ItemOutputRandom

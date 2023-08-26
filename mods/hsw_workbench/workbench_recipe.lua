@@ -114,4 +114,18 @@ function ic:matches_item_stacks(item_stacks)
   return false
 end
 
+--- @spec #make_output_item_stacks(): ItemStack[]
+function ic:make_output_item_stacks()
+  local result = {}
+  local idx = 0
+  for _,output_item in ipairs(self.output_items) do
+    local stack = output_item:make_item_stack()
+    if stack then
+      idx = idx + 1
+      result[idx] = stack
+    end
+  end
+  return result
+end
+
 hsw.WorkbenchRecipe = WorkbenchRecipe

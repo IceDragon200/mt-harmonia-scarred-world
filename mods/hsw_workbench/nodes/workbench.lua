@@ -5,6 +5,7 @@
 -- operation.
 --
 local table_copy = assert(foundation.com.table_copy)
+local list_map = assert(foundation.com.list_map)
 local Directions = assert(foundation.com.Directions)
 local Vector3 = assert(foundation.com.Vector3)
 local facedir_to_local_face = assert(Directions.facedir_to_local_face)
@@ -347,6 +348,21 @@ local function unsafe_get_workbench_item_stack_at(pos)
   return nil
 end
 
+local function set_workbench_item_stack_at(pos, item_stack)
+  local meta = minetest.get_meta(pos)
+  if meta then
+    local inv = meta:get_inventory()
+    inv:set_stack("main", 1, item_stack)
+    return true
+  end
+  return false
+end
+
+local function clear_workbench_item_stack_at(pos)
+  return set_workbench_item_stack_at(pos, ItemStack())
+end
+
+--- @spec get_workbench_items(Vector3): { pos: Vector3, item_stack: ItemStack }[]
 local function get_workbench_items(center_pos)
   local node = minetest.get_node_or_nil(center_pos)
 
@@ -381,7 +397,10 @@ local function get_workbench_items(center_pos)
 
         if item_stack and not item_stack:is_empty() then
           i = i + 1
-          result[i] = item_stack
+          result[i] = {
+            pos = west_pos,
+            item_stack = item_stack
+          }
         end
       end
     end
@@ -389,7 +408,10 @@ local function get_workbench_items(center_pos)
     item_stack = unsafe_get_workbench_item_stack_at(center_pos)
     if item_stack and not item_stack:is_empty() then
       i = i + 1
-      result[i] = item_stack
+      result[i] = {
+        pos = center_pos,
+        item_stack = item_stack
+      }
     end
 
     if east_node_def then
@@ -398,7 +420,10 @@ local function get_workbench_items(center_pos)
 
         if item_stack and not item_stack:is_empty() then
           i = i + 1
-          result[i] = item_stack
+          result[i] = {
+            pos = east_pos,
+            item_stack = item_stack
+          }
         end
       end
     end
@@ -409,9 +434,9 @@ local function get_workbench_items(center_pos)
   return {}
 end
 
-local function on_punch(pos, node, puncher, pointed_thing)
+local function on_punch(pos, node, user, pointed_thing)
   -- operate bench
-  local tool = puncher:get_wielded_item()
+  local tool = user:get_wielded_item()
 
   if tool and not tool:is_empty() then
     local workbench_info = get_node_workbench_info(node)
@@ -419,6 +444,9 @@ local function on_punch(pos, node, puncher, pointed_thing)
 
     if workbench_info and tool_info then
       local items = get_workbench_items(pos)
+      local item_stacks = list_map(items, function (entry)
+        return entry.item_stack
+      end)
       local meta = minetest.get_meta(pos)
 
       local last_recipe_id = meta:get("last_recipe_id")
@@ -429,19 +457,51 @@ local function on_punch(pos, node, puncher, pointed_thing)
         if recipe then
           if not recipe:matches_workbench(workbench_info) or
              not recipe:matches_tool(tool_info) or
-             not recipe:matches_item_stacks(items) then
+             not recipe:matches_item_stacks(item_stacks) then
             recipe = nil
           end
         end
       end
 
       if not recipe then
-        recipe = workbench_recipes:find_recipe(workbench_info, tool_info, items)
+        recipe = workbench_recipes:find_recipe(workbench_info, tool_info, item_stacks)
       end
 
       if recipe then
-        print("Found valid recipe name=" .. recipe.name ..
-                                " description=`" .. recipe.description .. "`")
+        meta:set_string("last_recipe_id", recipe.name)
+        -- print("Found valid recipe name=" .. recipe.name ..
+        --                         " description=`" .. recipe.description .. "`")
+        local tool_uses = meta:get_int("tool_uses")
+
+        if recipe.name ~= last_recipe_id then
+          tool_uses = 0
+        end
+
+        tool_uses = tool_uses + 1
+        if tool_uses >= recipe.tool_uses then
+          for idx, entry in ipairs(items) do
+            -- should be successful normally
+            assert(clear_workbench_item_stack_at(entry.pos))
+          end
+
+          local output = recipe:make_output_item_stacks()
+          local workbench_pos
+          for idx, item_stack in pairs(output) do
+            workbench_pos = items[idx].pos
+            set_workbench_item_stack_at(workbench_pos, item_stack)
+            refresh_workbench_item(workbench_pos)
+          end
+          --- @todo play a sound when crafting is completed
+        else
+          meta:set_int("tool_uses", tool_uses)
+          --- @todo play a sound when the player/user successfully increments the tool uses
+          minetest.chat_send_player(
+            user:get_player_name(),
+            "Crafting " .. recipe.description .. " " .. tool_uses .. " / " .. recipe.tool_uses
+          )
+        end
+      else
+        meta:set_string("last_recipe_id", "")
       end
     end
   end
