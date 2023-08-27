@@ -136,6 +136,7 @@ local function remove_workbench_item_at_pos(pos)
   end
 end
 
+--- @spec refresh_workbench_item(Vector3): void
 local function refresh_workbench_item(pos)
   assert(type(pos) == "table", "expected a position")
   remove_workbench_item_at_pos(pos)
@@ -353,6 +354,7 @@ local function set_workbench_item_stack_at(pos, item_stack)
   if meta then
     local inv = meta:get_inventory()
     inv:set_stack("main", 1, item_stack)
+    refresh_workbench_item(pos)
     return true
   end
   return false
@@ -478,28 +480,30 @@ local function on_punch(pos, node, user, pointed_thing)
         end
 
         tool_uses = tool_uses + 1
+        minetest.chat_send_player(
+          user:get_player_name(),
+          "Crafting " .. recipe.description .. " " .. tool_uses .. " / " .. recipe.tool_uses
+        )
         if tool_uses >= recipe.tool_uses then
+          local output = recipe:make_output_item_stacks()
+
           for idx, entry in ipairs(items) do
             -- should be successful normally
             assert(clear_workbench_item_stack_at(entry.pos))
           end
 
-          local output = recipe:make_output_item_stacks()
           local workbench_pos
           for idx, item_stack in pairs(output) do
             workbench_pos = items[idx].pos
             set_workbench_item_stack_at(workbench_pos, item_stack)
-            refresh_workbench_item(workbench_pos)
           end
+          tool_uses = 0
+          meta:set_string("last_recipe_id", "")
           --- @todo play a sound when crafting is completed
         else
-          meta:set_int("tool_uses", tool_uses)
           --- @todo play a sound when the player/user successfully increments the tool uses
-          minetest.chat_send_player(
-            user:get_player_name(),
-            "Crafting " .. recipe.description .. " " .. tool_uses .. " / " .. recipe.tool_uses
-          )
         end
+        meta:set_int("tool_uses", tool_uses)
       else
         meta:set_string("last_recipe_id", "")
       end
