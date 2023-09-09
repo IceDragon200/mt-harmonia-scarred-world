@@ -16,3 +16,6 @@
 [submodule "mods/mobkit"]
   path = mods/mobkit
   url = https://github.com/TheTermos/mobkit
+[submodule "mods/nokore_mesecons"]
+  path = mods/nokore_mesecons
+  url = https://github.com/IceDragon200/nokore_mesecons
