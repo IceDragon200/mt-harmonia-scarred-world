@@ -1,4 +1,4 @@
--- @namespace core
+--- @namespace core
 
 local function copy_pointed_thing(pointed_thing)
   return {
@@ -18,15 +18,15 @@ local function make_log(name)
   return name ~= "" and core.log or function() end
 end
 
--- A patched version of item_place_node
---
--- @spec item_place_node(
---   ItemStack,
---   PlayerRef,
---   PointedThing,
---   param2: Integer,
---   prevent_after_place: Boolean
--- ): (ItemStack, Vector3)
+--- A patched version of item_place_node
+---
+--- @spec item_place_node(
+---   ItemStack,
+---   PlayerRef,
+---   PointedThing,
+---   param2: Integer,
+---   prevent_after_place: Boolean
+--- ): (ItemStack, Vector3)
 function core.item_place_node(itemstack, placer, pointed_thing, param2, prevent_after_place)
   local def = itemstack:get_definition()
   if def.type ~= "node" or pointed_thing.type ~= "node" then
