@@ -5,6 +5,7 @@
 -- operation.
 --
 local table_copy = assert(foundation.com.table_copy)
+local copy_node = assert(foundation.com.copy_node)
 local list_map = assert(foundation.com.list_map)
 local Directions = assert(foundation.com.Directions)
 local Vector3 = assert(foundation.com.Vector3)
@@ -301,7 +302,7 @@ local function refresh_node(pos, node)
     end
   end
 
-  local new_node = table_copy(node)
+  local new_node = copy_node(node)
 
   if connected_to_east and connected_to_west then
     -- this should be a 2_3 node

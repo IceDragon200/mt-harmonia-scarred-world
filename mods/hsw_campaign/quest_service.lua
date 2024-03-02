@@ -253,8 +253,9 @@ do
     end
 
     if next(self.m_completed_quests) then
+      local entry
       for name, _ in pairs(self.m_completed_quests) do
-        local entry = self.m_active_quests[name]
+        entry = self.m_active_quests[name]
         self.m_active_quests[name] = nil
         entry:trigger_on_completed()
 

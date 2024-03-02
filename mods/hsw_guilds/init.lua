@@ -21,7 +21,7 @@ mod.guilds = hsw_guilds.Guilds:new()
 
 -- @namespace hsw
 
--- @alias guilds: hsw_guilds.Guilds
+-- @alias guilds: hsw_guilds.Guilds = hsw_guilds.guilds
 hsw.guilds = mod.guilds
 
 mod:require("chat_commands.lua")

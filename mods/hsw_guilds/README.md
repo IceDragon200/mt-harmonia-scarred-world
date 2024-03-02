@@ -12,7 +12,7 @@ Registers a new guild and assigns the issuing player as the leader and founder o
 /guild-invite <player-name> [<guild-id>]
 ```
 
-Sends an invite to another player to join a guild, if  the guild id is not specified, it will assume the player's current guild.
+Sends an invite to another player to join a guild, if the `guild-id` is not specified, it will assume the sending player's current guild.
 
 ```
 /guild-join <guild-id> [<confirm>]
@@ -30,13 +30,13 @@ Leave current guild, the leader cannot leave the guild. Neither can any sub-lead
 /guild-list
 ```
 
-Lists all guilds registered on the server
+Lists all guilds registered on the server unless hidden.
 
 ```
 /guild-appoint <position> <player-name> [<guild-id>]
 ```
 
-Appoints for position, specified player in guild, note that the player must be apart of the guild to be appointed for a position.
+Appoints for position a specified player in guild, note that the player must be apart of the guild to be appointed for a position.
 
 Position can be:
 

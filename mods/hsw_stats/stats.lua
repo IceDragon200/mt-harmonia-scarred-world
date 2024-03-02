@@ -229,22 +229,23 @@ player_stats:register_stat("fabrication_level", {
 local get_player_stat = player_stats.get_player_stat
 local set_player_stat = player_stats.set_player_stat
 
--- Options:
---   no_regen_from_zero -
---     prevent stats that have a zero or less amount from regenerating
---     this is needed for stats like HP that shouldn't recover from nothing.
---   has_overflow_degen -
---     if the 'amount' exceeds the 'max' of the stat, should it eventually
---     degen to the 'max' value?
--- @type Options: {
---   no_regen_from_zero: Boolean,
---   has_overflow_degen: Boolean,
--- }
+--- Options:
+---   no_regen_from_zero -
+---     prevent stats that have a zero or less amount from regenerating
+---     this is needed for stats like HP that shouldn't recover from nothing.
+---   has_overflow_degen -
+---     if the 'amount' exceeds the 'max' of the stat, should it eventually
+---     degen to the 'max' value?
+---
+--- @type Options: {
+---   no_regen_from_zero: Boolean,
+---   has_overflow_degen: Boolean,
+--- }
 
--- (Re|De)gen factory function. This function creates an update function
--- used to perform the regen or degen behaviour of a specified stat.
---
--- @private.spec make_gen_stat_function(String, Options): Function/3
+--- (Re|De)gen factory function. This function creates an update function
+--- used to perform the regen or degen behaviour of a specified stat.
+---
+--- @private.spec make_gen_stat_function(String, Options): Function/3
 local function make_gen_stat_function(basename, options)
   options = options or {}
   local max_name = basename .. "_max"
@@ -322,13 +323,13 @@ end
 --
 local player_physics_cache = {}
 
--- @private.spec update_players_hp_gen({ [player_name: String]: Player }, dt: Float, Table): void
+--- @private.spec update_players_hp_gen({ [player_name: String]: Player }, dt: Float, assigns: Table): void
 local update_players_hp_gen = make_gen_stat_function("hp", { no_regen_from_zero = true })
 
--- @private.spec update_players_shield_gen({ [player_name: String]: Player }, dt: Float, Table):void
+--- @private.spec update_players_shield_gen({ [player_name: String]: Player }, dt: Float, assigns: Table):void
 local update_players_shield_gen = make_gen_stat_function("shield")
 
--- @private.spec synchronize_base_stats({ [player_name: String]: Player }, dt: Float, Table): void
+--- @private.spec synchronize_base_stats({ [player_name: String]: Player }, dt: Float, assigns: Table, trace: Trace): void
 local function synchronize_base_stats(players, dt, assigns, trace)
   local hp_max
   local breath_max
@@ -433,12 +434,12 @@ end
 local stats_elapsed = 0
 local stats_elapsed_since_update = 0
 
--- @private.spec update_players(
---   { [player_name: String]: Player },
---   dtime: Float,
---   player_assigns: Table,
---   trace: Trace
--- ): void
+--- @private.spec update_players(
+---   { [player_name: String]: Player },
+---   dtime: Float,
+---   player_assigns: Table,
+---   trace: Trace
+--- ): void
 local function update_players(players, dtime, assigns, trace)
   stats_elapsed = stats_elapsed + dtime
   stats_elapsed_since_update = stats_elapsed_since_update + dtime

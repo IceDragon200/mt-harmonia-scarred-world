@@ -1,10 +1,10 @@
--- @namespace hsw
+--- @namespace hsw
 
--- @class FluidIngredient
+--- @class FluidIngredient
 local FluidIngredient = foundation.com.Class:extends("hsw.FluidIngredient")
 local ic = FluidIngredient.instance_class
 
--- @spec #initialize(Table): void
+--- @spec #initialize(Table): void
 function ic:initialize(def)
   self.name = assert(def.name, "expected a fluid name")
   self.amount = def.amount or 1
