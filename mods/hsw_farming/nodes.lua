@@ -1,3 +1,15 @@
-local mod = hsw_farming
+local mod = assert(hsw_farming)
 
 mod:require("nodes/farmland.lua")
+
+mod:require("nodes/beetroot.lua")
+mod:require("nodes/carrot.lua")
+mod:require("nodes/cotton.lua")
+mod:require("nodes/flax.lua")
+mod:require("nodes/grapes.lua")
+mod:require("nodes/melon.lua")
+mod:require("nodes/potato.lua")
+mod:require("nodes/pumpkin.lua")
+mod:require("nodes/rice.lua")
+mod:require("nodes/tomato.lua")
+mod:require("nodes/wheat.lua")
