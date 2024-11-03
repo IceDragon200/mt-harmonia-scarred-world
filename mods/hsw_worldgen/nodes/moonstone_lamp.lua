@@ -7,6 +7,7 @@
 local mod = hsw_worldgen
 
 mod:register_node("moonstone_lamp_off", {
+  base_description = mod.S("Moonstone Lamp"),
   description = mod.S("Moonstone Lamp [Off]"),
 
   groups = {
@@ -25,7 +26,8 @@ mod:register_node("moonstone_lamp_off", {
 })
 
 mod:register_node("moonstone_lamp_on", {
-  description = mod.S("Moonstone Lamp [Off]"),
+  base_description = mod.S("Moonstone Lamp"),
+  description = mod.S("Moonstone Lamp [On]"),
 
   groups = {
     cracky = nokore.dig_class("copper")
