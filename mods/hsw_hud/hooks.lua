@@ -2,10 +2,6 @@ local mod = hsw_hud
 
 local Groups = foundation.com.Groups
 
-nokore.player_hud:register_hud_element("heat", {
-
-})
-
 nokore.environment:register_on_player_env_change("hsw_hud:heat_and_humidity_watcher", function (player, changes)
   if changes.heat then
   end
@@ -14,47 +10,22 @@ nokore.environment:register_on_player_env_change("hsw_hud:heat_and_humidity_watc
   end
 end)
 
-nokore.player_hud:register_hud_element("primary_action_icon", {
-  hud_elem_type = "image",
-  offset = {
-    x = -48,
-    y = 24,
-  },
-  scale = {
-    x = 1,
-    y = 1,
-  },
-  position = {
-    x = 0.5,
-    y = 0.5,
-  },
-  -- alignment = {
-  --   x = 0.5,
-  --   y = 0.5,
-  -- },
-  text = ""
-})
-
-nokore.player_hud:register_hud_element("secondary_action_icon", {
-  hud_elem_type = "image",
-  offset = {
-    x = 48,
-    y = 24,
-  },
-  scale = {
-    x = 1,
-    y = 1,
-  },
-  position = {
-    x = 0.5,
-    y = 0.5,
-  },
-  -- alignment = {
-  --   x = 0.5,
-  --   y = 0.5,
-  -- },
-  text = ""
-})
+-- nokore.player_service:register_update(
+--   "hsw_hud:update_players",
+--   function (players, dtime, player_assigns, trace)
+--     local assigns
+--     local wield_index
+--     for player_name, player in pairs(players) do
+--       local wield_index = player:get_wield_index()
+--       assigns = player_assigns[player_name]
+--       if assigns.wield_index ~= wield_index then
+--         assigns.wield_index = wield_index
+--         print("UPDATE wield_index", assigns.wield_index)
+--         nokore.player_hud:change_player_hud_element(player, "wielded_item", "item", assigns.wield_index)
+--       end
+--     end
+--   end
+-- )
 
 local elapsed = 0
 hsw.watla:register_looking_at("hsw_hud:looking_at/2", function (context, dtime)
