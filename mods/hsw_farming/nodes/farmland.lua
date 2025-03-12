@@ -13,6 +13,13 @@ mod:register_node("farmland_dry", {
     farmland = 1,
     dry = 1,
   },
+
+  tiles = {
+    "hsw_farmland.dry.png",
+  },
+
+  paramtype = "none",
+  paramtype2 = "none",
 })
 
 mod:register_node("farmland_moist", {
@@ -30,4 +37,11 @@ mod:register_node("farmland_moist", {
     farmland = 1,
     wet = 1,
   },
+
+  tiles = {
+    "hsw_farmland.wet.png",
+  },
+
+  paramtype = "none",
+  paramtype2 = "none",
 })

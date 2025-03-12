@@ -1,1 +1,164 @@
-{}
+{
+  "authors": {
+    "glionox": {
+      "url": "https://glionox.itch.io"
+    },
+    "PixelPerfection": {
+      "url": "https://github.com/Wallbraker/PixelPerfection"
+    }
+  },
+  "licenses": {
+    "CC-BY-SA 4.0": {
+      "urls": [
+        "https://creativecommons.org/licenses/by-sa/4.0/"
+      ]
+    }
+  },
+  },
+  "files": {
+    "hsw_beetroot.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_beetroot_seeds.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_beetroots_stage0.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_beetroots_stage1.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_beetroots_stage2.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_beetroots_stage3.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_bread.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_carrot.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_carrots_stage0.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_carrots_stage1.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_carrots_stage2.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_carrots_stage3.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_cocoa_beans.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_farmland.dry.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_farmland.moist.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_melon_seeds.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_melon_slice.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_potato.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_potatoes_stage0.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_potatoes_stage1.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_potatoes_stage2.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_potatoes_stage3.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_pumpkin_seeds.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_pumpkin_side.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_pumpkin_stem.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_pumpkin_top.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_tomato.png": {
+      "authors": ["glionox"],
+      "url": "https://glionox.itch.io/items16"
+    },
+    "hsw_wheat.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_wheat_stage0.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_wheat_stage1.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_wheat_stage2.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_wheat_stage3.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_wheat_stage4.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_wheat_stage5.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_wheat_stage6.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_wheat_stage7.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    }
+  }
+}
