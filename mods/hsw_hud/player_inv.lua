@@ -8,3 +8,5 @@ mod:require("tabs/nanosuit.lua")
 mod:require("tabs/element_craft.lua")
 mod:require("tabs/inbox.lua")
 mod:require("tabs/status.lua")
+--
+mod:require("tabs/ic.lua")
