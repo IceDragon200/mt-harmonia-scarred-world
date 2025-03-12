@@ -1,14 +1,12 @@
 {
   "authors": {
-    "tacigar": {
-      "urls": [
-        "https://github.com/tacigar"
-      ]
-    },
     "IceDragon200": {
       "urls": [
         "https://github.com/IceDragon200"
       ]
+    },
+    "PixelPerfection": {
+      "url": "https://github.com/Wallbraker/PixelPerfection"
     }
   },
   "licenses": {
@@ -52,7 +50,7 @@
       "licenses": ["CC-BY-SA 4.0"]
     },
     "textures/hsw_tool_nametag.png": {
-      "authors": ["tacigar"],
+      "authors": ["PixelPerfection"],
       "licenses": ["CC-BY-SA 4.0"]
     }
   }
