@@ -7,3 +7,5 @@ local mod = foundation.new_module("hsw_worldgen", "1.0.0")
 mod:require("nodes.lua")
 
 mod:require("fluid_wells.lua")
+
+mod:require("abm.lua")

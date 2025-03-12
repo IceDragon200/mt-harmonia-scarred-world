@@ -2,6 +2,40 @@
 
 Adds some HSW specific worldgen.
 
+## Behaviours
+
+Nodes can be assigned to the `day_night_cycle` group to trigger day & night cycling.
+
+```lua
+local hsw_day_night = {
+  --- Which node to use during daytime
+  day = "my_mod:day_node",
+  --- Which node to use during night time
+  night = "my_mod:night_node",
+
+  --- Optional callback when the node changes from day/night to its other state
+  after_cycle = function (pos, node, prev_node, is_night)
+    --- Do whatever you like, this is called only once when the node changes from its day/night state
+  end,
+}
+
+core.register_node("my_mod:day_node", {
+  groups = {
+    day_night_cycle = 1,
+  },
+
+  hsw_day_night = hsw_day_night,
+})
+
+core.register_node("my_mod:night_node", {
+  groups = {
+    day_night_cycle = 1,
+  },
+
+  hsw_day_night = hsw_day_night,
+})
+```
+
 ## Nodes
 
 * Dark Stone
