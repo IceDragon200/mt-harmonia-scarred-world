@@ -18,6 +18,19 @@ local gauge_bar = "hsw_gauge8x8.mask.png"
 local gauge_base = "hsw_gauge8x8.base.png"
 local GAUGE_SIZE = { x = 8, y = 8 }
 
+nokore.player_hud:register_hud_element("biome_text", {
+  type = "text",
+  position = {
+    x = 0.75,
+    y = 0.25,
+  },
+  text = "",
+  alignment = { x = 1, y = 1 },
+  number = 0xFFFFFF,
+  size = {x = 1, y = 1},
+  offset = { x = 0, y = 0 },
+})
+
 if style == "icon" then
   core.hud_replace_builtin("health", {
     type = "statbar",

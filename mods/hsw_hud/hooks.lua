@@ -1,12 +1,17 @@
-local mod = hsw_hud
+local mod = assert(hsw_hud)
 
 local Groups = foundation.com.Groups
 
-nokore.environment:register_on_player_env_change("hsw_hud:heat_and_humidity_watcher", function (player, changes)
+nokore.environment:register_on_player_env_change("hsw_hud:env_watcher", function (player, changes)
   if changes.heat then
   end
 
   if changes.humidity then
+  end
+
+  if changes.biome then
+    local biome_name = core.get_biome_name(changes.biome) or "unknown"
+    nokore.player_hud:change_player_hud_element(player, "biome_text", "text", biome_name)
   end
 end)
 
