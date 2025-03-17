@@ -678,6 +678,24 @@ function hsw.register_workbench(basename, def)
   minetest.register_node(def.workbench_segments["3_3"], def3_3)
 end
 
+hsw.register_workbench(mod:make_name("workbench_abyss"), {
+  codex_entry_id = mod:make_name("workbench"),
+
+  description = mod.S("ABYSS Workbench"),
+
+  groups = {
+    material_abyss = 1,
+    oddly_breakable_by_hand = 1,
+  },
+
+  workbench_info = {
+    bench_class = "abyss",
+    level = 1,
+  },
+
+  tile_basename = "hsw_workbench_abyss",
+})
+
 hsw.register_workbench(mod:make_name("workbench_wme"), {
   codex_entry_id = mod:make_name("workbench"),
 
