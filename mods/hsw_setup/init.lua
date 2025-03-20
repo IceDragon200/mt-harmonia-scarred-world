@@ -166,6 +166,7 @@ function perform_initial_setup(player)
     return
   end
 
+  local should_break = false
   while true do
     core.log("info", "setup_stage=" .. stage)
     if stage == "init" then
@@ -173,14 +174,15 @@ function perform_initial_setup(player)
       -- like way up
       player:set_pos(vector.new(0, 0x7F00, 0))
       -- mark the player as being in the hsw_setup
-      meta:set_string("hsw_setup", "init")
+      player_setup = "init"
       stage = "setup"
     elseif stage == "setup" then
-      player_setup = meta:get_string("hsw_setup")
-      if player_setup == "init" then
+      if player_setup == "" then
+        player_setup = "init"
+      elseif player_setup == "init" then
         show_setup_formspec(player)
-        meta:set_string("hsw_setup", "setup")
-        break
+        player_setup = "setup"
+        should_break = true
       elseif player_setup == "apply" then
         stage = "cleanup"
       else
@@ -199,14 +201,18 @@ function perform_initial_setup(player)
     elseif stage == "finalize" then
       nokore.world_kv:put("hsw_setup_completed", true)
       nokore.world_kv:delete("hsw_setup_stage")
-      meta:set_string("hsw_setup", "")
+      player_setup = ""
       --
       nokore.player_spawn:on_player_respawn(player)
-      break
+      should_break = true
     else
       error("unexpected stage=" .. stage)
     end
+    meta:set_string("hsw_setup", player_setup)
     nokore.world_kv:put("hsw_setup_stage", stage)
+    if should_break then
+      break
+    end
   end
 end
 
