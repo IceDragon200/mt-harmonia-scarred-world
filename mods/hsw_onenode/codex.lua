@@ -14,3 +14,18 @@ yatm.codex.register_entry(mod:make_name("core"), {
     }
   }
 })
+
+yatm.codex.register_entry(mod:make_name("core_spirit"), {
+  pages = {
+    {
+      heading_item = {
+        context = true,
+        default = mod:make_name("core_spirit"),
+      },
+      heading = mod.S("SPIRIT CORE"),
+      lines = {
+        "The cumilation of countless spirits, a pseodo core capable of producing more cores.",
+      }
+    }
+  }
+})
