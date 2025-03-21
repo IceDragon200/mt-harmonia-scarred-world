@@ -2,6 +2,7 @@ local mod = hsw_tools
 
 mod:require("tools/axes.lua")
 mod:require("tools/crowbars.lua")
+mod:require("tools/displacement_wands.lua")
 mod:require("tools/guns.lua")
 mod:require("tools/hammers.lua")
 mod:require("tools/hatchets.lua")
