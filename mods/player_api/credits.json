@@ -16,6 +16,13 @@
       ]
     }
   },
+  "licenses": {
+    "CC BY-SA 3.0": {
+      "urls": [
+        "https://creativecommons.org/licenses/by-sa/3.0/"
+      ]
+    }
+  },
   "files": {
     "models/character.blend": {
       "authors": [
@@ -29,16 +36,20 @@
         "stujones11",
         "An0n3m0us",
       ],
-      "notes": "Original by MirceaKitsune, with fixes and additions by other authors"
+      "notes": "Original by MirceaKitsune, with fixes and additions by other authors",
+      "license": "CC BY-SA 3.0"
     },
     "textures/character.png": {
-      "authors": ["Jordach"]
+      "authors": ["Jordach"],
+      "license": "CC BY-SA 3.0"
     },
     "textures/player.png": {
-      "authors": ["celeron55"]
+      "authors": ["celeron55"],
+      "license": "CC BY-SA 3.0"
     },
     "textures/player_back.png": {
-      "authors": ["celeron55"]
+      "authors": ["celeron55"],
+      "license": "CC BY-SA 3.0"
     }
   }
 }
