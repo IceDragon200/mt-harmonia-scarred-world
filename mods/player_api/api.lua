@@ -217,13 +217,13 @@ end
 
 -- Mods can modify the globalstep by overriding mod.globalstep
 nokore.player_service:register_update(mod:make_name("update_players/4"), mod.update_players)
-nokore.player_service:register_on_player_join(mod:make_name("on_player_join"), function(player)
+nokore.player_service:register_on_player_join(mod:make_name("on_player_join/1"), function(player)
   local name = player:get_player_name()
   players[name] = {}
   mod.player_attached[name] = false
 end)
 
-nokore.player_service:register_on_player_leave(mod:make_name("on_player_leave") function(player)
+nokore.player_service:register_on_player_leave(mod:make_name("on_player_leave/1"), function(player)
   local name = player:get_player_name()
   players[name] = nil
   mod.player_attached[name] = nil

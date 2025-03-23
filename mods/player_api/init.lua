@@ -1,4 +1,4 @@
-local player_api = foundation.new_module("player_api", "1.0.0")
+local mod = foundation.new_module("player_api", "1.0.0")
 
 mod:require("api.lua")
 
@@ -23,6 +23,6 @@ mod.register_model("character.b3d", {
 })
 
 -- Update appearance when the player joins
-nokore.player_service:register_on_player_join(mod:make_name("on_player_join.set_model") function(player)
+nokore.player_service:register_on_player_join(mod:make_name("on_player_join.set_model"), function(player)
   mod.set_model(player, "character.b3d")
 end)
