@@ -82,20 +82,67 @@ nokore_player_inv.register_player_inventory_tab("equipment", {
     local inv_name = hsw_equipment.INVENTORY_NAME
 
     -- since yatm_core is available we can just setup a split panel here
-    return yatm.formspec_render_split_inv_panel(player, nil, 4, { bg = "default", formspec_version = false }, function (loc, rect)
+    return yatm.formspec_render_split_inv_panel(player, 5, 4, { bg = "default", formspec_version = false }, function (loc, rect)
       if loc == "main_body" then
         local formspec = ""
         local x
         local y
+        local model_w = 2
+
+        local props = player:get_properties()
+        local model_name = props.mesh
+        local texture = props.textures[1]
+
+        local model_spec = player_api.registered_models[model_name]
+
+        print(dump(props))
+
+        if model_spec then
+          local animation = model_spec.animations.stand
+
+          formspec =
+            formspec
+            .. fspec.box(
+              rect.x,
+              rect.y,
+              model_w,
+              rect.h,
+              "#222222"
+            )
+            .. fspec.model(
+              rect.x,
+              rect.y,
+              model_w,
+              rect.h,
+              "model",
+              model_name,
+              texture,
+              0,
+              180,
+              false,
+              true,
+              animation.x,
+              animation.y,
+              model_spec.animation_speed or 30
+            )
+        end
 
         for index, item in ipairs(EQUIPMENT_LAYOUT) do
-          x = math.floor((index - 1) / 4)
+          x = model_w + math.floor((index - 1) / 4)
           y = (index - 1) % 4
 
           formspec =
-            formspec ..
-            fspec.list("current_player", inv_name, rect.x + cio(x), rect.y + cio(y), 1, 1, item.slot - 1) ..
-            fspec.image(rect.x + cio(x), rect.y + cio(y), 1, 1, item.hint_texture)
+            formspec
+            .. fspec.list(
+              "current_player",
+              inv_name,
+              rect.x + cio(x),
+              rect.y + cio(y),
+              1,
+              1,
+              item.slot - 1
+            )
+            .. fspec.image(rect.x + cio(x), rect.y + cio(y), 1, 1, item.hint_texture)
         end
 
         return formspec
