@@ -1,0 +1,44 @@
+{
+  "authors": {
+    "MirceaKitsune": {},
+    "kilbith": {},
+    "sofar": {},
+    "xunto": {},
+    "Rogier-5": {},
+    "TeTpaAka": {},
+    "Desour": {},
+    "stujones11": {},
+    "An0n3m0us": {},
+    "Jordach": {},
+    "celeron55": {
+      "urls": [
+        "emailto:celeron55@gmail.com"
+      ]
+    }
+  },
+  "files": {
+    "models/character.blend": {
+      "authors": [
+        "MirceaKitsune",
+        "kilbith",
+        "sofar",
+        "xunto",
+        "Rogier-5",
+        "TeTpaAka",
+        "Desour",
+        "stujones11",
+        "An0n3m0us",
+      ],
+      "notes": "Original by MirceaKitsune, with fixes and additions by other authors"
+    },
+    "textures/character.png": {
+      "authors": ["Jordach"]
+    },
+    "textures/player.png": {
+      "authors": ["celeron55"]
+    },
+    "textures/player_back.png": {
+      "authors": ["celeron55"]
+    }
+  }
+}
