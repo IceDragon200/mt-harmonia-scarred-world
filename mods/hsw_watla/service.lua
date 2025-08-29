@@ -1,6 +1,6 @@
 --- @namespace hsw_watla
 local Vector3 = assert(foundation.com.Vector3, "expected vector3 module")
-local raycast = assert(minetest.raycast, "expected raycast function")
+local raycast = assert(core.raycast, "expected raycast function")
 
 --- @class Service
 local Service = foundation.com.Class:extends("hsw_watla.Service")
