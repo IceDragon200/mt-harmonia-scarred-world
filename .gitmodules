@@ -19,3 +19,12 @@
 [submodule "mods/nokore_mesecons"]
   path = mods/nokore_mesecons
   url = https://github.com/IceDragon200/nokore_mesecons
+[submodule "mods/placement_preview"]
+  path = mods/placement_review
+  url = https://github.com/IceDragon200/placement_preview
+[submodule "mods/3d_armor"]
+  path = mods/3d_armor
+  url = https://github.com/IceDragon200/3d_armor
+[submodule "mods/hazmat_suit"]
+  path = mods/hazmat_suit
+  url = https://github.com/IceDragon200/hazmat_suit
