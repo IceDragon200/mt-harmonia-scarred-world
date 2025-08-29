@@ -1,5 +1,5 @@
 local mod = assert(hsw_tools)
-local TOOL_MATERIALS = hsw.TOOL_MATERIALS
+local TOOL_MATERIALS = assert(hsw.TOOL_MATERIALS)
 
 local tool_class = "spear"
 local basename = mod:make_name("spear")
