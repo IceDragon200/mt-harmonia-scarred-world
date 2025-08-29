@@ -20,11 +20,11 @@ for material_basename, material in pairs(TOOL_MATERIALS) do
     base_description = base_description,
 
     description = mod.S(material.description .. " Displacement Wand"),
+    short_description = mod.S(material.description .. " Displacement Wand"),
 
     groups = {
       tc_displacement_wand = 1,
       ["mat_"..material_basename] = 1,
-      wb_tool = 1,
     },
 
     inventory_image = "hsw_tools_displacement_wand." .. material_basename .. ".png",
