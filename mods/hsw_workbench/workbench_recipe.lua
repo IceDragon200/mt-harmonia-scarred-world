@@ -1,9 +1,9 @@
 --- @namespace hsw
 local list_map = assert(foundation.com.list_map)
 
-local ItemIngredient = assert(hsw.ItemIngredient)
-local ItemOutput = assert(hsw.ItemOutput)
-local ItemOutputRandom = assert(hsw.ItemOutputRandom)
+local ItemIngredient = assert(yatm.recipe_component.ItemIngredient)
+local ItemOutput = assert(yatm.recipe_component.ItemOutput)
+local ItemOutputRandom = assert(yatm.recipe_component.ItemOutputRandom)
 local WorkbenchRequirement = assert(hsw.WorkbenchRequirement)
 local ToolRequirement = assert(hsw.ToolRequirement)
 

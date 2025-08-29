@@ -5,16 +5,12 @@
 --   and then place various items on each, after which using a tool of choice
 --   to effectively craft.
 --
-local mod = foundation.new_module("hsw_workbench", "0.1.0")
+local mod = foundation.new_module("hsw_workbench", "0.2.0")
 
 --- @namespace hsw
 hsw = rawget(_G, "hsw") or {}
 
 -- Structures
-mod:require("item_ingredient.lua")
-mod:require("fluid_ingredient.lua") -- not used by workbench buuuuuut
-mod:require("item_output.lua")
-mod:require("item_output_random.lua")
 mod:require("workbench_requirement.lua")
 mod:require("tool_requirement.lua")
 -- Recipe

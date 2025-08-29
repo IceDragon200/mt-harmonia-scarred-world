@@ -35,7 +35,7 @@ local ITEM_OFFSET = 5/16
 --
 -- Entity used to present the item on the workbench
 --
-minetest.register_entity("hsw_workbench:item", {
+core.register_entity("hsw_workbench:item", {
   initial_properties = {
     hp_max = 1,
     visual = "wielditem",
@@ -53,7 +53,7 @@ minetest.register_entity("hsw_workbench:item", {
   end,
 
   on_activate = function(self, static_data)
-    local data = minetest.parse_json(static_data)
+    local data = core.parse_json(static_data)
 
     self.workbench_id = data.workbench_id
     self.item_name = data.item_name
@@ -70,14 +70,14 @@ minetest.register_entity("hsw_workbench:item", {
       base_pos = self.base_pos,
       facedir = self.facedir,
     }
-    return minetest.write_json(data)
+    return core.write_json(data)
   end,
 
   refresh = function (self)
     if not self.workbench_id or not self.item_name or not self.base_pos then
       self.object:remove()
     else
-      local itemdef = minetest.registered_items[self.item_name]
+      local itemdef = core.registered_items[self.item_name]
 
       local scale = NODE_SCALE
       local offset = NODE_OFFSET -- adjust for stockpile height
@@ -124,8 +124,8 @@ minetest.register_entity("hsw_workbench:item", {
 })
 
 local function remove_workbench_item_at_pos(pos)
-  local workbench_id = minetest.hash_node_position(pos)
-  for _, object in ipairs(minetest.get_objects_inside_radius(pos, 0.75)) do
+  local workbench_id = core.hash_node_position(pos)
+  for _, object in ipairs(core.get_objects_inside_radius(pos, 0.75)) do
     if not object:is_player() then
       local lua_entity = object:get_luaentity()
       if lua_entity then
@@ -142,13 +142,13 @@ local function refresh_workbench_item(pos)
   assert(type(pos) == "table", "expected a position")
   remove_workbench_item_at_pos(pos)
 
-  local node = minetest.get_node_or_nil(pos)
+  local node = core.get_node_or_nil(pos)
   if node then
-    local nodedef = minetest.registered_nodes[node.name]
+    local nodedef = core.registered_nodes[node.name]
 
     if nodedef then
       if nodedef.groups and nodedef.groups.workbench then
-        local meta = minetest.get_meta(pos)
+        local meta = core.get_meta(pos)
         local inv = meta:get_inventory()
         local stack = inv:get_stack("main", 1)
 
@@ -159,8 +159,8 @@ local function refresh_workbench_item(pos)
             z = pos.z,
           }
 
-          local workbench_id = minetest.hash_node_position(pos)
-          minetest.add_entity(obj_pos, "hsw_workbench:item", minetest.write_json({
+          local workbench_id = core.hash_node_position(pos)
+          core.add_entity(obj_pos, "hsw_workbench:item", core.write_json({
             base_pos = obj_pos,
             item_name = stack:get_name(),
             workbench_id = workbench_id,
@@ -221,7 +221,7 @@ local BENCH_3_3_NODEBOX = {
 }
 
 local function notify_neighbours(pos, node)
-  local registered_nodes = minetest.registered_nodes
+  local registered_nodes = core.registered_nodes
   local nodedef = registered_nodes[node.name]
 
   local other_node
@@ -230,7 +230,7 @@ local function notify_neighbours(pos, node)
 
   for _dir, vec3 in pairs(Directions.DIR6_TO_VEC3) do
     other_pos = Vector3.add(other_pos, pos, vec3)
-    other_node = minetest.get_node_or_nil(other_pos)
+    other_node = core.get_node_or_nil(other_pos)
 
     if other_node then
       other_nodedef = registered_nodes[other_node.name]
@@ -244,7 +244,7 @@ local function notify_neighbours(pos, node)
 end
 
 local function refresh_node(pos, node)
-  local registered_nodes = minetest.registered_nodes
+  local registered_nodes = core.registered_nodes
   local nodedef = registered_nodes[node.name]
 
   local other_nodedef
@@ -259,7 +259,7 @@ local function refresh_node(pos, node)
   local east = facedir_to_local_face(node.param2, Directions.D_EAST)
   if east then
     local east_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[east], pos)
-    local east_node = minetest.get_node_or_nil(east_pos)
+    local east_node = core.get_node_or_nil(east_pos)
     if east_node then
       other_nodedef = registered_nodes[east_node.name]
       if other_nodedef then
@@ -282,7 +282,7 @@ local function refresh_node(pos, node)
   local west = facedir_to_local_face(node.param2, Directions.D_WEST)
   if west then
     local west_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[west], pos)
-    local west_node = minetest.get_node_or_nil(west_pos)
+    local west_node = core.get_node_or_nil(west_pos)
     if west_node then
       other_nodedef = registered_nodes[west_node.name]
       if other_nodedef then
@@ -324,25 +324,25 @@ local function refresh_node(pos, node)
   end
 
   if new_node.name ~= node.name then
-    minetest.swap_node(pos, new_node)
+    core.swap_node(pos, new_node)
   end
 end
 
 local function on_construct(pos)
-  local meta = minetest.get_meta(pos)
+  local meta = core.get_meta(pos)
   local inv = meta:get_inventory()
 
   inv:set_size("main", 1)
 end
 
 local function after_place_node(pos)
-  local node = minetest.get_node(pos)
+  local node = core.get_node(pos)
   notify_neighbours(pos, node)
   refresh_node(pos, node)
 end
 
 local function unsafe_get_workbench_item_stack_at(pos)
-  local meta = minetest.get_meta(pos)
+  local meta = core.get_meta(pos)
   if meta then
     local inv = meta:get_inventory()
     return inv:get_stack("main", 1)
@@ -351,7 +351,7 @@ local function unsafe_get_workbench_item_stack_at(pos)
 end
 
 local function set_workbench_item_stack_at(pos, item_stack)
-  local meta = minetest.get_meta(pos)
+  local meta = core.get_meta(pos)
   if meta then
     local inv = meta:get_inventory()
     inv:set_stack("main", 1, item_stack)
@@ -367,10 +367,10 @@ end
 
 --- @spec get_workbench_items(Vector3): { pos: Vector3, item_stack: ItemStack }[]
 local function get_workbench_items(center_pos)
-  local node = minetest.get_node_or_nil(center_pos)
+  local node = core.get_node_or_nil(center_pos)
 
   if node then
-    local nodedef = minetest.registered_nodes[node.name]
+    local nodedef = core.registered_nodes[node.name]
 
     local east_face = facedir_to_local_face(node.param2, Directions.D_EAST)
     local west_face = facedir_to_local_face(node.param2, Directions.D_WEST)
@@ -378,16 +378,16 @@ local function get_workbench_items(center_pos)
     local east_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[east_face], center_pos)
     local west_pos = Vector3.add({}, Directions.DIR6_TO_VEC3[west_face], center_pos)
 
-    local east_node = minetest.get_node_or_nil(east_pos)
-    local west_node = minetest.get_node_or_nil(west_pos)
+    local east_node = core.get_node_or_nil(east_pos)
+    local west_node = core.get_node_or_nil(west_pos)
 
     local east_node_def
     if east_node then
-      east_node_def = minetest.registered_nodes[east_node.name]
+      east_node_def = core.registered_nodes[east_node.name]
     end
     local west_node_def
     if west_node then
-      west_node_def = minetest.registered_nodes[west_node.name]
+      west_node_def = core.registered_nodes[west_node.name]
     end
 
     local result = {}
@@ -442,15 +442,15 @@ local function on_punch(pos, node, user, pointed_thing)
   local tool = user:get_wielded_item()
 
   if tool and not tool:is_empty() then
-    local workbench_info = get_node_workbench_info(node)
-    local tool_info = get_item_workbench_tool_info(tool)
+    local workbench_info = get_node_workbench_info(pos, node, user)
+    local tool_info = get_item_workbench_tool_info(tool, user)
 
     if workbench_info and tool_info then
       local items = get_workbench_items(pos)
       local item_stacks = list_map(items, function (entry)
         return entry.item_stack
       end)
-      local meta = minetest.get_meta(pos)
+      local meta = core.get_meta(pos)
 
       local last_recipe_id = meta:get("last_recipe_id")
       local recipe
@@ -481,7 +481,7 @@ local function on_punch(pos, node, user, pointed_thing)
         end
 
         tool_uses = tool_uses + 1
-        minetest.chat_send_player(
+        core.chat_send_player(
           user:get_player_name(),
           "Crafting " .. recipe.description .. " " .. tool_uses .. " / " .. recipe.tool_uses
         )
@@ -521,7 +521,7 @@ end
 
 local function on_rightclick(pos, node, clicker, held_item, pointed_thing)
   -- place items on workbench or take them off
-  local meta = minetest.get_meta(pos)
+  local meta = core.get_meta(pos)
   local inv = meta:get_inventory()
 
   if inv:get_size("main") < 1 then
@@ -617,7 +617,7 @@ function hsw.register_workbench(basename, def)
   end
 
   -- single bench (accessible via creative and will transform into the other benches when placed)
-  minetest.register_node(def.workbench_segments["1"], def1)
+  core.register_node(def.workbench_segments["1"], def1)
 
   def.drop = def.workbench_segments["1"]
 
@@ -671,11 +671,11 @@ function hsw.register_workbench(basename, def)
   def3_3.node_box = BENCH_3_3_NODEBOX
 
   -- left hand bench
-  minetest.register_node(def.workbench_segments["1_3"], def1_3)
+  core.register_node(def.workbench_segments["1_3"], def1_3)
   -- center bench
-  minetest.register_node(def.workbench_segments["2_3"], def2_3)
+  core.register_node(def.workbench_segments["2_3"], def2_3)
   -- right hand bench
-  minetest.register_node(def.workbench_segments["3_3"], def3_3)
+  core.register_node(def.workbench_segments["3_3"], def3_3)
 end
 
 hsw.register_workbench(mod:make_name("workbench_abyss"), {
@@ -769,7 +769,7 @@ hsw.register_workbench(mod:make_name("workbench_nano_element"), {
   tile_basename = "hsw_workbench_nano_element",
 })
 
-minetest.register_lbm({
+core.register_lbm({
   label = "Refresh Workbench Items",
 
   nodenames = {"group:workbench"},
