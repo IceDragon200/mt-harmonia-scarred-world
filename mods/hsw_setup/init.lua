@@ -103,6 +103,12 @@ end
 local function setup_initial_world()
   local mode = nokore.world_kv:get("hsw_game_mode")
 
+  if mode == nil then
+    --- fallback behaviour
+    mode = "freeplay"
+    nokore.world_kv:put("hsw_game_mode", mode)
+  end
+
   if mode == "onenode" then
     -- in one node, we let hsw_onenode handle the setup
     setup_onenode_game_world()

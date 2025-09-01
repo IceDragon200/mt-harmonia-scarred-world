@@ -1,6 +1,6 @@
 local mod = hsw_equipment
 
--- A list of stats that nanosuit upgrades are allowed to modify
+-- A list of stats that equipment upgrades are allowed to modify
 local STATS = {
   "energy_regen",
   "energy_degen",

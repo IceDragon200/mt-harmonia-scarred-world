@@ -1,0 +1,9 @@
+#
+# Whether or not Creative Mode should be enabled
+#
+creative_mode (Creative mode) bool false
+
+#
+# Alternate story mode where the player starts in a singlenode world at a tower inside the abyss
+#
+abyss_mode (Abyss Mode) bool false

@@ -7,13 +7,17 @@ all: build
 
 .PHONY: build
 build:
+	make -C mods/3d_armor
 	make -C mods/foundation
 	make -C mods/nokore
 	make -C mods/harmonia
 	make -C mods/yatm
 
 .PHONY: luacheck
-luacheck: foundation.luacheck nokore.luacheck harmonia.luacheck yatm.luacheck hsw.luacheck
+luacheck: 3d_armor.luacheck foundation.luacheck nokore.luacheck harmonia.luacheck yatm.luacheck hsw.luacheck
+
+3d_armor.luacheck:
+	make -C mods/3d_armor luacheck
 
 foundation.luacheck:
 	make -C mods/foundation luacheck
@@ -40,6 +44,7 @@ prepare.release:
 	make -C mods/harmonia prepare.release TMP_DIR="${TMP_DIR}/hsw/mods"
 	make -C mods/yatm prepare.release TMP_DIR="${TMP_DIR}/hsw/mods"
 	make -C mods/hsw_maidroid prepare.release TMP_DIR="${TMP_DIR}/hsw/mods"
+	make -C mods/hsw_slimes prepare.release TMP_DIR="${TMP_DIR}/hsw/mods"
 
 	cp -r --parents mods/harmonia_prelude "${TMP_DIR}/hsw"
 	cp -r --parents mods/hsw_prelude "${TMP_DIR}/hsw"
@@ -55,7 +60,9 @@ prepare.release:
 	cp -r --parents mods/hsw_guilds "${TMP_DIR}/hsw"
 	cp -r --parents mods/hsw_hud "${TMP_DIR}/hsw"
 	cp -r --parents mods/hsw_materials "${TMP_DIR}/hsw"
+	cp -r --parents mods/hsw_messages "${TMP_DIR}/hsw"
 	cp -r --parents mods/hsw_milestones "${TMP_DIR}/hsw"
+	cp -r --parents mods/hsw_mobs "${TMP_DIR}/hsw"
 	cp -r --parents mods/hsw_nanosuit "${TMP_DIR}/hsw"
 	cp -r --parents mods/hsw_recipes "${TMP_DIR}/hsw"
 	cp -r --parents mods/hsw_shadow "${TMP_DIR}/hsw"

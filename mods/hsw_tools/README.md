@@ -6,14 +6,14 @@ Other mods may include tools for other features such as programming or diagnosti
 
 ## About Digging Groups
 
-HSW maintains the same digging groups as minetest's stock system, with a few changes:
+HSW maintains the same digging groups as core's stock system, with a few changes:
 
 * There are now 11 levels instead of 4, this almost coincides with the material classes.
 * There is a helper enum provided via `hsw_materials` for specifying the material level needed to dig a node instead of magic numbers, this also ensures if the game needs to adjust the levels they can be accounted for as well. `hsw:dig_class(name)`
 
 ### Groups
 
-These are the minetest designated groups:
+These are the core designated groups:
 
 * `crumbly` - materials like dirt, sand etc, loose materials, used for nodes that can be dug up by a spade.
 * `snappy` - materials that can be snapped, usually by cutting with a sharp and sudden force like swords
@@ -35,12 +35,12 @@ Some tools have secondary actions and may invoke callbacks on target nodes:
 
 ### Crowbars
 
-Crowbars will call the on_pry/4 callback on the target node.
+Crowbars will call the `on_pry/4` callback on the target node.
 
-There is no "default" behaviour for on_pry, it's up to the target node to act on it:
+There is no "default" behaviour for `on_pry`, it's up to the target node to act on it:
 
 ```lua
-minetest.register_node("my_mod:my_node", {
+core.register_node("my_mod:my_node", {
   ...
 
   on_pry = function (pos, node, user, pointed_thing)
