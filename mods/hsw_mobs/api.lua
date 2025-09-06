@@ -93,19 +93,29 @@ function mod.set_animation_state(self, id, ...)
   end
 end
 
---- @spec entity_pickup_entity_item(self: LuaEntity, obj: ObejctRef)
-function mod.entity_pickup_item(self, obj)
-  local oent = obj:get_luaentity()
-  if oent and oent.name == "__builtin:item" then
-    if oent.itemstring == "" then
-      obj:remove()
-      return nil
+--- @spec entity_pickup_item(
+---   picker: ObejctRef,
+---   target: ObejctRef,
+--- ): (picked_up_item: Boolean)
+function mod.entity_pickup_item(picker, target)
+  local entity = target:get_luaentity()
+  if entity and entity.name == "__builtin:item" then
+    if entity.itemstring == "" then
+      target:remove()
+      return false
     end
-    local item_stack = ItemStack(oent.itemstring)
+    local item_stack = ItemStack(entity.itemstring)
     local itemdef = item_stack:get_definition()
     if itemdef and itemdef.on_pickup then
-      return itemdef.on_pickup(item_stack, self.object, { type = "object", ref = ref })
+      local leftover = itemdef.on_pickup(item_stack, picker, { type = "object", ref = ref })
+      if leftover:is_empty() then
+        entity.itemstring = ""
+        target:remove()
+      else
+        entity:set_item(item_stack)
+      end
+      return true
     end
   end
-  return nil
+  return false
 end
