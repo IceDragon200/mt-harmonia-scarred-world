@@ -1,7 +1,13 @@
-local mod = foundation.new_module("hsw_materials", "0.1.0")
+--
+-- HSW Materials
+--
+-- Miscellaneous materials provided by HSW for other mods.
+--
+local mod = foundation.new_module("hsw_materials", "0.2.0")
 
 local Easers = assert(foundation.com.Easers)
 
+--- @namespace hsw
 hsw = rawget(_G, "hsw") or {}
 
 -- Dig classes are the reverse of the levels, kinda.
@@ -14,11 +20,19 @@ hsw = rawget(_G, "hsw") or {}
 --   })
 local MAX_LEVEL = 12
 
+--- @const DIG_CLASS: { [class: String]: Integer }
 hsw.DIG_CLASS = {
   -- or use oddly_breakable_by_hand that works too
   hand = 12,
 }
 
+--- @const TOOL_MATERIALS: {
+---   [class: String]: {
+---     description: String,
+---     level: Integer,
+---     tool_times: Integer,
+---   }
+--- }
 hsw.TOOL_MATERIALS = {
   -- material_class = level
   wme = {
@@ -79,6 +93,7 @@ for material_class, def in pairs(hsw.TOOL_MATERIALS) do
   hsw.DIG_CLASS[material_class] = 1 + MAX_LEVEL - def.level
 end
 
+--- @spec &make_workbench_material_tool_info(tool_class: String, material_class: String): Table
 function hsw:make_workbench_material_tool_info(tool_class, material_class)
   return {
     tool_class = tool_class,
@@ -124,7 +139,11 @@ function hsw:make_tool_cap_times(_tool_class, material_class, options)
   return result
 end
 
---- @spec &make_tool_capability(tool_class: String, material_class: String, options: Table): Integer | null
+--- @spec &make_tool_capability(
+---   tool_class: String,
+---   material_class: String,
+---   options: Table
+--- ): Integer | null
 function hsw:make_tool_capability(tool_class, material_class, options)
   options = options or {}
 

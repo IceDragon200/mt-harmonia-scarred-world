@@ -15,39 +15,59 @@
     }
   },
   "files": {
-    "hsw_leather.png": {
+    "textures/hsw_diamond.png": {
       "authors": ["PixelPerfection"],
       "licenses": ["CC-BY-SA 4.0"]
     },
-    "hsw_linen_cloth.png": {
-      "authors": ["IceDragon200"],
-      "licenses": ["CC-BY-SA 4.0"]
-    },
-    "hsw_linen_cloth_fragment.png": {
-      "authors": ["IceDragon200"],
-      "licenses": ["CC-BY-SA 4.0"]
-    },
-    "hsw_nautilus_shell.png": {
+    "textures/hsw_emerald.png": {
       "authors": ["PixelPerfection"],
       "licenses": ["CC-BY-SA 4.0"]
     },
-    "hsw_string.png": {
+    "textures/hsw_feather.png": {
       "authors": ["PixelPerfection"],
       "licenses": ["CC-BY-SA 4.0"]
     },
-    "hsw_ruby.png": {
+    "textures/hsw_leather.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "textures/hsw_linen_cloth.png": {
       "authors": ["IceDragon200"],
       "licenses": ["CC-BY-SA 4.0"]
     },
-    "hsw_weak_plant_cloth.png": {
+    "textures/hsw_linen_cloth_fragment.png": {
       "authors": ["IceDragon200"],
       "licenses": ["CC-BY-SA 4.0"]
     },
-    "hsw_weak_plant_cloth_fragment.png": {
+    "textures/hsw_nautilus_shell.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "textures/hsw_quartz.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "textures/hsw_radio_module.png": {
       "authors": ["IceDragon200"],
       "licenses": ["CC-BY-SA 4.0"]
     },
-    "hsw_wme_material.png": {
+    "textures/hsw_ruby.png": {
+      "authors": ["IceDragon200"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "textures/hsw_string.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "textures/hsw_weak_plant_cloth.png": {
+      "authors": ["IceDragon200"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "textures/hsw_weak_plant_cloth_fragment.png": {
+      "authors": ["IceDragon200"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "textures/hsw_wme_material.png": {
       "authors": ["IceDragon200"],
       "licenses": ["CC-BY-SA 4.0"]
     }
