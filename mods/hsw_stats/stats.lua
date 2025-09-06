@@ -13,7 +13,7 @@ local BREATH_MAX_DEFAULT = 10
 
 local SPEED_DEFAULT = 1
 local JUMP_DEFAULT = 1
-local GRAVITY_DEFAULT = 1
+local GRAVITY_DEFAULT = assert(hsw.config.GRAVITY) / 10.0
 
 -- Built-in stats
 --- HP
