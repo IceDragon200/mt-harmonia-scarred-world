@@ -1,0 +1,25 @@
+local mod = assert(hsw_guilds)
+
+--- @namespace hsw_guilds
+
+--- @const ERR_OK: String
+mod.ERR_OK = "OK"
+--- @const ERR_GUILD_CONFLICT: String
+mod.ERR_GUILD_CONFLICT = "ERR_GUILD_CONFLICT"
+--- @const ERR_GUILD_NOT_FOUND: String
+mod.ERR_GUILD_NOT_FOUND = "ERR_GUILD_NOT_FOUND"
+--- @const ERR_MEMBER_NOT_FOUND: String
+mod.ERR_MEMBER_NOT_FOUND = "ERR_MEMBER_NOT_FOUND"
+--- @const ERR_MEMBER_CONFLICT: String
+mod.ERR_MEMBER_CONFLICT = "ERR_MEMBER_CONFLICT"
+--- @const ERR_MEMBER_OF_GUILD: String
+mod.ERR_MEMBER_OF_GUILD = "ERR_MEMBER_OF_GUILD"
+--- @const ERR_IS_MEMBER: String
+mod.ERR_IS_MEMBER = "ERR_IS_MEMBER"
+--- @const ERR_INVITE_NOT_FOUND: String
+mod.ERR_INVITE_NOT_FOUND = "ERR_INVITE_NOT_FOUND"
+--- @const ERR_INVITE_CONFLICT: String
+mod.ERR_INVITE_CONFLICT = "ERR_INVITE_CONFLICT"
+--- @const ERR_NOT_INVITER: String
+mod.ERR_NOT_INVITER = "ERR_NOT_INVITER"
+
