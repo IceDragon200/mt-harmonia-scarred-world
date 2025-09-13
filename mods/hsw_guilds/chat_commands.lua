@@ -6,16 +6,16 @@ local parse_chat_command_params = assert(foundation.com.parse_chat_command_param
 local chat_command_type = assert(foundation.com.chat_command_type)
 
 local Messages = {
-  OK = "OK",
-  ERR_GUILD_CONFLICT = "A guild already exists",
-  ERR_GUILD_NOT_FOUND = "The guild was not found",
-  ERR_MEMBER_NOT_FOUND = "The guild member was not found",
-  ERR_MEMBER_CONFLICT = "The guild member already exists",
-  ERR_MEMBER_OF_GUILD = "Is already member of a guild",
-  ERR_IS_MEMBER = "Already a member of guild",
-  ERR_INVITE_NOT_FOUND = "Guild member invite not found",
-  ERR_INVITE_CONFLICT = "Guild member invite already exists",
-  ERR_NOT_INVITER = "You are not the issuer of the invite",
+  [mod.ERR_OK] = "OK",
+  [mod.ERR_GUILD_CONFLICT] = "A guild already exists",
+  [mod.ERR_GUILD_NOT_FOUND] = "The guild was not found",
+  [mod.ERR_MEMBER_NOT_FOUND] = "The guild member was not found",
+  [mod.ERR_MEMBER_CONFLICT] = "The guild member already exists",
+  [mod.ERR_MEMBER_OF_GUILD] = "Is already member of a guild",
+  [mod.ERR_IS_MEMBER] = "Already a member of guild",
+  [mod.ERR_INVITE_NOT_FOUND] = "Guild member invite not found",
+  [mod.ERR_INVITE_CONFLICT] = "Guild member invite already exists",
+  [mod.ERR_NOT_INVITER] = "You are not the issuer of the invite",
 }
 
 core.register_chatcommand("guild-register", {
@@ -71,7 +71,7 @@ core.register_chatcommand("guild-invite", {
         if my_guild then
           guild_id = my_guild.id
         else
-          return false, mod.S(Messages["ERR_GUILD_NOT_FOUND"])
+          return false, mod.S(Messages[mod.ERR_GUILD_NOT_FOUND])
         end
       end
       local guild = guilds:get_guild(guild_id)
@@ -82,7 +82,7 @@ core.register_chatcommand("guild-invite", {
           return true, mod.S("Player @1 has been invited to join guild @2", player_name, guild.name)
         end
       else
-        invite_or_error = "ERR_GUILD_NOT_FOUND"
+        invite_or_error = mod.ERR_GUILD_NOT_FOUND
       end
       return false, mod.S(Messages[invite_or_error])
     end
@@ -120,7 +120,7 @@ core.register_chatcommand("guild-join", {
           end
         end
       else
-        error_or_member = "ERR_GUILD_NOT_FOUND"
+        error_or_member = mod.ERR_GUILD_NOT_FOUND
       end
 
       return false, mod.S(Messages[error_or_member])
@@ -161,7 +161,7 @@ core.register_chatcommand("guild-leave", {
           end
         end
       else
-        error_or_member = "ERR_GUILD_NOT_FOUND"
+        error_or_member = mod.ERR_GUILD_NOT_FOUND
       end
       return false, mod.S(Messages[error_or_member])
     end
@@ -201,7 +201,7 @@ core.register_chatcommand("guild-leave-primary", {
           end
         end
       else
-        error_or_member = "ERR_GUILD_NOT_FOUND"
+        error_or_member = mod.ERR_GUILD_NOT_FOUND
       end
 
       return false, mod.S(Messages[error_or_member])
@@ -278,7 +278,7 @@ core.register_chatcommand("guild-appoint", {
           end
         end
       else
-        error_or_member = "ERR_GUILD_NOT_FOUND"
+        error_or_member = mod.ERR_GUILD_NOT_FOUND
       end
 
       return false, mod.S(Messages[error_or_member])
@@ -293,14 +293,73 @@ core.register_chatcommand("guild-dismiss", {
   params = mod.S("<player-name:String> <role:String> <guild-id:String> [<confirm:Boolean>]"),
 
   func = function (player_name, params)
-    return false, "Not yet implemented"
+    local result, rest = parse_chat_command_params(params)
+    if rest == "" then
+      local other_player_name = chat_command_type.string(result, 1)
+      local role = chat_command_type.string(result, 2)
+      local guild_id = chat_command_type.string(result, 3)
+      local confirm = chat_command_type.string(result, 4)
+
+      local guild = guilds:get_guild(guild_id)
+      local success
+      local error_or_member
+      if guild then
+        if confirm then
+          success, error_or_member =
+            guilds:player_dismiss_other(player_name, other_player_name, role, guild.id)
+
+          if success then
+            return true, mod.S("You have dismissed @1 from role @2 of guild @3",
+              other_player_name,
+              role,
+              guild.name
+            )
+          end
+        else
+          success, error_or_member =
+            guilds:can_player_dismiss_other(player_name, other_player_name, role, guild_id)
+
+          if success then
+            return true, mod.S("You can dismiss @1 from role @2 of guild @3",
+              other_player_name,
+              role,
+              guild.name
+            )
+          end
+        end
+      else
+        error_or_member = mod.ERR_GUILD_NOT_FOUND
+      end
+
+      return false, mod.S(Messages[error_or_member])
+    end
+    return false
   end,
 })
 
 core.register_chatcommand("my-guilds", {
-  description = mod.S("Lists all guilds that you are apart of."),
+  description = mod.S("Lists all guilds that you are a member of of."),
+
+  params = "",
 
   func = function (player_name, params)
-    return false, "Not yet implemented"
+    local result, rest = parse_chat_command_params(params)
+    if rest == "" then
+      local my_guilds = guilds.known_members[player_name]
+      local guild
+      if my_guilds then
+        for guild_id, _ in pairs(my_guilds) do
+          guild = guilds:get_guild(guild_id)
+          core.chat_send_player(
+            player_name,
+            mod.S("  @1 @2 (ulid=@3)", guild.vanity_id, guild.name, guild_id)
+          )
+        end
+        return true
+      else
+        return false, mod.S("You are not a member of any guilds")
+      end
+    end
+    return false
   end,
 })

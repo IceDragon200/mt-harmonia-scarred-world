@@ -34,7 +34,7 @@ do
 
   --- @spec #update(dtime: Float): void
   function ic:update(dtime)
-    for _, guild in pairs(guilds) do
+    for _, guild in pairs(self.registered_guilds) do
       guild:update(dtime)
     end
   end
@@ -152,6 +152,40 @@ do
   ---   guild_id: String
   --- ): (Boolean, Error)
   function ic:player_appoint_other(appointer, other_player_name, role, guild_id)
+    guild_id = self:resolve_guild_id(guild_id)
+    if guild_id then
+      local guild = self.registered_guilds[guild_id]
+      if guild then
+        return true, guild_member
+      end
+    end
+    return false, mod.ERR_GUILD_NOT_FOUND
+  end
+
+  --- @spec #can_player_dismiss_other(
+  ---   dismisser: String,
+  ---   other_player_name: String,
+  ---   role: String,
+  ---   guild_id: String
+  --- ): (Boolean, Error)
+  function ic:can_player_dismiss_other(dismisser, other_player_name, role, guild_id)
+    guild_id = self:resolve_guild_id(guild_id)
+    if guild_id then
+      local guild = self.registered_guilds[guild_id]
+      if guild then
+        return true, mod.ERR_OK
+      end
+    end
+    return false, mod.ERR_GUILD_NOT_FOUND
+  end
+
+  --- @spec #player_dismiss_other(
+  ---   dismisser: String,
+  ---   other_player_name: String,
+  ---   role: String,
+  ---   guild_id: String
+  --- ): (Boolean, Error)
+  function ic:player_dismiss_other(dismisser, other_player_name, role, guild_id)
     guild_id = self:resolve_guild_id(guild_id)
     if guild_id then
       local guild = self.registered_guilds[guild_id]
