@@ -320,14 +320,15 @@ do
   --- @spec #invite_player_to_guild(
   ---   player_name: String,
   ---   guild_id: String,
+  ---   role_id: String,
   ---   inviter: String
   --- ): (true, GuildMemberInvite) | (false, Error)
-  function ic:invite_player_to_guild(player_name, guild_id, inviter)
+  function ic:invite_player_to_guild(player_name, guild_id, role_id, inviter)
     guild_id = self:resolve_guild_id(guild_id)
     if guild_id then
       local guild = self.guilds[guild_id]
       if guild then
-        return guild:create_invite(player_name, inviter)
+        return guild:create_invite(player_name, role_id, inviter)
       end
     end
 

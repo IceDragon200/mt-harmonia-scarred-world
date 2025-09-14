@@ -16,6 +16,9 @@ local Messages = {
   [mod.ERR_INVITE_NOT_FOUND] = "Guild member invite not found",
   [mod.ERR_INVITE_CONFLICT] = "Guild member invite already exists",
   [mod.ERR_NOT_INVITER] = "You are not the issuer of the invite",
+  [mod.ERR_ROLE_NOT_FOUND] = "The role was not found",
+  [mod.ERR_ROLE_CONFLICT] = "A role already exists",
+  [mod.ERR_PERMISSION_DENIED] = "Permission denied",
 }
 
 core.register_chatcommand("guild-register", {
@@ -59,13 +62,14 @@ core.register_chatcommand("guild-register", {
 core.register_chatcommand("guild-invite", {
   description = mod.S("Send an invite to a player to join a guild"),
 
-  params = mod.S("<player-name:String> [<guild-id:String>]"),
+  params = mod.S("<player-name:String> <role-id:String> [<guild-id:String>]"),
 
   func = function (player_name, params)
     local result, rest = parse_chat_command_params(params)
     if rest == "" then
       local invitee = chat_command_type.string(result, 1)
-      local guild_id = chat_command_type.string(result, 2)
+      local role_id = chat_command_type.string(result, 2)
+      local guild_id = chat_command_type.string(result, 3)
       if not guild_id then
         local my_guild = guilds:get_player_primary_guild(player_name)
         if my_guild then
@@ -76,10 +80,15 @@ core.register_chatcommand("guild-invite", {
       end
       local guild = guilds:get_guild(guild_id)
       if guild then
-        local success, invite_or_error =
-          guilds:invite_player_to_guild(invitee, guild_id, player_name)
-        if success then
-          return true, mod.S("Player @1 has been invited to join guild @2", player_name, guild.name)
+        local role = guild:get_role(role_id)
+        if role then
+          local success, invite_or_error =
+            guilds:invite_player_to_guild(invitee, guild_id, role_id, player_name)
+          if success then
+            return true, mod.S("Player @1 has been invited to join guild @2", player_name, guild.name)
+          end
+        else
+          invite_or_error = mod.ERR_ROLE_NOT_FOUND
         end
       else
         invite_or_error = mod.ERR_GUILD_NOT_FOUND

@@ -2,6 +2,7 @@ local ULID = assert(foundation.com.ULID)
 local assertions = assert(foundation.com.assertions)
 local GuildMember = assert(hsw_guilds.GuildMember)
 local GuildMemberInvite = assert(hsw_guilds.GuildMemberInvite)
+local GuildRole = assert(hsw_guilds.GuildRole)
 
 --- @namespace hsw_guilds
 
@@ -43,6 +44,9 @@ do
 
     --- @member invites: { [player_name: String]: GuildMemberInvite }
     self.invites = {}
+
+    --- @member roles: { [role_id: String]: GuildRole }
+    self.roles = {}
 
     --- @member m_expired_invites: Table
     self.m_expired_invites = {}
@@ -146,9 +150,10 @@ do
 
   --- @spec #create_invite(
   ---   player_name: String,
+  ---   role_id: String,
   ---   inviter: String
   --- ): (true, GuildMemberInvite) | (false, Error)
-  function ic:create_invite(player_name, inviter)
+  function ic:create_invite(player_name, role_id, inviter)
     assertions.is_string(player_name, "expected a player name")
 
     if self.invites[player_name] then
@@ -159,9 +164,15 @@ do
       return false, mod.ERR_IS_MEMBER
     end
 
+    local role = self.roles[role_id]
+    if not role then
+      return false, mod.ERR_ROLE_NOT_FOUND
+    end
+
     local invite = GuildMemberInvite:new{
       player_name = player_name,
       inviter = inviter,
+      role_id = role_id,
     }
     self.invites[player_name] = invite
     return true, invite
@@ -226,6 +237,34 @@ do
     return false, mod.ERR_INVITE_NOT_FOUND
   end
 
+  --- @spec #create_role(role_id: String, params: Table): (true, GuildRole) | (false, Error)
+  function ic:create_role(role_id, params)
+    if self.roles[role_id] then
+      return false, mod.ERR_ROLE_CONFLICT
+    end
+
+    local role = GuildRole:new(params)
+    role.id = role_id
+    self.roles[role_id] = role
+    return true, role
+  end
+
+  --- @spec #remove_role(role_id: String): GuildRole
+  function ic:remove_role(role_id)
+    if self.roles[role_id] then
+      local role = self.roles[role_id]
+      self.roles[role_id] = nil
+      return true, role
+    end
+
+    return false, mod.ERR_ROLE_NOT_FOUND
+  end
+
+  --- @spec #get_role(role_id: String): GuildRole | nil
+  function ic:get_role(role_id)
+    return self.roles[role_id]
+  end
+
   --- @spec #dump(): Table
   function ic:dump()
     local members = {}
@@ -238,6 +277,11 @@ do
       invites[name] = invite:dump()
     end
 
+    local roles = {}
+    for name, role in pairs(self.roles) do
+      roles[name] = role:dump()
+    end
+
     return {
       _v = 1,
       visibility = self.visibility,
@@ -248,6 +292,7 @@ do
       name = self.name,
       members = members,
       invites = invites,
+      roles = roles,
     }
   end
 
@@ -275,6 +320,14 @@ do
         invites[name] = invite
       end
       self.invites = invites
+
+      local roles = {}
+      for name, role_data in pairs(data.roles) do
+        local role = GuildRole:alloc()
+        role:load(role_data)
+        roles[name] = role
+      end
+      self.roles = roles
     else
       error("cannot restore guild data version=" .. data._v)
     end
