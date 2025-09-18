@@ -1,11 +1,11 @@
-local mod = hsw_farming
+local mod = assert(hsw_farming)
 
 mod:register_node("farmland_dry", {
   basename = mod:make_name("farmland"),
 
   base_description = mod.S("Farmland"),
 
-  description = "Farmland [Dry]",
+  description = mod.S("Farmland [Dry]"),
 
   groups = {
     crumbly = nokore.dig_class("wme"),
@@ -27,7 +27,7 @@ mod:register_node("farmland_moist", {
 
   base_description = mod.S("Farmland"),
 
-  description = "Farmland [Moist]",
+  description = mod.S("Farmland [Moist]"),
 
   drops = mod:make_name("farmland_dry"),
 

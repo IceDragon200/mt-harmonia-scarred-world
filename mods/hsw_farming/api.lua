@@ -6,7 +6,7 @@ local mod = assert(hsw_farming)
 
 --- @spec #register_multistage_crop(
 ---   basename: String,
----   stages: 1..,
+---   stages: Integer,
 ---   base_def: Table,
 ---   override_defs: Table
 -- ): void
