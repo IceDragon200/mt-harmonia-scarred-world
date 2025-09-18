@@ -428,16 +428,23 @@ do
       local registered_guilds = {}
       local known_members = {}
       local guild_vanity_ids = {}
-      for guild_id, guild_data in pairs(registered_guilds) do
-        local guild = Guild:alloc()
-        guild:load(guild_data)
-        registered_guilds[guild_id] = guild
+      if data.registered_guilds then
+        local guild
+        for guild_id, guild_data in pairs(data.registered_guilds) do
+          guild = Guild:alloc()
+          guild:load(guild_data)
+          registered_guilds[guild_id] = guild
+        end
       end
-      for player_name, known_member in pairs(data.known_members) do
-        known_members[player_name] = table_copy(known_member)
+      if data.known_members then
+        for player_name, known_member in pairs(data.known_members) do
+          known_members[player_name] = table_copy(known_member)
+        end
       end
-      for vanity_id, guild_id in pairs(data.guild_vanity_ids) do
-        guild_vanity_ids[vanity_id] = guild_id
+      if data.guild_vanity_ids then
+        for vanity_id, guild_id in pairs(data.guild_vanity_ids) do
+          guild_vanity_ids[vanity_id] = guild_id
+        end
       end
       self.registered_guilds = registered_guilds
       self.known_members = known_members
