@@ -1,3 +1,6 @@
+[submodule "mods/digtron"]
+  path = mods/digtron
+  url = https://github.com/IceDragon200/digtron
 [submodule "mods/foundation"]
   path = mods/foundation
   url = https://github.com/IceDragon200/mt-foundation
