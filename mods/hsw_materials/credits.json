@@ -43,10 +43,6 @@
       "authors": ["PixelPerfection"],
       "licenses": ["CC-BY-SA 4.0"]
     },
-    "textures/hsw_quartz.png": {
-      "authors": ["PixelPerfection"],
-      "licenses": ["CC-BY-SA 4.0"]
-    },
     "textures/hsw_radio_module.png": {
       "authors": ["IceDragon200"],
       "licenses": ["CC-BY-SA 4.0"]
