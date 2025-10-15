@@ -10,6 +10,12 @@
 [submodule "mods/nokore"]
   path = mods/nokore
   url = https://github.com/IceDragon200/mt-nokore-mods
+[submodule "mods/nokore_dim"]
+  path = mods/nokore_dim
+  url = https://github.com/IceDragon200/mt-nokore-dim
+[submodule "mods/nokore_srv"]
+  path = mods/nokore_srv
+  url = https://github.com/IceDragon200/mt-nokore-srv
 [submodule "mods/yatm"]
   path = mods/yatm
   url = https://github.com/IceDragon200/mt-yatm
