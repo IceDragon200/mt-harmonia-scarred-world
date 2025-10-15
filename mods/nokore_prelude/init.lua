@@ -19,6 +19,11 @@ nokore.is_prelude = true
 --- @const disable_tools: Boolean = true
 nokore.disable_tools = true
 
+--- Notify NoKore that we're in a HSW environment
+---
+--- @const game_id: String = "hsw"
+nokore.game_id = "hsw"
+
 -- determine if the node sounds registry was created
 if not nokore.node_sounds then
   -- if not, create it
