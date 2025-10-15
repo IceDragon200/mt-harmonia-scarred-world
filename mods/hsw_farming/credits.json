@@ -67,11 +67,23 @@
       "authors": ["PixelPerfection"],
       "licenses": ["CC-BY-SA 4.0"]
     },
+    "hsw_dried_kelp.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_egg.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
     "hsw_farmland.dry.png": {
       "authors": ["PixelPerfection"],
       "licenses": ["CC-BY-SA 4.0"]
     },
     "hsw_farmland.moist.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_kelp.png": {
       "authors": ["PixelPerfection"],
       "licenses": ["CC-BY-SA 4.0"]
     },
@@ -116,6 +128,14 @@
       "licenses": ["CC-BY-SA 4.0"]
     },
     "hsw_pumpkin_top.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_sugar.png": {
+      "authors": ["PixelPerfection"],
+      "licenses": ["CC-BY-SA 4.0"]
+    },
+    "hsw_sugar_cane.png": {
       "authors": ["PixelPerfection"],
       "licenses": ["CC-BY-SA 4.0"]
     },
