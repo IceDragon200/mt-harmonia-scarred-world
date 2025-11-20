@@ -29,7 +29,7 @@
   path = mods/nokore_mesecons
   url = https://github.com/IceDragon200/nokore_mesecons
 [submodule "mods/placement_preview"]
-  path = mods/placement_review
+  path = mods/placement_preview
   url = https://github.com/IceDragon200/placement_preview
 [submodule "mods/3d_armor"]
   path = mods/3d_armor
