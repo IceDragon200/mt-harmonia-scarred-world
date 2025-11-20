@@ -2,7 +2,7 @@ local mod = assert(hsw_nanosuit)
 local string_split = assert(foundation.com.string_split)
 local player_service = assert(nokore.player_service)
 
-minetest.register_chatcommand("list_nanosuit_upgrades", {
+core.register_chatcommand("list_nanosuit_upgrades", {
   description = mod.S("Lists all available nanosuit upgrades"),
 
   func = function (_caller_name, _param)
@@ -14,7 +14,7 @@ minetest.register_chatcommand("list_nanosuit_upgrades", {
   end,
 })
 
-minetest.register_chatcommand("list_my_nanosuit_upgrades", {
+core.register_chatcommand("list_my_nanosuit_upgrades", {
   description = mod.S("Lists all unlocked nanosuit upgrades for current player"),
 
   func = function (caller_name)
@@ -30,7 +30,7 @@ minetest.register_chatcommand("list_my_nanosuit_upgrades", {
 })
 
 -- TODO: lock this down under a privilege
-minetest.register_chatcommand("unlock_nanosuit_upgrade", {
+core.register_chatcommand("unlock_nanosuit_upgrade", {
   description = mod.S("Unlock a nanosuit upgrade for specified player"),
 
   params = mod.S("<player> <upgrade_name>"),
@@ -51,7 +51,7 @@ minetest.register_chatcommand("unlock_nanosuit_upgrade", {
   end,
 })
 
-minetest.register_chatcommand("unlock_my_nanosuit_upgrade", {
+core.register_chatcommand("unlock_my_nanosuit_upgrade", {
   description = mod.S("Unlock a nanosuit upgrade for caller"),
 
   params = mod.S("<upgrade_name>"),

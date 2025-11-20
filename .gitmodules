@@ -37,3 +37,6 @@
 [submodule "mods/hazmat_suit"]
   path = mods/hazmat_suit
   url = https://github.com/IceDragon200/hazmat_suit
+[submodule "mods/hsw_slimes"]
+  path = mods/hsw_slimes
+  url = https://github.com/IceDragon200/hsw_slimes

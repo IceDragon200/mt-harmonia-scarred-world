@@ -113,7 +113,7 @@ do
       local kv = player_data_service:get_player_domain_kv(player_name, self.m_data_domain)
 
       if not kv:get(upgrade_name) then
-        minetest.log("info", "unlocking upgrade for player upgrade=" .. upgrade_name .. " player_name=" .. player_name)
+        core.log("info", "unlocking upgrade for player upgrade=" .. upgrade_name .. " player_name=" .. player_name)
         kv:put(upgrade_name, { unlocked = true })
         self:trigger_on_upgrade_unlocked(player, upgrade)
         player_data_service:persist_player_domains(player_name)
@@ -137,7 +137,7 @@ do
       local kv = player_data_service:get_player_domain_kv(player_name, self.m_data_domain)
 
       if kv:get(upgrade_name) then
-        minetest.log("info", "locking upgrade for player upgrade=" .. upgrade_name .. " player_name=" .. player_name)
+        core.log("info", "locking upgrade for player upgrade=" .. upgrade_name .. " player_name=" .. player_name)
 
         kv:delete(upgrade_name)
         self:trigger_on_upgrade_locked(player, upgrade)

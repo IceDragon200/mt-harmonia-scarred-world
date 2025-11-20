@@ -155,7 +155,7 @@ local function setup_initial_spawn()
 end
 
 local function clear_world()
-  local min = 0x8000
+  local min = -0x8000
   local max = 0x7FFF
 
   -- nuke the world, my final message, goodbye
