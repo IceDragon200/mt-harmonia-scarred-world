@@ -1,4 +1,4 @@
-# Freeplay Progression
+# Game Mode - Freeplay - Progression
 
 In freeplay mode, progression and resource gathering is not locked behind story elements.
 

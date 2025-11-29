@@ -1,4 +1,4 @@
-# One Node Story
+# Game Mode - One-Node - Story
 
 A mishap in the timeline resulted in the complete destruction of the world, held together by nothing more than the abyss' whim, a single node remained: the CORE.
 

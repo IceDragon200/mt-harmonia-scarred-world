@@ -1,4 +1,4 @@
-# Abyss Story
+# Game Mode - Abyss Story - Story
 
 The Abyss Storyline can be seen as a sequel to the Surface Story, but would be more focused on harder gameplay think more complicated builds, material requirements and digging deeper into machine puzzles (think DATA and computer related tricks).
 

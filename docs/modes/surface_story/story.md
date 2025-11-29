@@ -1,4 +1,4 @@
-# Surface Story
+# Game Mode - Surface Story - Story
 
 The surface story should be considered the "default" story line and primary campaign for new players.
 

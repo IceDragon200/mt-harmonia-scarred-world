@@ -1,4 +1,4 @@
-# One-Node Progression
+# Game Mode - One-Node - Progression
 
 * Players spawn atop the `CORE` node
   * Punching it produces three primary materials:

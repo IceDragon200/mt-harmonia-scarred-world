@@ -1,1 +1,1 @@
-# One Node - Objective
+# Game Mode - One-Node - Objective
