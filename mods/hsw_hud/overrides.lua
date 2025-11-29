@@ -6,7 +6,7 @@ local fspec = assert(foundation.com.formspec.api)
 ---
 --- @override
 --- @spec get_backpack_inventory_size(): Integer
-function nokore_backpacks.get_backpack_inventory_size()
+function nokore_backpacks.get_backpack_inventory_size(pos)
   return nokore_player_inv.player_hotbar_size * 2
 end
 
