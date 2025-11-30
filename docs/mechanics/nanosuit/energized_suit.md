@@ -5,5 +5,3 @@ With the restored electrical systems of the nanosuit some normal functions can b
 ## Effects
 
 * + 200 Energy Max
-* + 0.25 Speed
-* + 0.15 Jump

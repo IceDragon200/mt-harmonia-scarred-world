@@ -6,7 +6,7 @@ Originally your mana circuits would have grown like your muscles and tissues.
 
 Unfortunately for you, your body was totalled in the teleporter accident, so your nanosuit now has to imitate those biological development you were suppose to have.
 
-Thankfully the Wexkyr and many others had already pursued such technologies, albit for different reasons.
+Thankfully the Wexkyr and many others had already pursued such technologies, albeit for different reasons.
 
 ## Lore
 

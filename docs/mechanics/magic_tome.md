@@ -16,6 +16,7 @@ Using a tome however grants experience for that specific spell until it is learn
 * [Blink](magic_tomes/blink.md)
 * [Bolt](magic_tomes/bolt.md)
 * [Break](magic_tomes/break.md)
+* [Chelate](magic_tomes/chelate.md)
 * [Chill](magic_tomes/chill.md)
 * [Conceal](magic_tomes/conceal.md)
 * [Conjure Dirt](magic_tomes/conjure_dirt.md)
@@ -77,6 +78,10 @@ Using a tome however grants experience for that specific spell until it is learn
 
 * [Bolt](magic_tomes/bolt.md)
 
+#### Metal
+
+* [Chelate](magic_tomes/chelate.md)
+
 ### By Level
 
 #### Level 1
@@ -95,6 +100,7 @@ Using a tome however grants experience for that specific spell until it is learn
 #### Level 2
 
 * [Bolt](magic_tomes/bolt.md)
+* [Chelate](magic_tomes/chelate.md)
 * [Conjure Dirt](magic_tomes/conjure_dirt.md)
 * [Conjure Fire](magic_tomes/conjure_fire.md)
 
