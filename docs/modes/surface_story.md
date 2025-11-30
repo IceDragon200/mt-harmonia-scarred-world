@@ -1,6 +1,6 @@
 # Surface Story
 
-**Era** Paradox
+**Era** Paradox (within Fracture)
 
 The original intended story for HSW.
 
