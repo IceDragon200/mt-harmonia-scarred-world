@@ -1,4 +1,4 @@
-# Heat
+# Mechanic - Heat
 
 Heat is the general system for thermal handling.
 

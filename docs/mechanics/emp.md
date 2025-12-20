@@ -1,4 +1,4 @@
-# EMP
+# Mechanic - EMP
 
 Machines are susceptible to the effects of electrical interference such as those from an EMP weapon.
 

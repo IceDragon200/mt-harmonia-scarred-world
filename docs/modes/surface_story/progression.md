@@ -8,6 +8,15 @@ But let's not get ahead of ourselves, the original progression documents had bro
 
 For this new progression we'll have to outline what features, characters, and story beats need to be met first.
 
+## Progression - as of 2025-12-20
+
+So here starts the new progression.
+
+* Arc 0 - [Training / Tutorial](progression/00_training_tutorial.md) - For the opening arc, it will follow in the footsteps of the original progression, by opening with the training compound exercise.
+* Arc 1 - [Ouroboros](progression/01_ouroboros.md) - Where Arc 0 taught the player movement and how to interact with the world, Arc 1 will teach them how to craft and generally survive
+* Arc 2 - [](progression/02_.md) -
+* Arc 3 - [](progression/03_.md) -
+
 ## Old Progression - 2025-11-30
 
 Below was an outline of the old progression that HSW was based around.

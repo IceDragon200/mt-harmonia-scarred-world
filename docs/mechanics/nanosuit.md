@@ -1,8 +1,8 @@
-# Mechanics - Nanosuit
+# Mechanic - Nanosuit
 
 The Nanosuit is effectively a method for the player to upgrade their own capabilities.
 
-In lore, the suit literally becomes their body as their original body ws destroyed in the teleportation accident.
+In lore, the suit literally becomes their body as their original body was destroyed in the teleportation accident.
 
 ## Upgrades
 
