@@ -1,4 +1,4 @@
-# Game Mode - Surface Story - Progression - Training / Tutorial
+# Game Mode - Surface Story - Progression - 000 Training / Tutorial
 
 __Arc__ 0
 

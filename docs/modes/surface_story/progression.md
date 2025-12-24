@@ -12,10 +12,14 @@ For this new progression we'll have to outline what features, characters, and st
 
 So here starts the new progression.
 
-* Arc 0 - [Training / Tutorial](progression/00_training_tutorial.md) - For the opening arc, it will follow in the footsteps of the original progression, by opening with the training compound exercise.
+* Arc 0 - [Training / Tutorial](progression/000_training_tutorial.md) - For the opening arc, it will follow in the footsteps of the original progression, by opening with the training compound exercise.
 * Arc 1 - [Ouroboros](progression/01_ouroboros.md) - Where Arc 0 taught the player movement and how to interact with the world, Arc 1 will teach them how to craft and generally survive
-* Arc 2 - [](progression/02_.md) -
-* Arc 3 - [](progression/03_.md) -
+* Arc 2 - [Grave Callings](progression/020_grave_callings.md) - Sticking with the original script still, Arc 2 sees the player finally leave the Celestial Tower and coming face-to-face with the world.
+* Arc 3 - [Bio Lab](progression/030_bio_lab.md) - The player makes a visit to the Bio Lab completing some minor missions, like installing replacement copper cables to power the lab.
+* Arc 4 - [Mana Wave](progression/040_mana_wave.md) - With the revelation of the mana plague, the player leaves the Bio Lab when Nori feels a shift in the environment, in this arc, players are introduced to Mana as a resource, and mechanic, and some mobs will now drop mana related items upon death.
+* Arc 5 - [Radio Tower](progression/050_radio_tower.md) - After receiving an announcement from the "Emergency Services" of Harmonia, the player needs to make a visit to one of the Radio Towers, but first they'll need iron tools, more specifically the crowbar.
+* Arc 6 - [Kamda](progression/060_kamda.md) - The player returns to the Celestial Tower to find a teleporter newly activated which leads them to the domain of Kamda.
+* Arc 7 - [Foundry](progression/070_foundry.md) - The player returns to the Celestial Tower to find a teleporter newly activated which leads them to the domain of Kamda.
 
 ## Old Progression - 2025-11-30
 

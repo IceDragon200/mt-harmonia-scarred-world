@@ -9,3 +9,7 @@ __Class__ Neutral, Inhabited
 Called the pocket world of the Kamdanian Order, a group of monks who vowed against the entropy of the abyss.
 
 Kamda is the only other domain a player can set their respawn point in, as it's considered a neutral domain.
+
+Most of its surface is made up of stone and marble, with natural farm land littering it.
+
+## Biomes

@@ -1,0 +1,32 @@
+%%body
+{
+  Slamming the crowbar into the maintenance vent on the radio tower, you pry it open and fall inside.
+
+    @ Nori "And we're in."
+
+  We?
+
+    @ Nori "Come now, we're a team, but we're in the right place."
+
+  Regardless, you'd have to agree with Nori, you were inside the Radio Tower.
+
+    @ Nori "Clearly these towers are getting their information about the mana contamination from somewhere, let's find out what it is."
+
+  Nodding, you make your way through the tower's basement floors, up to the top of the tower.
+
+  At the top you connect your codex and let Nori do his thing.
+
+    @ Nori "Odd..."
+
+  Odd? What did you find?
+
+    @ Nori "The Celestial Tower is the source of the contamination..."
+
+  That is odd...
+
+    @ Nori "Regardless, looks like we're backtracking, something must have changed in the tower."
+
+  You do agree and deactivate the constant alarms on the tower before leaving.
+
+}
+%date 2025-12-23

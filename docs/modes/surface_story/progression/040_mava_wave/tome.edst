@@ -1,0 +1,32 @@
+%%body
+{
+  You hold up the simple book, scanning its sparse pages, the symbols or... characters on the pages make absolutely no sense to you.
+
+    @ Nori "A tome?"
+
+  You nod, I9 had given it to you before vanishing.
+
+    @ Nori "How do you use it?"
+
+  Holding it up and mimicking I9, you try flexing or looking cool but nothing happens.
+
+    @ Nori "You can't read it?"
+
+  You shake your head.
+
+    @ Nori "Neither can I... strange, I figured I had knowledge on every language in the abyss..."
+
+  You ask if he ever got information on the Maphir in Harmonia?
+
+    @ Nori "You raise a good point, and the answer is no, so I stand corrected."
+
+  You eye the tome, whatever it is, you can't use it right now, but you do have it.
+
+    @ Nori "Well then let's-"
+
+  The sky churns and the familiar message ping hits your mind.
+
+    @ Nori "Oh, great, you might want to check your messages."
+
+}
+%date 2025-12-23

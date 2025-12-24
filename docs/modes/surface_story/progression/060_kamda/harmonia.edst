@@ -1,0 +1,28 @@
+%%body
+{
+  After asking around, you've come to a conclusion, no one really knows how to help you.
+
+    @ Nori "One thing is clear, these were the Maphir from Harmonia, but... they've become quite... jaded."
+
+  Regardless, someone needs to know how to operate the teleporter, you've had your fun with marble streets and would like to go back to the greens of Harmonia.
+
+    @ Nori "Or we head back to the teleporter and do it ourselves."
+
+  Seemed pointless, but you figure it isn't that far.
+
+  Returning to the teleporter chamber, you find the portal is happily lit.
+
+    @ Nori "Would you look at that, we can go home!"
+
+  Rejoicing, you run over and step into the teleporter, and in the blink of an eye, you are back in Harmonia's Celestial Tower.
+
+  A message blips unto your HUD.
+
+  It seemed the place you visited was called Kamda, but... who sent the message?
+
+    @ Nori "So that was Kamda, seems you can go to and fro that world as you need to from now on."
+
+  Indeed the portal swirled quietly and you sigh.
+
+}
+%date 2025-12-23

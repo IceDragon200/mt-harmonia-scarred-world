@@ -1,0 +1,30 @@
+%%body
+{
+  Unfortunately for you, it seemed entering the foundry awoken some kind of defence system and it was less than pleased with your presence.
+
+    @ Nori "News."
+
+  News?
+
+    @ Nori "Some automated defence system just activated, I'm still fuzzy on the details."
+
+  Great, is it an I9 incident again?
+
+    @ Nori "For once it's not an abstract cause like I9, we just set off the security systems by using an old access card."
+
+  You frown, groan if you could, but shake your head, you had passed by a large security checkpoint on your way to the back room, chances are, whatever woke up was waiting for you to leave through the door.
+
+    @ Nori "You are correct, I finally got it, they're called PAWN, it's a whole bunch of them too."
+
+  You groan even more if you could, not one, but multiple.
+
+  Rolling your sleeves up, you enter the security checkpoint to find the PAWNs in question.
+
+  And they're a bit bigger than you anticipated.
+
+    @ Nori "Uh, good luck with that, I would suggest running away for now, thankfully you can get to the stairs from here."
+
+  Indeed, you could just go around and get out or try your luck with fighting the PAWNs.
+
+}
+%date 2025-12-23

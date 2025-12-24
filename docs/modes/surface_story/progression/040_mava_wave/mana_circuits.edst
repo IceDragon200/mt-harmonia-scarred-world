@@ -1,0 +1,40 @@
+%%body
+{
+  You hold up the mana concoction and swallow in discomfort.
+
+    @ Nori "Come on, really, at this point?"
+
+  You are not happy you need to DRINK it.
+
+    @ Nori "It's just crushed mana crystals with a bit of saline and make it go down easier."
+
+  That's the point, it's CRUSHED CRYSTALS.
+
+    @ Nori "I'm sure it'll be fine, drink up!"
+
+  Sighing, at worst you die, at best you wish you died.
+
+  Turning the jar to your head, the liquid hits your mostly muted tastebuds and then the crunchy texture of the mana crystals flows into your mouth.
+
+  It tastes and feels exactly as you had imagined it: awful.
+
+  But before you can gag, the jar is empty and so your mind.
+
+    @ Nori "So... how was it?"
+
+  Not as bad as you thought.
+
+    @ Nori "Any... discomfort?"
+
+  Outside of the horrible crunchy texture still in your mouth, nothing?
+
+    @ Nori "Hmm, maybe the suit needs time to work..."
+
+  You aren't sure, you now have an interesting blue bar in your HUD, you assume its your mana.
+
+    @ Nori "Oh, you have mana now."
+
+  You nod in agreement, and you do feel a slight burning in your entire body, of course muted by the nanosuit, maybe it did care about your feelings?
+
+}
+%date 2025-12-23

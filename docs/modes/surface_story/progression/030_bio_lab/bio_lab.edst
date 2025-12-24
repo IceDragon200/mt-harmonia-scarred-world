@@ -1,0 +1,50 @@
+%%body
+{
+  Sliding the Access Card against the interface, the door immediately unlocks to your surprise.
+
+    @ Nori "Convenient, I suppose there is no active users on the network."
+
+  Shrugging, you replace the access card and move forward.
+
+  As if stepping into a time machine, the pristine office space and main lobby of the lab was on display.
+
+    @ Nori "Oddly pristine considering it has been abandoned for so long..."
+
+  As if on cue, a cleaning drone rolled by removing the dirt trail you brought in behind you.
+
+    @ Nori "How has it survived this long?"
+
+  You shrug once more, that isn't your concern.
+
+  Going through the rooms one by one, you find old desks and various trinkets, but nothing really worthwhile.
+
+  Moving to the next door, you slide the access card into the interface only to be met with an angry red glow.
+
+    @ Nori "Seems we shouldn't be here."
+
+  You sigh and shake your head, checking the rooms once more, you find a single computer, or at least something that looks like a computer.
+
+    @ Nori "Leave this to me."
+
+  Getting ready to leave, Nori laughs dryly and speaks up.
+
+    @ Nori "I'm done, what, did you expect wait time?"
+
+  Being honest, you did, but Nori was quite something else.
+
+    @ Nori "As Avione said, a plague swept through Harmonia, its origins unknown, we only have surface level information, the details are in the basement."
+
+  You frown, how are you going to get their without an access card?
+
+    @ Nori "Oh believe me, I've tried hacking the security systems, but it's a little difficult, even for me without physically being there, and before you ask, the computer systems on this floor are simply open."
+
+  You raise a finger and lower it before pouting.
+
+    @ Nori "Well, no use standing here-"
+
+  A groan or... screech interrupts your conversation and you glance back outside.
+
+    @ Nori "Sounds like you have company, I'll leave you to it."
+
+}
+%date 2025-12-23

@@ -1,0 +1,34 @@
+%%body
+{
+  As you trade your latest creations for some BC, Nori chimes in.
+
+    @ Nori "Impressed yet?"
+
+  Impressed?
+
+    @ Nori "I designed and deployed the Bulwark Credit network, I named it after a faction of my own, BULWARK."
+
+  That was impressive on his part.
+
+    @ Nori "No need to be so reserved, I've created this simple network as a way to tie the nearby domains together under a market."
+
+  For what purpose?
+
+    @ Nori "To be honest, I only wished to help, it's only now I see it has a utility."
+
+  Seriously?
+
+    @ Nori "Hmm, seems you've received something."
+
+  A new message with a single access card blueprint, an orange one.
+
+    @ Nori "New access card, but the sender was obfuscated..."
+
+  Attached was a single message: "You will need this.".
+
+    @ Nori "The least they could do is specify where this card is used!"
+
+  You couldn't agree more, but you at least had an additional access card, you just had no idea where it was used.
+
+}
+%date 2025-12-23
