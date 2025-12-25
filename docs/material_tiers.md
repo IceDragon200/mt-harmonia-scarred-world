@@ -9,7 +9,7 @@ From lowest to highest
 * Gold
 * Bronze
 * Iron
-* Invar
+* LEA / Invar
 * Abyssal-Iron
 * Carbon-Steel
 * Nano-Steel
