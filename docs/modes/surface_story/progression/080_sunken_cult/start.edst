@@ -1,0 +1,32 @@
+%%body
+{
+  With HOUND and the foundry PAWNs all deactivated for now, you sigh in relief.
+
+    @ Nori "Well... this might be a dead end."
+
+  You groan, of course it wouldn't be this easy.
+
+    @ Nori "HOUND and its countless PAWNs are just a defence system, oddly persistent, but Harmonia has no shortage of oddities."
+
+  Agreed, but now you have no further leads.
+
+    @ Nori "The good news is the curse has been lifted on LEA, I fail to see the correlation between HOUND and this curse however."
+
+  Indeed, but at this point, the world might be playing you.
+
+    @ Nori "Well, time to get to work then-"
+
+  Hearing the familiar ping of a new message, you and Nori brighten up.
+
+    @ Nori "Oh, could this be our next lead?"
+
+  You hastily open the message and view it: "Come find us".
+
+    @ Nori "Great a vague message inviting us, this is definitely ill-advised to pursue."
+
+  Regardless you both know this might be the only lead you have, plus your mystery sender was kind enough to attach the coordinates.
+
+    @ Nori "Quite a few points, your choice."
+
+}
+%date 2025-12-24
