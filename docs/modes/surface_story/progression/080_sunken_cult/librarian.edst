@@ -1,4 +1,70 @@
 %%body
 {
+  Curiosity outweighed danger and you approached the strange figure.
+
+    @ Figure "We are glad you are one that answers with curiosity rather than suspicion."
+
+  You halt in your footsteps.
+
+    @ Figure "Are are the librarian, former Maphir members."
+
+  Unable to speak, you tilt your head.
+
+    @ Figure "Oh, forgive us, we were not aware you were mute."
+
+  You make pained squeaks from your throat and sigh at your own condition.
+
+    @ Figure "No worries, we called to you because you had set the gears of our world in motion once more."
+
+  Gears?
+
+    @ Figure "Yes, for many Maphir the mana plague was seen as the beginning of the end, but to us, we saw it as the end of the beginning, a new age awaited us."
+
+  You've seen this playbook before and raise a finger in protest.
+
+    @ Figure "Indeed, many labelled us a cult, we had taken a liking to it, if it meant educating those that failed to understand magic as whole, the Kamdanian monks did not agree, but we did not resort to violence."
+
+  At least there is some silver lining.
+
+    @ Figure "As you've likely discovered, the world's life has been all but extinguished, or rather, we exist in a world far from the former."
+
+  You raise a brow in questioning and the figure only waves their hand in dismiss.
+
+    @ Figure "For now, the goddess has not forsaken this world, but she has a heavy thumb upon the scale, we'd like to tip it."
+
+  What's in it for them, you raise a hand making an offer to them.
+
+    @ Figure "Nothing more than restoring this world to a liveable condition, if be it for you."
+
+  You stroke your chin in surprise, but nod along.
+
+    @ Figure "For us, our time had passed, when the final calamity struck, the world was torn asunder, our goddess wailed in anguish as the people she once protected rebelled and chose the embrace of the abyss instead of her."
+
+  You pause and look down.
+
+    @ Figure "Unfortunately, the abyss in its condition did not restore our world to its proper form, as you may have noticed there are curses upon knowledge and processes."
+
+  You nod along, but earlier they mentioned the goddess' thumb on a scale.
+
+    @ Figure "Make no mistake, there are multiple forces acting against your presence, your existence... is not normal, one that defies the natural processes of the abyss would no doubt attract attention."
+
+  This has been the longest conversation you've had outside of with Nori, and an informative one, Nori was likely hacking away on the backend trying to get as much information as possible.
+
+    @ Figure "Oh, we are aware of your companion's prodding, they are free to peruse any information we have, we need to work together after all."
+
+    @ Nori "Heh, caught with my claw in the digital cookie jar."
+
+    @ Figure "Machine god Nori, it is an honour."
+
+  The figure bowed to me and smiled.
+
+    @ Nori "I'll fill my friend on, no need to exhaust yourself apparition."
+
+    @ Figure "You have my thanks."
+
+  They vanished on the air and Nori spoke up.
+
+    @ Nori "There is a lot to discuss, but give the shelves a look."
+
 }
 %date 2025-12-25

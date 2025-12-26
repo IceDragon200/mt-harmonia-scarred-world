@@ -1,0 +1,85 @@
+%%body
+{
+-- Attacked --
+
+  The Librarian was waiting as they always did in the chamber, waving to you as you approach.
+
+    @ Librarian "Have you brought something for us today?"
+
+  Happily presenting the mana crystals, they beam with excitement.
+
+    @ Librarian "Wonderful, let us begin in earnest!"
+
+  Before you can run off, the air distorts and you are dragged into a dark space.
+
+  The lights flicker and you are faced with an apparition.
+
+    @ Nori "That was unexpected."
+
+  You ask what was, the fact you are no longer in the library or whatever this entity is?
+
+    @ Nori "Both, it feels as if the world itself willed this..."
+
+  The figure storms down on your position with a spear and stabs immediately, you struggle to react to its speed and are crushed under the weight of the attack.
+
+  You try fighting back, but the figure is too fast for your weapons to reach and even when you successfully land a blow, it seems to do nothing.
+
+-- --
+
+-- Result: Survive --
+
+  Against the odds, you survive the mysterious attack and are returned to the library.
+
+    @ Librarian "Are you okay friend!?"
+
+  You pause and looked around anxiously, what was that you wonder?
+
+    @ Librarian "An enemy beyond our world had taken you, good on you to survive such an encounter."
+
+  You had to agree, whatever that was about, it was scary.
+
+-- --
+
+-- Result: Death --
+
+  Despite your best efforts you are impaled upon the spear of the mysterious attacker.
+
+  Struggling to free yourself, your light fades and your vision flickers once more into the library.
+
+    @ Librarian "Friend?"
+
+  Tapping yourself several times, you hear the ticking of your core and try to calm down.
+
+    @ Librarian "An enemy beyond our world had taken you."
+
+  You nod reluctantly, almost dying wasn't on your bingo card.
+
+-- --
+
+-- Aftermath --
+
+  You stand around while Librarian works with the mana crystals.
+
+    @ Nori "I have news."
+
+  You nod, and allow Nori to share what he's learned.
+
+    @ Nori "I did a quick analysis on your assailant, and the results are troubling."
+
+  Remaining quiet and still, you nod slowly.
+
+    @ Nori "Our opponent's effective age is in the negative."
+
+  Negative, and effective age?
+
+    @ Nori "They were a machine, so I quickly read off their information, but their dates were in the future, worst still it appears they were in pain, so many errors..."
+
+  You remain quiet and look down.
+
+    @ Nori "For now, I've classified them as KAVINU."
+
+  You hope you never see the Kavinu again, that was unsettling.
+
+-- --
+}
+%date 2025-12-25

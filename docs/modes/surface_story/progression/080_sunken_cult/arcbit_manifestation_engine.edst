@@ -1,0 +1,56 @@
+%%body
+{
+  Being sent a message from the Librarian, despite them standing right before you, you tilt your head in surprise.
+
+    @ Librarian "I've sent you the operational update needed."
+
+    @ Nori "A few flaws here and there, but nothing I couldn't correct, it's safe to install."
+
+    @ Librarian "The hardware side of it is taking a bit longer."
+
+    @ Nori "Well, looks like you can install the ARCbit Manifestation Engine, that's what it's called."
+
+    @ Librarian "With that, you should be able to utilize any Level 1 tomes."
+
+  You tilt your head and rely on Nori to read your thoughts, what exactly is a tome?
+
+    @ Nori "They'd like to know what a tome is exactly?"
+
+    @ Librarian "Fair enough, you should learn, the tomes are a form of magical conduit."
+
+  Settling down and listening, the Librarian continues.
+
+    @ Librarian "All Maphir feared the raw power of mana, while most sought to eliminate or contain it by all means, we sought to wield it power, but capturing into the pages of these special tomes."
+
+  The Librarian held its tome out and looked at it carefully.
+
+    @ Librarian "There were several issues, magic is based on concepts, we could only record sequences of concepts understood by our casters, that meant a great deal of experimentation, often crossing the line."
+
+  You gave a judgemental stare.
+
+    @ Librarian "Your judgement is fair and correct, of the cult we had taken our research too far at times, and worst we have nothing to show for it now."
+
+  They shook their head.
+
+    @ Librarian "The tomes were unstable due to the instructions and power they had contained, many breaking down with use, but a master could easily form new tomes from the residual mana."
+
+    @ Nori "Element, they mean material element."
+
+    @ Librarian "So, it is called Material Element, even that ARCbit was a strange discovery from this era..."
+
+    @ Nori "So it wasn't your work?"
+
+    @ Librarian "It simply slipped through cracks, around the time you appeared friend."
+
+  Were you the cause of the oddities in world?
+
+    @ Nori "Possibly, but it isn't your fault."
+
+  You sigh and shake your head, for now, you can now use the tomes.
+
+    @ Librarian "Oh about the levels, to avoid abuse, we had locked the greater tomes behind security, as is the Maphir way, improving your body should suffice in demonstrating to the tome you can handle its power."
+
+  Nodding along, that was good enough, if the tome believed you could utilize its power, it would become available.
+
+}
+%date 2025-12-25

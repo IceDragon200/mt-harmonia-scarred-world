@@ -1,0 +1,54 @@
+%%body
+{
+  After perusing the library a bit, you feel you've gotten enough looks at the empty shelves and return to the main hall.
+
+  There the figure, which you'd probably call the Librarian at this point is waiting.
+
+    @ Librarian "How was it, the empty shelves, the void and dust of nothingness?"
+
+  You sigh and shake your head at the disappointing selection of reading material.
+
+    @ Librarian "My sentiments exactly, a great deal of knowledge has been lost, our facilities mirror the collection..."
+
+  They formed a tome on hand and sighed.
+
+    @ Librarian "Unfortunately even our memory is incomplete and cannot be used to restore the archives."
+
+  It sounds like they have something in mind for you and you brighten up.
+
+    @ Librarian "You seem eager to help, but I'm afraid there is little you can do-"
+
+    @ Nori "Actually, we might be able to help, a moment."
+
+  After a few seconds, the Librarian seems quite giddy.
+
+    @ Librarian "Ah, yes, sir Nori this would work!"
+
+    @ Nori "Good, we'll do the grunt work, we'll upload our findings to your network and in exchange you provide us magical tomes, once we figure out how to use them."
+
+    @ Librarian "Well, let's not treat as such a cold relationship, Nori will copy any tomes you find on your adventure and we'll keep copies of it for you, should you require a tome which you can't produce yourself, we shall give it to you, for a price."
+
+  You raise a brow.
+
+    @ Librarian "It is only fair to charge for a service."
+
+  You suppose so, but you were hoping for freebies.
+
+    @ Librarian "Free is never true, it only means someone else pays for it."
+
+  Regardless, it seemed you could now purchase tomes, but you still couldn't use them.
+
+    @ Librarian "Are you unable to utilize the tome's power?"
+
+  You nod reluctantly and they seem surprised.
+
+    @ Librarian "How unusual, even children can use the tomes..."
+
+  You shrug, your body is all banged up anyway, so that could have something to do with it.
+
+    @ Librarian "A problem with your body mayhaps... very well, if you could bring me some mana crystals we may be able to test a few theories."
+
+  You agree, at this point, any help would be appreciated.
+
+}
+%date 2025-12-25

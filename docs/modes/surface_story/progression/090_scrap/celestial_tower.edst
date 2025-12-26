@@ -1,0 +1,27 @@
+%%body
+{
+  Entering the Celestial Tower, the first noticeable change is the room on the sides are now open.
+
+    @ Nori "It seems the tower has changed once more."
+
+  You nod along and check the rooms.
+
+  Inside you find a single device of sorts.
+
+    @ Nori "What kind of contraption is that?"
+
+  You have no idea, but you've made a few gadgets yourself and quickly inspect it.
+
+  With the Ouroboros System, you scour its inventory to find "Scrap".
+
+    @ Nori "Scrap?"
+
+  That's all it is, "Scrap", but more scrap pops into the gadget shortly after and you blink in surprise.
+
+    @ Nori "Does this... contraption produce scrap?"
+
+  You nod, it seems quite useful.
+
+  Taking your codex and scanning the device, it brings up an entry to your surprise.
+}
+%date 2025-12-25
