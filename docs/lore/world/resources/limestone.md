@@ -1,1 +1,0 @@
-# Lore - World - Resource - Limestone

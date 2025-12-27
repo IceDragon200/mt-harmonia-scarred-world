@@ -1,3 +1,0 @@
-# Mod - NoKore SRV
-
-NoKore's service mods, this is the backbone of other mods that require additional services to work, such as player data, world key-value store, block stores etc...
