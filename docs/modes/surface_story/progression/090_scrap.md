@@ -18,3 +18,4 @@ This Arc focuses on how Kavinu's spawn as well as the scrap mechanic and how to 
 
 * [Start](090_scrap/start.edst)
 * [Celestial Tower](090_scrap/celestial_tower.edst)
+* [Derelik](090_scrap/derelik.edst)
