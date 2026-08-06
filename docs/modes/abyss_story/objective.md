@@ -1,2 +1,0 @@
-# Abyss Story - Objective
-

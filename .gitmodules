@@ -1,3 +1,6 @@
+[submodule "docs"]
+  path = docs
+  url = https://github.com/IceDragon200/hsw-docs
 [submodule "mods/digtron"]
   path = mods/digtron
   url = https://github.com/IceDragon200/digtron

@@ -16,6 +16,10 @@ build:
 .PHONY: luacheck
 luacheck: 3d_armor.luacheck foundation.luacheck nokore.luacheck harmonia.luacheck yatm.luacheck hsw.luacheck
 
+.PHONY: docs.zip
+docs.zip:
+	zip -r $@ ./docs -x "docs/.git/*"
+
 3d_armor.luacheck:
 	make -C mods/3d_armor luacheck
 

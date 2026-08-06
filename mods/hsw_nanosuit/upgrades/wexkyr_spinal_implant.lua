@@ -5,11 +5,6 @@ local nanosuit_upgrades = assert(hsw.nanosuit_upgrades)
 --   * Increases mana_max by 50 points
 --   * Increases mana_regen by 2 points
 --
--- Lore:
---   Apart from their master over inter-world travel, the Wexkyr had mastered the fusion of
---   man and machine through mana, their crowning jewel being their spinal implants made from Kyr
---   stone or black stone as many know it, these embedded devices would fuse to their
---   user's spine and made them more attuned to mana.
 nanosuit_upgrades:register_upgrade("hsw_nanosuit:wexkyr_spinal_implant", {
   description = mod.S("Wexkyr Spinal Implant"),
 
